@@ -1,23 +1,24 @@
-# TÍTULO DO PROJETO
+# Estoque da Vovó
 
-`CURSO`
+`Sistemas de Informação`
 
-`DISCIPLINA`
+`Trabalho Interdisciplinar: Aplicações para Sustentabilidade`
 
-`SEMESTRE`
+`5° Período`
 
-Descrever resumidamente, em um ou dois parágrafos, o projeto que está sendo desenvolvido.
+O projeto tem como objetivo auxiliar a administração do lar de idosos Asilo Nossa Senhora da Piedade, conhecido como Lar da Vovó. Aproveitando das funcionalidades do software, a administração pode controlar de forma eficiente os produtos em estoque, verificando quais estão em falta e perto da data de vencimento. Com isso, podem também entrar em contato com os doadores e voluntários do lar, deixando-os à par dos produtos mais necessários no momento. 
 
 ## Integrantes
 
-* Nome completo do aluno 1
-* Nome completo do aluno 2
-* Nome completo do aluno 3
-* Nome completo do aluno 4
+* João Victor Vasconcellos de Santana
+* Lucas Ruas Cardoso 
+* Lucas Silva Tanure 
+* Murilo Silva de Almeida
+* Wesley Henrique de Lima 
 
 ## Orientador
 
-* Nome completo do professor 1
+* Pedro Alves de Oliveira
 
 ## Instruções de utilização
 
