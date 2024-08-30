@@ -1,4 +1,4 @@
-#1 Apresentação 
+# 1 Apresentação 
 
 O aumento da expectativa de vida e o envelhecimento da população brasileira têm aumentado a demanda por serviços especializados nas Instituições de ILPIs. Uma dessas instituições, em Belo Horizonte, é o Asilo Nossa Senhora da Piedade, também conhecido como Lar da Vovó, que atende 39 idosas em situação de vulnerabilidade.  
 
@@ -6,7 +6,7 @@ O objetivo deste projeto é criar um sistema automatizado de gerenciamento de es
 
  
 
-#1.1 Cliente 
+# 1.1 Cliente 
 
 O Asilo Nossa Senhora da Piedade, conhecido como Lar da Vovó, é uma Instituição de Longa Permanência para Idosas (ILPIs). O espaço foi inaugurado em 1987, a partir da dedicação e empenho dos fundadores Geraldo de Almeida e DÁvila de Freitas Almeida e da filha do casal, Maria Isaura de Almeida. A história do Lar da Vovó começa no final da década de 1960, como resultado do sonho de mudar a realidade de idosas em situação de abandono da cidade de Belo Horizonte. Inicialmente, prestava assistência a várias idosas com doação de cestas básicas, medicamentos, roupas. Este atendimento era possível devido o esforço do casal Almeida que realizava as ações por meio de doações, recursos próprios e apoio de familiares, formas pelas quais possibilitou também a compra de um lote, no bairro Jardim Paquetá, para a construção de um asilo. Atualmente, o Lar da Vovó tem a capacidade para acolher 39 idosas. Para oferecer um atendimento de qualidade, voltado para a promoção da autonomia e bem-estar das moradoras, conta com 51 funcionários de diversas especialidades como fisioterapeuta, fonoaudióloga, assistente social, médica, cuidadora de idosas, técnicas de enfermagem. Com um espaço amplo, acolhedor e familiar, a instituição trabalha para promover uma vida digna às idosas. 
 
