@@ -10,8 +10,7 @@ O projeto tem como objetivo auxiliar a administração do lar de idosos Asilo No
 
 ## Integrantes
 
-* João Victor Vasconcellos de Santana
-* Lucas Ruas Cardoso 
+* Líder: João Victor Vasconcellos de Santana
 * Lucas Silva Tanure 
 * Murilo Silva de Almeida
 * Wesley Henrique de Lima 
