@@ -1,7 +1,3 @@
-// models/Gerente.js
-const { DataTypes } = require('sequelize');
-const sequelize = require('../database');
-
 const Gerente = sequelize.define('Gerente', {
   id_gerente: {
     type: DataTypes.INTEGER,
@@ -14,15 +10,16 @@ const Gerente = sequelize.define('Gerente', {
     unique: true,
   },
   alertas: {
-    type: require('./alerta'), // Exemplo simplificado, mas pode ser uma relação com outra tabela de alertas
+    type: DataTypes.ARRAY(require('./alerta')), // Exemplo simplificado, mas pode ser uma relação com outra tabela de alertas
     allowNull: true,
   },
   avisos_automaticos: {
     type: DataTypes.BOOLEAN,
     defaultValue: true,
   },
-}, {
-  tableName: 'gerentes',
+}, 
+{
+  tableName: 'gerente',
   timestamps: false,
 });
 
