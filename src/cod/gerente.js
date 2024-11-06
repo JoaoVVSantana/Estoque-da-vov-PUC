@@ -1,8 +1,14 @@
+const { DataTypes } = require('sequelize');
+
 const Gerente = sequelize.define('Gerente', {
-  id_gerente: {
+  id_gerente:{
+    primarykey:true,
     type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
+    autoincrement:true,
+  },
+  nome: {
+    type: DataTypes.STRING,
+    
   },
   email: {
     type: DataTypes.STRING,
@@ -10,7 +16,7 @@ const Gerente = sequelize.define('Gerente', {
     unique: true,
   },
   alertas: {
-    type: DataTypes.ARRAY(require('./alerta')), // Exemplo simplificado, mas pode ser uma relação com outra tabela de alertas
+    type: DataTypes.ARRAY(require('./alerta')), 
     allowNull: true,
   },
   avisos_automaticos: {

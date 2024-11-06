@@ -1,9 +1,6 @@
 
-// models/Estoque.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database');
-const Item = require('./item.js'); // Presume que você tenha um modelo Item
-const HistoricoAlteracoes = require('./historicoAlt.js');
 
 const Estoque = sequelize.define('Estoque', {
   id_estoque: {
@@ -12,7 +9,7 @@ const Estoque = sequelize.define('Estoque', {
     autoIncrement: true,
   },
   lista_itens: {
-    type: DataTypes.ARRAY(Item), // Exemplo para armazenar itens como JSON (pode ser FK pra Item)
+    type: DataTypes.ARRAY(require('./item.js')), // Exemplo para armazenar itens como JSON (pode ser FK pra Item)
     allowNull: true,
   },
   armazenamento_disponivel: {
@@ -20,12 +17,12 @@ const Estoque = sequelize.define('Estoque', {
     allowNull: false,
   },
   alteracoes_realizadas: {
-    type: DataTypes.ARRAY(HistoricoAlteracoes), // Pra registrar as alterações (pode ser uma relação com uma tabela Alterações)
+    type: DataTypes.ARRAY(require('./historicoAlt.js')), // Pra registrar as alterações (pode ser uma relação com uma tabela Alterações)
     allowNull: true,
   },
   itens_perto_vencimento: {
      // Fazer uma logíca pra verificar quais itens tão pra vencer e colocar aqui
-    defaultValue: false,
+      type: DataTypes.ARRAY(require('./item.js')),
   },
 }, {
   tableName: 'estoques',

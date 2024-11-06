@@ -1,13 +1,19 @@
-class Alerta {
-    constructor(conteudo, motivo, data) {
-        this.conteudo = conteudo;
-        this.motivo = motivo;
-        this.data = data;
-    }
+const { DataTypes } = require('sequelize');
+const sequelize = require('../database');
 
-    disparar() {
-        // Lógica para disparar o alerta
+const Alerta = sequelize.define('Alerta',
+    {
+        conteudo:{
+            type:DataTypes.sequelize.require('./item'),
+
+        },
+        motivo:{
+            type:DataTypes.STRING,
+        },
+        data_criacao:{
+            type:DataTypes.DATE,
+        },
     }
-}
+)
 
 module.exports = Alerta;

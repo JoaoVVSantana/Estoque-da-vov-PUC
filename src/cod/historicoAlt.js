@@ -1,15 +1,30 @@
-class HistoricoAlteracoes {
-    constructor() {
-        this.alteracoes = []; // Lista de alterações
-    }
+const { DataTypes } = require('sequelize');
+const sequelize = require('../database');
 
-    registrarAlteracao(alteracao) {
-        this.alteracoes.push(alteracao);
-    }
 
-    verificarHistorico() {
-        // Lógica para verificar histórico
-    }
-}
 
+const HistoricoAlteracoes = sequelize.define('Historico',{
+    id_historico:{
+        primarykey:true,
+        type:DataTypes.INTEGER,
+        autoincrement:true,
+    },
+    alteracoes:{
+        type:DataTypes.ARRAY(sequelize.require('./alteracao')),
+        FOREIGNKEYS:true,
+    },
+    retiradas:{
+        type:DataTypes.ARRAY(sequelize.require('./alteracao')),
+        FOREIGNKEYS:true,
+    },
+    insercoes:{
+        type:DataTypes.ARRAY(sequelize.require('./alteracao')),
+        FOREIGNKEYS:true,
+    },
+},
+
+{
+    tableName: 'historico',
+    timestamps: false,
+  });
 module.exports = HistoricoAlteracoes;
