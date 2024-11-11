@@ -1,23 +1,17 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database');
-const { FOREIGNKEYS } = require('sequelize/lib/query-types');
+const estoque = require('./estoque');
+const alerta = require('./alerta');
 
-const Item = sequelize.define('Item', {
-  id_estoque:{
-    FOREIGNKEYS:true,
+const item = sequelize.define('item', {
+  id_item: {
     type: DataTypes.INTEGER,
-  },
-  id_item:{
-    primarykey:true,
-    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
   },
   nome: {
     type: DataTypes.STRING,
     allowNull: false,
-  },
-  doador_id: {
-    type: DataTypes.INTEGER,
-    references: { model: 'Doadores', key: 'id' },
   },
   validade: {
     type: DataTypes.DATE,
@@ -32,36 +26,36 @@ const Item = sequelize.define('Item', {
     allowNull: false,
     defaultValue: 0,
   },
+  id_estoque: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: estoque,
+      key: 'id_estoque',
+    },
+    allowNull: false,
+  },
 });
 
-Item.prototype.verificarVencimento = function () {
-   if(diasParaVencimento < 30) return true;
-   else return false; //produtos que vencem em menos de 30 dias
-};
+// #region relacionamentos
+item.belongsTo(estoque, { foreignKey: 'id_estoque', as: 'estoque' });
+// #endregion
 
-Item.prototype.calculoDeVencimento = function (){
-  
-};
 
-Item.prototype.estaEmBaixa = function () {
-  return this.quantidade < 10; // quantidade mínima
-};
-
-Item.prototype.criaAlerta = async function (){
-  //pensar numa forma de criar esses alertas: rodar uma rotina toda semana?
-  const item = await Item.findByPk(itemId);
-  const vencendo = Item.verificarVencimento();
-  if(vencendo) {
-    Alerta.prototype.create({
-      conteudo:'',
-
-    })
+// #region Métodos
+item.prototype.criaAlertaVencimento = async function () { // Método pra criar alerta de vencimento
+  const diasParaVencimento = (this.validade - new Date()) / (1000 * 60 * 60 * 24);
+  if (diasParaVencimento < 30) {
+    await alerta.create({
+      conteudo: `O item ${this.nome} está próximo da data de vencimento.`,
+      motivo: 'Validade Próxima',
+      data_criacao: new Date(),
+      id_item: this.id_item,
+      id_estoque: this.id_estoque,
+    });
   }
-  else {
+};
 
-  }
-}
-
+// #endregion
 
 
-module.exports = Item;
+module.exports = item;

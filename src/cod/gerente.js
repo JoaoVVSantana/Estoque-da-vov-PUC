@@ -1,32 +1,36 @@
 const { DataTypes } = require('sequelize');
+const sequelize = require('../database');
+const estoque = require('./estoque');
+const alerta = require('./alerta');
+const alteracao = require('./alteracao');
 
-const Gerente = sequelize.define('Gerente', {
-  id_gerente:{
-    primarykey:true,
+const gerente = sequelize.define('gerente', {
+  id_gerente: {
     type: DataTypes.INTEGER,
-    autoincrement:true,
+    primaryKey: true,
+    autoIncrement: true,
   },
   nome: {
     type: DataTypes.STRING,
-    
+    allowNull: false,
   },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
   },
-  alertas: {
-    type: DataTypes.ARRAY(require('./alerta')), 
-    allowNull: true,
+  senha: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
-  avisos_automaticos: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: true,
-  },
-}, 
-{
-  tableName: 'gerente',
+}, {
+  tableName: 'gerentes',
   timestamps: false,
 });
 
-module.exports = Gerente;
+// #region relacionamentos
+gerente.hasOne(estoque, { foreignKey: 'id_gerente', as: 'estoque' });
+gerente.hasMany(alerta, { foreignKey: 'id_gerente', as: 'alertas' });
+gerente.hasMany(alteracao, { foreignKey: 'id_gerente', as: 'alteracoes' });
+// #endregion
+module.exports = gerente;
