@@ -10,7 +10,7 @@ function autenticarToken(req, res, next) {
   }
 
   try {
-    const payload = jwt.verify(token.split(' ')[1], SECRET_KEY); // Ignora o prefixo "Bearer"
+    const payload = jwt.verify(token.split(' ')[1], SECRET_KEY); 
     req.userId = payload.id;
     next();
   } catch (error) {

@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../db/database');
+const sequelize = require('../../db/database');
 const item = require('./item');
 const alteracao = require('./alteracao');
 const alerta = require('./alerta');
@@ -25,10 +25,7 @@ const estoque = sequelize.define('estoque', {
 estoque.hasMany(item, { foreignKey: 'id_estoque', as: 'itens' });
 estoque.hasMany(doador, { foreignKey: 'id_doador', as: 'doadores' });
 estoque.hasMany(alteracoes, { foreignKey: 'id_estoque', as: 'alteracoes' });
-
 estoque.hasOne(historico, {foreignKey:'id_historico', as:'historico'});
-
-
 estoque.belongsTo(gerente, { foreignKey: 'id_gerente', as: 'gerente' });
 
 // #endregion
@@ -85,9 +82,6 @@ estoque.prototype.inserirItem = async function (itemId, quantidadeInserida) {
 
 }
 
-estoque.prototype.cadastrarDoacao = async function (id_item, id_doador) {
-  
-}
 
 // #endregion
 
