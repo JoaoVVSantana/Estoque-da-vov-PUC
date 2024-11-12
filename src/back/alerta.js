@@ -1,29 +1,34 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../database');
+const sequelize = require('./db/database');
+const item = require('./item');
 const estoque = require('./estoque');
 const gerente = require('./gerente');
 
-const alteracao = sequelize.define('alteracao', {
-  id_alteracao: {
+const alerta = sequelize.define('alerta', {
+  id_alerta: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
-  descricao: {
+  conteudo: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  quantidade: {
-    type: DataTypes.INTEGER,
+  motivo: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
-  data_alteracao: {
+  data_criacao: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
   },
-  tipo: {
-    type: DataTypes.ENUM('entrada', 'saída'),
-    allowNull: false,
+  id_item: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: item,
+      key: 'id_item',
+    },
+    allowNull: true,
   },
   id_estoque: {
     type: DataTypes.INTEGER,
@@ -31,7 +36,7 @@ const alteracao = sequelize.define('alteracao', {
       model: estoque,
       key: 'id_estoque',
     },
-    allowNull: false,
+    allowNull: true,
   },
   id_gerente: {
     type: DataTypes.INTEGER,
@@ -42,16 +47,19 @@ const alteracao = sequelize.define('alteracao', {
     allowNull: true,
   },
 }, {
-  tableName: 'alteracoes',
+  tableName: 'alertas',
   timestamps: false,
 });
 
 // #region relacionamentos
-alteracao.belongsTo(estoque, { foreignKey: 'id_estoque', as: 'estoque' });
-alteracao.belongsTo(gerente, { foreignKey: 'id_gerente', as: 'gerente' });
+alerta.belongsTo(item, { foreignKey: 'id_item', as: 'item' });
+alerta.belongsTo(gerente, { foreignKey: 'id_gerente', as: 'gerente' });
 // #endregion
 
 // #region Métodos
-
+alerta.prototype.dispararParaGerente = async function () {
+  
+}
 // #endregion
-module.exports = alteracao;
+module.exports = alerta;
+

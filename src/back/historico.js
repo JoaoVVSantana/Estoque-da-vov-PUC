@@ -30,17 +30,20 @@ const historico = sequelize.define('historico', {
     allowNull: false,
   },
 }, {
-  tableName: 'historico_alteracoes',
+  tableName: 'historico',
   timestamps: false,
 });
 
 // #region relacionamentos
-historico.belongsTo(alteracao, { foreignKey: 'id_alteracao', as: 'alteracao' });
+historico.hasMany(alteracao, { foreignKey: 'id_alteracao', as: 'alteracoes' });
 historico.belongsTo(estoque, { foreignKey: 'id_estoque', as: 'estoque' });
 // #endregion
 
 // #region Métodos
+historico.prototype.exibirAlteracoes = async function () {
 
+  const listaAlteracoes = await this.getAlteracoes();
+}
 // #endregion
 module.exports = historico;
 
