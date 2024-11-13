@@ -36,7 +36,7 @@ estoque.belongsTo(gerente, { foreignKey: 'id_gerente', as: 'gerente' });
 // #region Métodos
 
 
-estoque.prototype.retirarItemDoEstoque = async function (nomeDoItem, quantidadeRetirada) {
+estoque.retirarItemDoEstoque = async function (nomeDoItem, quantidadeRetirada) {
 
   const itemEncontrado = await item.findOne({ where: { nome:nomeDoItem, id_estoque: this.id_estoque } }); // Caça o item pelo nome
   if(!itemEncontrado){
@@ -47,7 +47,7 @@ estoque.prototype.retirarItemDoEstoque = async function (nomeDoItem, quantidadeR
       throw new Error ('Impossível retirar essa quantidade, estoque de item insuficiente. ')
     }
     else{
-      itemEncontrado.removerQuantidade(quantidadeRetirada) // Atualizar a quantidade do item no estoque
+      
       this.armazenamento_disponivel+=quantidadeRetirada; // Atualizar o espaço disponível do estoque
       await itemEncontrado.save();
 

@@ -41,8 +41,8 @@ router.get('/api/doacoes', async (req, res) => {
   try {
     const doacoes = await Doacao.findAll({
       include: [
-        { model: Doador, as: 'doador' },
-        { model: Item, as: 'item' }
+        { model: doador, as: 'doador' },
+        { model: item, as: 'item' }
       ]
     });
     res.json(doacoes);

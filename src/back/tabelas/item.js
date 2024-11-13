@@ -43,7 +43,7 @@ item.hasOne(doador, {foreignKey:'id_doador', as: 'doador'});
 
 
 // #region Métodos
-item.prototype.criaAlertaVencimento = async function (){ 
+criaAlertaVencimento = async function (){ 
   const itens = await item.findAll({ where: { id_estoque: this.id_estoque } });
   for (const item of itens) {
      const diasParaVencimento = (new Date(item.validade) - new Date()) / (1000 * 60 * 60 * 24);
@@ -65,7 +65,7 @@ item.prototype.criaAlertaVencimento = async function (){
 }
 };
 
-item.prototype.criaAlertaBaixaQuantidade = async function () { // Método pra criar alerta de estoque baixo pro gerente
+criaAlertaBaixaQuantidade = async function () { // Método pra criar alerta de estoque baixo pro gerente
   const itens = await this.getItens();
   const itensEmBaixa = itens.filter(item => item.estaEmBaixaQuantidade(item.nome));
   
@@ -80,20 +80,29 @@ item.prototype.criaAlertaBaixaQuantidade = async function () { // Método pra cr
   }
 };
 
-item.prototype.estaEmBaixaQuantidadePorNome = async function (nomeDoItem) {
+estaEmBaixaQuantidadePorNome = async function (nomeDoItem) {
   const itensVerificados = retornaQuantidadePorNome(nomeDoItem);//Busca em todos os itens pelo nome
   
   if(itensVerificados<5) return true;
   else return false;
   
 };
-item.prototype.retornaQuantidadePorNome = async function (nomeDoItem) {
+
+todosItensEmBaixaQuantidade = async function () {
+  const todosItens = await this.getItens();
+  const itensEmBaixa = todosItens.filter(item => item.estaEmBaixaQuantidade(item.nome));
+
+  return itensEmBaixa;
+
+  
+}
+retornaQuantidadePorNome = async function (nomeDoItem) {
   const totalDeItens = await item.count({ where: { nome: nomeDoItem } });
 
   return totalDeItens;
 };
 
-item.prototype.listaDeItensDoNome = async function (nomeDoItem) {
+listaDeItensDoNome = async function (nomeDoItem) {
   const listaDeItens = await item.findAll({where: {nome: nomeDoItem} });
   return listaDeItens;
 };

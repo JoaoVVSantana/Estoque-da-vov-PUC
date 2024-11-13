@@ -15,9 +15,7 @@ import {
 } from 'src/packages';
 
 
-sequelize.authenticate() // Conexão com BD
-  .then(() => console.log('Conectado ao BD com sucesso.'))
-  .catch((err) => console.error('Não foi possível conectar ao banco de dados:', err));
+sequelize.authenticate().then(() => console.log('Conectado ao BD com sucesso.')).catch((err) => console.error('Não foi possível conectar ao banco de dados:', err));
 
 sequelize.sync(); // Sincronizar com o banco
 
