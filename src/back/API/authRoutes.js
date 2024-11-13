@@ -1,8 +1,8 @@
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-
-const router = express.Router();
+import {
+  jwt,
+  bcrypt,
+  router
+} from 'src/packages';
 const SECRET_KEY = 'admin123'; // Senha secreta
 
 // Rota de login

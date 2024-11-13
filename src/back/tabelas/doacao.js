@@ -1,7 +1,10 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../database');
-const item = require('./item');
-const doador = require('../doador');
+import {
+  DataTypes,
+  sequelize,
+  doacao,
+  doador,
+  item
+} from 'src/packages';
 
 const doacao = sequelize.define ('doacao', {
         id_doacao:{

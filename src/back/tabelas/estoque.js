@@ -1,10 +1,13 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../../db/database');
-const item = require('./item');
-const alteracao = require('./alteracao');
-const alerta = require('./alerta');
-const historico = require('./historico');
-const gerente = require('./gerente');
+import {
+  DataTypes,
+  sequelize,
+  alteracao,
+  doador,
+  estoque,
+  gerente,
+  historico,
+  item
+} from 'src/packages';
 
 const estoque = sequelize.define('estoque', {
   id_estoque: {
@@ -33,14 +36,14 @@ estoque.belongsTo(gerente, { foreignKey: 'id_gerente', as: 'gerente' });
 // #region Métodos
 
 
-estoque.prototype.retirarItem = async function (itemId, quantidadeRetirada) {
+estoque.prototype.retirarItemDoEstoque = async function (nomeDoItem, quantidadeRetirada) {
 
-  const itemEncontrado = await item.findOne({ where: { id_item: itemId, id_estoque: this.id_estoque } }); // Caça o item pelo id
+  const itemEncontrado = await item.findOne({ where: { nome:nomeDoItem, id_estoque: this.id_estoque } }); // Caça o item pelo nome
   if(!itemEncontrado){
     throw new Error('Esse item não existe no estoque ');
   }
   else {
-    if(itemEncontrado.quantidade<quantidadeRetirada){
+    if(itemEncontrado.retornaQuantidadePorNome(nomeDoItem)< quantidadeRetirada){
       throw new Error ('Impossível retirar essa quantidade, estoque de item insuficiente. ')
     }
     else{
@@ -59,16 +62,16 @@ estoque.prototype.retirarItem = async function (itemId, quantidadeRetirada) {
   }
 
 }
-estoque.prototype.inserirItem = async function (itemId, quantidadeInserida) {
+estoque.prototype.inserirItemNoEstoque = async function (nome, quantidadeInserida, validade) {
 
-  const itemEncontrado = await item.findOne({ where: { id_item: itemId, id_estoque: this.id_estoque } }); // Caça o item pelo id
-  if(!itemEncontrado){
-    throw new Error('Esse item não existe no estoque ');
+  const itemParaInserir = await item.findOne({ where: { nome: nome, id_estoque: this.id_estoque } }); // Caça o item pelo id
+  if(!itemParaInserir){
+    itemParaInserir = await item.create({ nome, quantidadeInserida, validade });
   }
-  else {
-      itemEncontrado.adicionarQuantidade(quantidadeInserida); // Atualizar a quantidade do item no estoque
+  
+      itemParaInserir.adicionarQuantidade(quantidadeInserida); // Atualizar a quantidade do item no estoque
       this.armazenamento_disponivel-=quantidadeInserida; // Atualizar o espaço disponível do estoque
-      await itemEncontrado.save();
+      await itemParaInserir.save();
 
       await alteracao.create({
         descricao: `Inserção de ${quantidadeInserida} unidade(s) do item ${itemEncontrado.nome}`,
@@ -78,7 +81,7 @@ estoque.prototype.inserirItem = async function (itemId, quantidadeInserida) {
         id_estoque:this.id_estoque,
       });
     
-  }
+  
 
 }
 

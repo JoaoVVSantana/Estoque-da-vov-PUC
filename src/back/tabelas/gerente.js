@@ -1,8 +1,11 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../../db/database');
-const estoque = require('./estoque');
-const alerta = require('./alerta');
-const alteracao = require('./alteracao');
+import {
+  DataTypes,
+  sequelize,
+  alerta,
+  alteracao,
+  estoque,
+  gerente
+} from 'src/packages';
 
 const gerente = sequelize.define('gerente', {
   id_gerente: {
