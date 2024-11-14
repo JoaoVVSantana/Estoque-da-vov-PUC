@@ -1,0 +1,77 @@
+.sidebar {
+    min-height: 100vh;
+    background-color: #fff;
+    color: #EF88A0;
+    transition: width 0.3s;
+    box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.2);
+    
+  }
+  
+  .sidebar.collapsed {
+    width: 80px;
+  }
+  
+  .sidebar.expanded {
+    width: 240px;
+  }
+  .side-nav.collapsed .nav-item{
+    width: 87%  !important;
+  }
+  
+
+
+  .area-logo button{
+    position: relative;
+    margin-top: 10px;
+    right: -12px;
+    z-index: 1000; /* Mantém o botão acima do Header */
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0bbc6;
+    border: none;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  }
+  .area-logo button:hover{
+    background-color: #EF88A0;
+  }
+  
+  .area-logo h4{
+    font-size: 1.8rem;
+    padding: 12px;
+    transition: display 0.2s !important;
+  }
+
+  .side-nav .nav-link{
+    display: flex;
+    align-items: center;
+    border-radius: 12px;
+    color: #EF88A0;
+    font-size: 1.3rem;
+  }
+  .side-nav .nav-link:hover{
+    color: #906ec0;
+    
+  }
+  .navbar-link.active{
+    font-weight: bold;
+    color: #906ec0 !important;
+    background-color: #ffe5ec !important;
+  }
+
+  .side-nav .nav-link span{
+    font-size: 1.1rem;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    white-space: nowrap; /* Evita que o texto quebre */
+  }
+
+  .sidebar.expanded .side-nav .nav-link span {
+    opacity: 1;
+    transform: translateX(0);
+  }
