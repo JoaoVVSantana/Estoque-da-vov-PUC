@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
-const SECRET_KEY = '7Th6l0Od3Vw3VxqfF3FvYw4nvsC0cedF';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const autenticarToken = function autenticarT(req, res, next) {
   const token = req.headers['authorization'];
@@ -9,7 +10,7 @@ const autenticarToken = function autenticarT(req, res, next) {
   }
 
   try {
-    const payload = jwt.verify(token.split(' ')[1], SECRET_KEY); 
+    const payload = jwt.verify(token.split(' ')[1], process.env.SECRET_KEY); 
     req.userId = payload.id;
     next();
   } catch (error) {

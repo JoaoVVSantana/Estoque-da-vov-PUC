@@ -2,14 +2,15 @@ import {
   autenticarToken
 } from './../../packages.js';
 
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 import express from 'express';
+import dotenv from 'dotenv';
+dotenv.config();
 const router = express.Router();
 
 router.post('/api/estoque/pedirDoacao', autenticarToken, async (req,res) => {
   const {id_doador} = req.params;
   const {nomeDoador, enderecoEmailDoador} = req.body;
-
   
   try {
     enviarEmail(enderecoEmailDoador,nomeDoador);
@@ -47,18 +48,18 @@ const mensagem = criaTextoDeDoacao();
   try {
     // Configuração do transporte SMTP
     const transporter = nodemailer.createTransport({
-      host: 'smtp-mail.outlook.com', // Servidor SMTP
-      port: 587, // Porta SMTP
+      host: process.env.SMTP_SERVER, // Servidor SMTP
+      port: process.env.SMTP_PORT, // Porta SMTP
       secure: true, // Usar SSL
       auth: {
-        user: 'lardavovo@hotmail.com', // Esse é o email que tava no site deles, n sei se é o que vão usar
-        pass: 'senha_di_email', // Pedir a senha pra eles ou fazer autenticação com a api
+        user: process.env.EMAIL_USER, // Esse é o email que tava no site deles, n sei se é o que vão usar
+        pass: process.env.EMAIL_SENHA, // Pedir a senha pra eles
       },
     });
 
     // Configuração do e-mail
     const mailOptions = {
-      from: 'lardavovo@hotmail.com',
+      from: process.env.EMAIL_USER,
       to: enderecoEmailDoador, 
       subject: assunto, // Tópico do email (em cima)
       text: mensagem, // Conteúdo do email em texto

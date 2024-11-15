@@ -1,11 +1,12 @@
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const SECRET_KEY = process.env.SECRET_KEY || "sua_chave_secreta";
 
 function gerarToken(id) {
     const payload = { id };
-    const options = { expiresIn: '1h' };
-    return jwt.sign(payload, SECRET_KEY, options);
+    const options = { expiresIn: process.env.JWT_EXPIRATION,};
+    return jwt.sign(payload, process.env.SECRET_KEY, options);
 }
 
 export default gerarToken;
