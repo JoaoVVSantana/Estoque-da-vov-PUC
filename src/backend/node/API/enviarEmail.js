@@ -52,7 +52,7 @@ const mensagem = criaTextoDeDoacao();
       secure: true, // Usar SSL
       auth: {
         user: 'lardavovo@hotmail.com', // Esse é o email que tava no site deles, n sei se é o que vão usar
-        pass: 'sua_senha_de_email', // Pedir a senha pra eles ou fazer autenticação com a api
+        pass: 'senha_di_email', // Pedir a senha pra eles ou fazer autenticação com a api
       },
     });
 

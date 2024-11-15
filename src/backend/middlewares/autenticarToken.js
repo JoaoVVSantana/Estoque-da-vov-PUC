@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-const SECRET_KEY = 'sua_chave_secreta';
+const SECRET_KEY = '7Th6l0Od3Vw3VxqfF3FvYw4nvsC0cedF';
 
 const autenticarToken = function autenticarT(req, res, next) {
   const token = req.headers['authorization'];
@@ -16,5 +16,7 @@ const autenticarToken = function autenticarT(req, res, next) {
     res.status(401).json({ error: 'Token inválido ou expirado' });
   }
 }
+
+
 
 export default autenticarToken;

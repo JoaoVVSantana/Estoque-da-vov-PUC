@@ -9,11 +9,11 @@ import {
   autenticarToken,
 } from './packages.js';
 
-
+import { env } from 'node:process';
 import cors from 'cors';
 import express from 'express';
 
-const PORT = process.env.PORT || 4000;
+const PORT = env.PORT || 4000;
 const app = express();
 
 //login no banco

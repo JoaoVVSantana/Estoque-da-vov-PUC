@@ -1,11 +1,11 @@
 import { Sequelize } from 'sequelize';
-
+import { env } from 'node:process';
 //npm install sequelize
 
-const database = new Sequelize('lardavovo', 'lardavovo1', '7Th6l0Od3Vw3VxqfF3FvYw4nvsC0cedF', {
-  host: 'dpg-csq9h62j1k6c738f5010-a.oregon-postgres.render.com',
+const database = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
+  host: process.env.DB_HOST,
   dialect: 'postgres',
-  port: 5432,
+  port: process.env.DB_PORT,
   dialectOptions: {
     ssl: {
       require: true,
