@@ -33,7 +33,7 @@ const estoque = database.define('estoque', {
   }
 
 }, {
-  tableName: 'estoqueUm',
+  tableName: 'estoque',
   timestamps: false,
 });
 

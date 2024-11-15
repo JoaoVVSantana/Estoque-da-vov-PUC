@@ -9,12 +9,12 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 
-
+#              ATENÇÃO: SÓ VAMOS USAR ISSO SE A API NÃO FUNCIONAR, ESSE AQUI N TA AJUSTADO PRO NOSSO PROJETO#
 #--------------------------------------------------------------------------------------------------------#
 #                                                                                                        #
 #                                   ** É necessário atualizar: **                                        #
 #                                                                                                        #         
-#  - O host SMTP (trocar pro email da gerente/do lar)                                                     #
+#  - O host SMTP (trocar pro email da gerente/do lar)                                                    #
 #  - O diretório dos arquivos                                                                            #
 #  - O arquivo de texto, que contém o corpo do Email                                                     #
 #                                                                                                        #

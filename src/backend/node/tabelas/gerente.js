@@ -39,7 +39,7 @@ const gerente = database.define('gerente', {
     allowNull:false,
   }
 }, {
-  tableName: 'gerenteUm',
+  tableName: 'gerente',
   timestamps: false,
 });
 
