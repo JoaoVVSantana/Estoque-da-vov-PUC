@@ -51,7 +51,6 @@
     align-items: center;
     border-radius: 12px;
     color: #EF88A0;
-    font-size: 1.3rem;
   }
   .side-nav .nav-link:hover{
     color: #906ec0;
@@ -65,13 +64,11 @@
 
   .side-nav .nav-link span{
     font-size: 1.1rem;
-    opacity: 0;
-    transform: translateX(-20px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
     white-space: nowrap; /* Evita que o texto quebre */
   }
 
-  .sidebar.expanded .side-nav .nav-link span {
-    opacity: 1;
-    transform: translateX(0);
+  .side-nav .nav-link svg{
+    margin: 2px;
+    font-size: 1.5rem;
   }
+

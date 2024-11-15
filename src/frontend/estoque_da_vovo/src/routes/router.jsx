@@ -7,6 +7,7 @@ import Estoque from "../pages/Estoque/Estoque.jsx";
 import Historico from "../pages/Historico/Historico.jsx";
 import Relatorio from "../pages/Relatorio/Relatorio.jsx";
 import ErrorPage from "../pages/ErrorPage/ErrorPage.jsx";
+import NovoProduto from "../pages/NovoProduto/NovoProduto.jsx";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "/estoque",
         element: <Estoque />,
+      },
+      {
+        path: "/estoque/novo-produto",
+        element:  <NovoProduto />,
       },
       {
         path: "/historico",
