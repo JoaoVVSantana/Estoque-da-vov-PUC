@@ -1,0 +1,41 @@
+{
+  "name": "lar-da-vovo-estoque",
+  "version": "1.0.0",
+  "description": "Projeto para gerenciar estoque e doações no Lar da Vovó",
+  "main": "src/backend/app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./app.js",
+    "dev": "nodemon ./app.js",
+    "sync-db": "node ../db/database.js"
+  },
+  "keywords": [
+    "estoque",
+    "doações",
+    "lar-da-vovó",
+    "sequelize",
+    "express"
+  ],
+  "author": "João Victor Vasconcellos de Santana",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "lar-da-vovo-estoque": "file:",
+    "pg": "^8.8.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.31.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "_moduleAliases": {
+    "packages": "./src/backend/packages.js"
+  }
+}

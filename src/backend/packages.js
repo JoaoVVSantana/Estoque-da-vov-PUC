@@ -1,53 +1,41 @@
 //Requer npm install sequelize express dotenv
-const { DataTypes, Sequelize } = require('sequelize');
-const express = require('express');
-const dotenv = require('dotenv').config();
-const sequelize = require('../db/database');
 
-//Middlewares
-const cors = require('cors');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
+import { DataTypes} from 'sequelize';
+import database from '../db/database.js';
+
+
+
+
 
 //API
-const router = express.Router();
-const itemRoutes = require('./API/itemRoutes');
-const doacaoRoutes = require('./API/doacaoRoutes');
-const authRoutes = require('./API/authRoutes');
-const estoqueRoutes = require('./API/estoqueRoutes');
-const autenticarToken = require('../middlewares/authMiddleware');
+import autenticarToken from './middlewares/autenticarToken.js';
+import authRoutes from './node/API/authRoutes.js';
+import itemRoutes from './node/API/itemRoutes.js';
+import doacaoRoutes from './node/API/doacaoRoutes.js';
+import alteracaoRoutes from './node/API/alteracaoRoutes.js';
 
-//APP
-const app = express();
-const PORT = process.env.PORT || 3000;
+import estoqueRoutes from './node/API/estoqueRoutes.js';
+
 
 //Tabelas
-const alerta = require('./tabelas/alerta');
-const alteracao = require('./tabelas/alteracao');
-const doacao = require('./tabelas/doacao');
-const doador = require('./tabelas/doador');
-const estoque = require('./tabelas/estoque');
-const gerente = require('./tabelas/gerente');
-const historico = require('./historico');
-const item = require('./tabelas/item');
+import alerta from './node/tabelas/alerta.js';
+import alteracao from './node/tabelas/alteracao.js';
+import doacao from './node/tabelas/doacao.js';
+import doador from './node/tabelas/doador.js';
+import estoque from './node/tabelas/estoque.js';
+import gerente from './node/tabelas/gerente.js';
+import historico from './node/tabelas/historico.js';
+import item from './node/tabelas/item.js';
 
-module.exports = {
-    express,
+export {
     DataTypes,
-    Sequelize,
-    sequelize,
-    dotenv,
-    cors,
-    jwt,
-    bcrypt,
-    router,
+    database,
+    autenticarToken,
+    estoqueRoutes,
+    authRoutes,
+    alteracaoRoutes,
     itemRoutes,
     doacaoRoutes,
-    authRoutes,
-    estoqueRoutes,
-    autenticarToken,
-    app,
-    PORT,
     alerta,
     alteracao,
     doacao,
@@ -55,5 +43,6 @@ module.exports = {
     estoque,
     gerente,
     historico,
-    item
+    item,
+  
   };

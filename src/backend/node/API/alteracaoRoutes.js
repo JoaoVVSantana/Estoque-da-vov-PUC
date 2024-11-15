@@ -1,9 +1,11 @@
 import {
-  router,
   autenticarToken,
   alteracao,
   historico
-} from 'src/packages';
+}from './../../packages.js';
+
+import express from 'express';
+const router = express.Router();
 
 //HISTORICO DE ALTERACOES
 router.get('/api/historico', autenticarToken, async (req, res) => { 
@@ -16,3 +18,5 @@ router.get('/api/historico', autenticarToken, async (req, res) => {
       res.status(500).json({ error: 'Erro ao buscar o histórico de alterações' });
     }
   });
+
+  export default router;

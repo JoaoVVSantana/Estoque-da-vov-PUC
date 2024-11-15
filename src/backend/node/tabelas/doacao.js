@@ -1,41 +1,40 @@
 import {
   DataTypes,
-  sequelize,
-  doacao,
-  doador,
-  item
-} from 'src/packages';
+  doador,  
+  database,
 
-const doacao = sequelize.define ('doacao', {
-        id_doacao:{
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
-        },
-        id_doador: {
-            type: DataTypes.INTEGER,
-            references: {
-              model: doador,
-              key: 'id_doador',
-            },
-            allowNull: false,
-          },
-          id_item: {
-            type: DataTypes.INTEGER,
-            references: {
-              model: item,
-              key: 'id_item',
-            },
-            allowNull: false,
-          },
+} from './../../packages.js';
+
+const doacao = database.define ('doacao', {
+  id_doacao:{
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+  },
+  quemDoou: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    itemDoado: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
 
 },
 {
-    tableName: 'doacao',
-    timestamps: false,
-  });
+tableName: 'doacoes',
+timestamps: false,
+});
 
 // #region relacionamentos
-doacao.belongsTo(doador, {primaryKey:'id_doador', as:'doador'});
-doacao.belongsTo(item, { foreignKey: 'id_item', as: 'item' });
+
 // #endregion
+
+doacao.registrarDoacao = async function (id_doador, id_item) {
+const doadorAtual = await doador.findByPk(id_doador);
+const novaDoacao = await doacao.create({
+id_doador : doadorAtual.id_doador,
+id_item: id_item
+})
+}
+export default  doacao;

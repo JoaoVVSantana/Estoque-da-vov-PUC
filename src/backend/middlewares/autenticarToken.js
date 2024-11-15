@@ -1,10 +1,7 @@
-import {
-  jwt,
-  autenticarToken,
-} from 'src/packages';
+import jwt from 'jsonwebtoken';
 const SECRET_KEY = 'sua_chave_secreta';
 
-function autenticarToken(req, res, next) {
+const autenticarToken = function autenticarT(req, res, next) {
   const token = req.headers['authorization'];
 
   if (!token) {
@@ -20,4 +17,4 @@ function autenticarToken(req, res, next) {
   }
 }
 
-module.exports = autenticarToken;
+export default autenticarToken;

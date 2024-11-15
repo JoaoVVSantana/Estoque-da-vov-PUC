@@ -1,12 +1,12 @@
-import {
-  jwt,
-  bcrypt,
-  router
-} from 'src/packages';
-const SECRET_KEY = 'admin123'; // Senha secreta
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import autenticarToken from '../../middlewares/autenticarToken.js'; 
+import express from 'express';
+const router = express.Router();
 
+const SECRET_KEY = 'admin123'; // Senha secreta
 // Rota de login
-router.post('/api/login', async (req, res) => {
+router.post('/api/login',autenticarToken, async (req, res) => {
   const { email, senha } = req.body;
 
   try {
@@ -31,4 +31,4 @@ router.post('/api/login', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

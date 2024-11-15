@@ -1,41 +1,43 @@
 import {
+    database,
     DataTypes,
-    sequelize,
-    doacao,
-    doador,
-    item
-  } from 'src/packages';
+  } from './../../packages.js';
 
-const doador = sequelize.define ('doador', {
-        id_doador:{
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
-        },
-        nome:{
-            type: DataTypes.STRING,
-            allowNull:false,
-        },
-        email:{
-            type:DataTypes.STRING,
-            allowNull:true,
-        },
-        doacoes:{
-            type:DataTypes.item,
-            references:{
-                model:item,
-                key:'id_item',
-            },
-            allowNull:true,
-
-        },
+  const doador = database.define ('doador', {
+    id_doador:{
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
+    nome:{
+        type: DataTypes.STRING,
+        allowNull:false,
+    },
+    email:{
+        type:DataTypes.STRING,
+        allowNull:true,
+    },
+    doacoesFeitas:{ //FK
+        type:DataTypes.INTEGER,
+        allowNull:true,
+    },
 
 },
 {
-    tableName: 'doadores',
-    timestamps: false,
-  });
+tableName: 'doadores',
+timestamps: false,
+});
 
 // #region relacionamentos
-doador.hasMany(doacao, { foreignKey: 'id_doacao', as: 'doacoes' });
+
 // #endregion
+
+doador.criarDoador = async function (nome,email) {
+const doadorNovo = await doador.create({
+  nome: nome,
+  email: email,
+});
+return doadorNovo;
+}
+
+export default  doador;

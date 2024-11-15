@@ -1,17 +1,18 @@
 import {
   jwt,
-  router,
   gerente,
   database
 } from 'src/packages';
 const SECRET_KEY = 'senha123'; // Senha secreta //
+import { Router } from 'express';
+const router = Router();
 
 database.authenticate()
   .then(() => console.log('Conexão com o banco de dados estabelecida com sucesso.'))
   .catch(error => console.error('Erro ao conectar ao banco de dados:', error));
 
 
-router.post('/login', async (req, res) => { // Rota de login
+router.post('api/login', async (req, res) => { // Rota de login
   const { email, senha } = req.body;
 
   try {

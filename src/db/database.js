@@ -1,4 +1,4 @@
-import { Sequelize } from 'src/packages';
+import { Sequelize } from 'sequelize';
 
 //npm install sequelize
 

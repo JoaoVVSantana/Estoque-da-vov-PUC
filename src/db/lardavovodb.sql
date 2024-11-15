@@ -1,6 +1,6 @@
 -- Database: lardavovo
 
--- DROP DATABASE IF EXISTS lardavovo;
+--Não precisamos usar pq o sequelize faz isso
 
 CREATE DATABASE lardavovo
     WITH

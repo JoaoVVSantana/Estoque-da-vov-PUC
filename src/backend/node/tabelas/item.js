@@ -1,13 +1,14 @@
 import {
+  
+  database,
   DataTypes,
-  sequelize,
   alerta,
   doador,
   estoque,
-  item
-} from 'src/packages';
+} from './../../packages.js';
 
-const item = sequelize.define('item', {
+
+const item = database.define('item', {
   id_item: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -27,87 +28,107 @@ const item = sequelize.define('item', {
   },
   id_estoque: {
     type: DataTypes.INTEGER,
-    references: {
-      model: estoque,
-      key: 1,
-    },
+   
     allowNull: false,
   },
+  id_doador: {
+    type:DataTypes.INTEGER,
+   
+  }
+},
+{
+  tableName: 'itens',
+  timestamps: false,
 });
 
 // #region relacionamentos
-item.belongsTo(estoque, { foreignKey: 'id_estoque', as: 'estoque' });
-item.hasMany(alerta, { foreignKey: 'alerta', as: 'alertas' });
-item.hasOne(doador, {foreignKey:'id_doador', as: 'doador'});
+
 // #endregion
 
 
 // #region Métodos
-criaAlertaVencimento = async function (){ 
+item.pertoDoVencimento = async function  (){ 
   const itens = await item.findAll({ where: { id_estoque: this.id_estoque } });
   for (const item of itens) {
      const diasParaVencimento = (new Date(item.validade) - new Date()) / (1000 * 60 * 60 * 24);
      
-     if (diasParaVencimento < 15) {
-       // Cria um alerta 
-       await alerta.create({
-         conteudo: `O item ${item.nome} está próximo da data de vencimento.`,
-         motivo: 'Validade Próxima',
-         data_criacao: new Date(),
-         id_item: item.id_item,
-         id_estoque: 1,
-         id_gerente: 1,
-       });
+    if (item.tipo=='Medicamento' && diasParaVencimento < 30) {
+      const alertaMedicamento = await alerta.criarAlerta(item,'Vencimento de medicamento',`O medicamento ${item.nome} vence em 30 dias, verificar no estoque. ` );
 
-    return alerta;
-
+    return alertaMedicamento;
+    }
+    else if (item.tipo=='Alimento Perecível' && diasParaVencimento < 10) {
+      const alertaPerecivel = await alerta.criarAlerta(item,'Vencimento de perecível',`O alimento perecível ${item.nome} vence em 10 dias, verificar no estoque. ` );
+      return alertaPerecivel;
+    }
+    else if (item.tipo=='Alimento não Perecível' && diasParaVencimento < 15) {
+      const alertaNPerecivel = await alerta.criarAlerta(item,'Vencimento de não perecível',`O alimento não perecível ${item.nome} vence em 15 dias, verificar no estoque. ` );
+      return alertaNPerecivel;
+    }
   }
-}
 };
 
-criaAlertaBaixaQuantidade = async function () { // Método pra criar alerta de estoque baixo pro gerente
+item.criarAlerta = async function (itemAlertado, motivoAlertado, conteudoAlertado) {
+  const novoAlerta = await alerta.create({
+    conteudo: conteudoAlertado,
+    motivo: motivoAlertado,
+    data_criacao: new Date(),
+    id_item: itemAlertado.id_item,
+    id_estoque: 1,
+    id_gerente: 1,
+  });
+  return novoAlerta;
+}
+
+item.criaAlertaBaixaQuantidade= async function () { // Método pra criar alerta de estoque baixo pro gerente
   const itens = await this.getItens();
   const itensEmBaixa = itens.filter(item => item.estaEmBaixaQuantidade(item.nome));
   
   for (const item of itensEmBaixa) {
-    await alerta.create({
-      conteudo: `O item ${item.nome} está com estoque baixo.`,
-      motivo: 'Baixa Quantidade',
-      data_criacao: new Date(),
-      id_estoque: this.id_estoque,
-      id_gerente: this.id_gerente,
-    });
+    criarAlerta(item,'Baixa Quantidade no Estoque',`Poucas unidades de ${item.nome} no estoque. `);
   }
 };
 
-estaEmBaixaQuantidadePorNome = async function (nomeDoItem) {
-  const itensVerificados = retornaQuantidadePorNome(nomeDoItem);//Busca em todos os itens pelo nome
+item.estaEmBaixaQuantidadePorNome = async function (nomeDoItem)  {
+  const itensVerificados = await retornaQuantidadePorNome(nomeDoItem); //Busca em todos os itens pelo nome
   
   if(itensVerificados<5) return true;
   else return false;
   
 };
 
-todosItensEmBaixaQuantidade = async function () {
-  const todosItens = await this.getItens();
-  const itensEmBaixa = todosItens.filter(item => item.estaEmBaixaQuantidade(item.nome));
+item.verificarTodosItensSeBaixaQuantidade = async function   (){
+  const todosItens = await item.findAll();
+  const itensEmBaixa = await todosItens.filter(item => item.estaEmBaixaQuantidade(item.nome));
 
   return itensEmBaixa;
 
   
 }
-retornaQuantidadePorNome = async function (nomeDoItem) {
+item.retornaQuantidadePorNome = async function  (nomeDoItem) {
   const totalDeItens = await item.count({ where: { nome: nomeDoItem } });
 
   return totalDeItens;
 };
 
-listaDeItensDoNome = async function (nomeDoItem) {
+item.listaDeItensPorNome = async function  (nomeDoItem) {
   const listaDeItens = await item.findAll({where: {nome: nomeDoItem} });
   return listaDeItens;
 };
 
+
+item.criarItemNoEstoque = async function (nomeI, validadeI, tipoI) {
+  const itemNovo = await item.create({
+    nome: nomeI,
+    validade: validadeI,
+    tipo: tipoI,
+    id_estoque:1
+  });
+  return itemNovo;
+}
+
+
 // #endregion
 
 
-module.exports = item;
+export default  item;

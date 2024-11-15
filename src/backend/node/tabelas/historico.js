@@ -1,12 +1,10 @@
 import {
+  
+  database,
   DataTypes,
-  sequelize,
-  alteracao,
-  estoque,
-  historico
-} from 'src/packages';
+} from './../../packages.js';
 
-const historico = sequelize.define('historico', {
+const historico = database.define('historico', {
   id_historico: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -16,20 +14,14 @@ const historico = sequelize.define('historico', {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
   },
-  id_alteracao: {
+  alteracoes: {
     type: DataTypes.INTEGER,
-    references: {
-      model: alteracao,
-      key: 'id_alteracao',
-    },
+    
     allowNull: false,
   },
   id_estoque: {
     type: DataTypes.INTEGER,
-    references: {
-      model: estoque,
-      key: 'id_estoque',
-    },
+   
     allowNull: false,
   },
 }, {
@@ -38,16 +30,15 @@ const historico = sequelize.define('historico', {
 });
 
 // #region relacionamentos
-historico.hasMany(alteracao, { foreignKey: 'id_alteracao', as: 'alteracoes' });
-historico.belongsTo(estoque, { foreignKey: 'id_estoque', as: 'estoque' });
+
 // #endregion
 
 // #region Métodos
-historico.prototype.exibirAlteracoes = async function () {
+historico.exibirAlteracoes = async function () {
 
-  const listaAlteracoes = await this.getAlteracoes();
+  const listaAlteracoes = await this.alteracoes;
   return listaAlteracoes;
 }
 // #endregion
-module.exports = historico;
+export default  historico;
 

@@ -1,27 +1,47 @@
 import {
-  router
-} from 'src/packages';
+  autenticarToken
+} from './../../packages.js';
 
 const nodemailer = require('nodemailer');
-
+import express from 'express';
+const router = express.Router();
 
 router.post('/api/estoque/pedirDoacao', autenticarToken, async (req,res) => {
   const {id_doador} = req.params;
   const {nomeDoador, enderecoEmailDoador} = req.body;
 
-  const criaMensagem = criaTextoDeDoacao(nomeDoador);
-
+  
+  try {
+    enviarEmail(enderecoEmailDoador,nomeDoador);
+    res.status(201).json(novoItem);
+  } catch (error) {
+    console.error('Erro ao criar item:', error);
+    res.status(500).json({ error: 'Erro ao enviar email' });
+  }
 
 
 });
 
+
 async function criaTextoDeDoacao(nomeDoador) {
 
-  const mensagem = '';
+  let mensagem = `Prezado doador${nomeDoador}, esperamos que esteja bem! \n`;
+  mensagem+= `Nós do lar
+  da Vovó estamos precisando de sua ajuda mais uma vez, caso tenha interesse em contribuir novamente
+  com a nossa instituição, estes são os itens que mais estão em falta: \n`;
+  const itensEmBaixa = await item.todosItensEmBaixaQuantidade();
+
+  itensEmBaixa.forEach((item) => {
+    mensagem+=`- ${item.nome}\n`;
+  });
+
+  return mensagem;
+
+
 }
 
 async function enviarEmail( enderecoEmailDoador, mensagem) {
-const assunto ='Pedido de doação lar da vovó'; 
+const assunto ='O Lar da Vovó precisa da sua ajuda!'; 
 const mensagem = criaTextoDeDoacao();
 
   try {
@@ -56,3 +76,4 @@ const mensagem = criaTextoDeDoacao();
 
 //Enviar email pro doador com um texto pronto e os itens que estão faltando no estoque
 
+export default router;

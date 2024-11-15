@@ -1,13 +1,9 @@
 import {
+  database,
   DataTypes,
-  sequelize,
-  alerta,
-  estoque,
-  gerente,
-  item
-} from 'src/packages';
+} from './../../packages.js';
 
-const alerta = sequelize.define('alerta', {
+const alerta = database.define('alerta', {
   id_alerta: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -27,26 +23,13 @@ const alerta = sequelize.define('alerta', {
   },
   id_item: {
     type: DataTypes.INTEGER,
-    references: {
-      model: item,
-      key: 'id_item',
-    },
     allowNull: true,
-  },
-  id_estoque: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: estoque,
-      key: 'id_estoque',
-    },
-    allowNull: true,
+    
+    
   },
   id_gerente: {
     type: DataTypes.INTEGER,
-    references: {
-      model: gerente,
-      key: 'id_gerente',
-    },
+    
     allowNull: true,
   },
 }, {
@@ -55,14 +38,13 @@ const alerta = sequelize.define('alerta', {
 });
 
 // #region relacionamentos
-alerta.belongsTo(item, { foreignKey: 'id_item', as: 'item' });
-alerta.belongsTo(gerente, { foreignKey: 'id_gerente', as: 'gerente' });
+
 // #endregion
 
 // #region Métodos
-alerta.prototype.dispararParaGerente = async function () {
+alerta.dispararParaGerente = async function () {
   
 }
 // #endregion
-module.exports = alerta;
+export default alerta;
 
