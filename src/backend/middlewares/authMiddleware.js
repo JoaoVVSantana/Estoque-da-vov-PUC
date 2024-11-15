@@ -1,5 +1,7 @@
-
-const jwt = require('jsonwebtoken');
+import {
+  jwt,
+  autenticarToken,
+} from 'src/packages';
 const SECRET_KEY = 'sua_chave_secreta';
 
 function autenticarToken(req, res, next) {

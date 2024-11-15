@@ -1,15 +1,16 @@
-// src/routes/itemRoutes.js
-const express = require('express');
-const item = require('../tabelas/item'); // Modelo de item
+import {
+  router,
+  autenticarToken,
+  estoque,
+  item
+} from 'src/packages';
 
-const router = express.Router();
-
-// Rota para criar um novo item
+// Criar um novo item NO BANCO DE DADOS, NÃO É PARA INSERIR NO ESTOQUE.
 router.post('/', async (req, res) => {
-  const { nome, categoria } = req.body;
+  const { nome, validade, tipo} = req.body;
 
   try {
-    const novoItem = await Item.create({ nome, categoria });
+    const novoItem = await item.create({nome,validade,tipo});
     res.status(201).json(novoItem);
   } catch (error) {
     console.error('Erro ao criar item:', error);
@@ -17,10 +18,11 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Rota para listar todos os itens
+// Listar todos os itens QUE ESTÃO NO BANCO DE DADOS, NÃO NO ESTOQUE
 router.get('/', async (req, res) => {
+
   try {
-    const itens = await Item.findAll();
+    const itens = await item.findAll();
     res.json(itens);
   } catch (error) {
     console.error('Erro ao listar itens:', error);
@@ -29,9 +31,9 @@ router.get('/', async (req, res) => {
 });
 
 // INSERIR NO ESTOQUE
-router.post('/api/estoques/:id_estoque/retirada', autenticarToken, async (req, res) => { 
+router.post('/api/estoques/:id_estoque/inserir', autenticarToken, async (req, res) => { 
   const { id_estoque } = req.params;
-  const { itemId, quantidade } = req.body;
+  const {  id_item,validade } = req.body;
 
   // Verifica se o estoque existe
   try {
@@ -40,8 +42,8 @@ router.post('/api/estoques/:id_estoque/retirada', autenticarToken, async (req, r
       return res.status(404).json({ error: 'Estoque não encontrado' });
     }
   //Se existir >
-    const itemAtualizado = await estoqueEncontrado.retirarItem(itemId, quantidade); // Usa a função async da classe do estoque pra lógica
-    res.json({ message: 'Retirada realizada com sucesso', item: itemAtualizado });
+    const itemAtualizado = await estoqueEncontrado.inserirItemNoEstoque(nome, validade,tipo, quantidade); // Usa a função async da classe do estoque pra lógica
+    res.json({ message: 'Item inserido com sucesso', item: itemAtualizado });
   } catch (error) {
     console.error('Erro ao processar a retirada:', error);
     res.status(400).json({ error: error.message });
@@ -51,7 +53,7 @@ router.post('/api/estoques/:id_estoque/retirada', autenticarToken, async (req, r
 //RETIRAR DO ESTOQUE
 router.post('/api/estoques/:id_estoque/retirada', autenticarToken, async (req, res) => { 
   const { id_estoque } = req.params;
-  const { itemId, quantidade } = req.body;
+  const { nome, quantidade } = req.body;
 
   // Verifica se o estoque existe
   try { 
@@ -60,7 +62,7 @@ router.post('/api/estoques/:id_estoque/retirada', autenticarToken, async (req, r
       return res.status(404).json({ error: 'Estoque não encontrado' });
     }
     //Se existir >
-    const itemAtualizado = await estoqueEncontrado.retirarItem(itemId, quantidade); // Usa a função async da classe do estoque pra lógica
+    const itemAtualizado = await estoqueEncontrado.retirarItem(nome, quantidade); // Usa a função async da classe do estoque pra lógica
     res.json({ message: 'Retirada realizada com sucesso', item: itemAtualizado });
   } catch (error) {
     console.error('Erro ao processar a retirada:', error);

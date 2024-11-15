@@ -1,10 +1,8 @@
-const express = require('express');
-const estoque = require('../tabelas/estoque'); // Modelo de estoque, que contém métodos de criação
-const doador = require('../tabelas/doador'); // Modelo de doador
-const item = require('../tabelas/item'); // Modelo de item
-const autenticarToken = require('../../middlewares/authMiddleware');
-
-const router = express.Router();
+import {
+  router,
+  autenticarToken,
+  estoque
+} from 'src/packages';
 
 // RETIRAR DO ESTOQUE 
 router.post('/api/estoque/item/inserir', autenticarToken, async (req, res) => { 

@@ -1,10 +1,16 @@
-// Agora tá com o sequelize pra conectar num postgre, vamos ver a possibilidade de passar isso pra um SQLite. 
-const { Sequelize } = require('sequelize');
+import { Sequelize } from 'src/packages';
 
-// Configurando o Sequelize pra se conectar ao Postgre, temos q criar essa conexao ai
-const sequelize = new Sequelize('nome_do_banco', 'usuario', 'senha', {
-  host: 'localhost',  // ou o endereço do banco de dados
+//npm install sequelize
+
+const database = new Sequelize('lardavovo', 'lardavovo1', '7Th6l0Od3Vw3VxqfF3FvYw4nvsC0cedF', {
+  host: 'dpg-csq9h62j1k6c738f5010-a.oregon-postgres.render.com',
   dialect: 'postgres',
+  port: 5432,
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false, // importante para evitar erros com SSL
+    },
+  },
 });
-
-module.exports = sequelize;
+export default database;

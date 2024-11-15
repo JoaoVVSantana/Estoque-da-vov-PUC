@@ -1,16 +1,21 @@
-const express = require('express');
-const cors = require('cors');
-const itemRoutes = require('./API/itemRoutes');
-const doacaoRoutes = require('./API/doacaoRoutes');
-const authRoutes = require('./API/authRoutes');
-const autenticarToken = require('./middlewares/authMiddleware');
-const app = express();
-const PORT = 3000;
+import {
+  express,
+  sequelize,
+  cors,
+  itemRoutes,
+  doacaoRoutes,
+  authRoutes,
+  estoqueRoutes,
+  autenticarToken,
+  app,
+  PORT,
+  doacao,
+  doador,
+  item
+} from 'src/packages';
 
 
-sequelize.authenticate() // Conexão com BD
-  .then(() => console.log('Conectado ao BD com sucesso.'))
-  .catch((err) => console.error('Não foi possível conectar ao banco de dados:', err));
+sequelize.authenticate().then(() => console.log('Conectado ao BD com sucesso.')).catch((err) => console.error('Não foi possível conectar ao banco de dados:', err));
 
 sequelize.sync(); // Sincronizar com o banco
 

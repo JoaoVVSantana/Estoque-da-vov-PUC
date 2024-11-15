@@ -1,10 +1,14 @@
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const gerente = require('./back/gerente');
-
-const router = express.Router();
+import {
+  jwt,
+  router,
+  gerente,
+  database
+} from 'src/packages';
 const SECRET_KEY = 'senha123'; // Senha secreta //
+
+database.authenticate()
+  .then(() => console.log('Conexão com o banco de dados estabelecida com sucesso.'))
+  .catch(error => console.error('Erro ao conectar ao banco de dados:', error));
 
 
 router.post('/login', async (req, res) => { // Rota de login
@@ -18,12 +22,11 @@ router.post('/login', async (req, res) => { // Rota de login
     }
 
     
-    const senhaValida = usuario.validarSenha(senha);// Verifica a senha
+    const senhaValida = usuario.validarSenha(senha);// Criar um método que verifica a senha? Colocar a senha direto no banco de dados?
     if (!senhaValida) {
       return res.status(401).json({ error: 'Credenciais inválidas' });
     }
 
-    
     const token = jwt.sign({ id: usuario.id_gerente }, SECRET_KEY, { expiresIn: '1h' }); // Gera o token JWT
 
     res.json({ token });
@@ -34,4 +37,4 @@ router.post('/login', async (req, res) => { // Rota de login
   
 });
 
-module.exports = router;
+module.exports = auth;

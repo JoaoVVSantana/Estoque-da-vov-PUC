@@ -1,7 +1,10 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../database');
-const estoque = require('./estoque');
-const alteracao = require('./alteracao');
+import {
+  DataTypes,
+  sequelize,
+  alteracao,
+  estoque,
+  historico
+} from 'src/packages';
 
 const historico = sequelize.define('historico', {
   id_historico: {
@@ -43,6 +46,7 @@ historico.belongsTo(estoque, { foreignKey: 'id_estoque', as: 'estoque' });
 historico.prototype.exibirAlteracoes = async function () {
 
   const listaAlteracoes = await this.getAlteracoes();
+  return listaAlteracoes;
 }
 // #endregion
 module.exports = historico;

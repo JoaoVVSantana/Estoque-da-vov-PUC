@@ -1,8 +1,9 @@
-// src/routes/doacaoRoutes.js
-const express = require('express');
-const estoque = require('../tabelas/estoque'); // Modelo de estoque, que contém métodos de criação
-const doador = require('../tabelas/doador'); // Modelo de doador
-const item = require('../tabelas/item'); // Modelo de item
+import {
+  express,
+  router,
+  app,
+  doador,
+} from 'src/packages';
 
 const router = express.Router();
 
@@ -40,8 +41,8 @@ router.get('/api/doacoes', async (req, res) => {
   try {
     const doacoes = await Doacao.findAll({
       include: [
-        { model: Doador, as: 'doador' },
-        { model: Item, as: 'item' }
+        { model: doador, as: 'doador' },
+        { model: item, as: 'item' }
       ]
     });
     res.json(doacoes);

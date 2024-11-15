@@ -1,8 +1,9 @@
-const express = require('express');
-const alteracao = require('../tabelas/alteracao'); // Modelo de estoque, que contém métodos de criação
-
-
-const router = express.Router();
+import {
+  router,
+  autenticarToken,
+  alteracao,
+  historico
+} from 'src/packages';
 
 //HISTORICO DE ALTERACOES
 router.get('/api/historico', autenticarToken, async (req, res) => { 
