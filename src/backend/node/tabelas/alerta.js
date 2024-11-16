@@ -27,7 +27,7 @@ const alerta = database.define('alerta', {
   },
   id_gerente: {
     type: DataTypes.INTEGER,
-    allowNull: true,
+    defaultValue: 1,
   },
 }, {
   tableName: 'alertas',
@@ -39,9 +39,17 @@ const alerta = database.define('alerta', {
 // #endregion
 
 // #region Métodos
-alerta.dispararParaGerente = async function () {
-  
-}
+alerta.criarAlerta = async function (itemAlertado, motivoAlertado, conteudoAlertado) {
+  const novoAlerta = await alerta.create({
+    conteudo: conteudoAlertado,
+    motivo: motivoAlertado,
+    data_criacao: new Date(),
+    id_item: itemAlertado.id_item,
+    id_estoque: 1,
+    id_gerente: 1,
+  });
+  return novoAlerta;
+};
 // #endregion
 export default alerta;
 

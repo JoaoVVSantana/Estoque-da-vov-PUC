@@ -3,39 +3,47 @@ import {
   //estoque,
   //item
 } from './../../packages.js';
-import{estoque,item} from '../tabelas/relacionamentos.js';
+import{estoque,item, alerta} from '../tabelas/relacionamentos.js';
 import express from 'express';
 const router = express.Router();
 
 
 
-// Criar um novo item NO BANCO DE DADOS, NÃO É PARA INSERIR NO ESTOQUE.
-router.post('/criar', async (req, res) => {
-  const { nome, validade, tipo} = req.body;
-  const {id_estoque} = req.params;
+// Criar alertas se tem itens perto da data de vencimento.
+router.post('/itensPertoDoVencimento', async (req, res) => {
 
   try {
-    const estoqueEncontrado = await estoque.findByPk(id_estoque); 
+
+    const estoqueEncontrado = await estoque.findByPk(1); 
     if (!estoqueEncontrado) {
       return res.status(404).json({ error: 'Estoque não encontrado' });
     }
-    const novoItem = await item.create({nome,validade,tipo,id_estoque});
-    res.status(201).json(novoItem);
-  } catch (error) {
-    console.error('Erro ao criar item:', error);
-    res.status(500).json({ error: 'Erro ao criar item' });
-  }
-});
+    
+    const alertas= await item.todosItensPertoDoVencimento();
 
-// Listar todos os itens registrados
-router.get('/listar', async (req, res) => {
-  
-  try {
-    const itens = await item.findAll();
-    res.json(itens);
+    if(alertas==null)
+    {
+      res.json({
+        message: 'Nenhum item perto do vencimento, nenhum alerta criado.',
+      });
+    }
+    else
+    {
+
+    }
+    res.json({
+      message: 'Alertas criados com sucesso!',
+      alertas: alertas.map(alerta => ({
+        conteudo: alerta.conteudo,
+        motivo: alerta.motivo,
+        dataCriacao: alerta.data_criacao, 
+        itemId: alerta.id_item,    
+      }))
+    });
+    
   } catch (error) {
-    console.error('Erro ao listar itens:', error);
-    res.status(500).json({ error: 'Erro ao listar itens' });
+    console.error('Erro ao criar Alertas', error);
+    res.status(500).json({ error: 'Erro ao criar Alertas' });
   }
 });
 

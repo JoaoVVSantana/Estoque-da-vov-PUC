@@ -44,22 +44,22 @@ const item = database.define('item', {
 item.todosItensPertoDoVencimento = async function  () { 
 
   const itens = await item.findAll();
-
+  let listaAlertas = new Array();
   for (const item of itens) {
      const diasParaVencimento = (new Date(item.validade) - new Date()) / (1000 * 60 * 60 * 24);
      
     if (item.tipo=='medicamento' && diasParaVencimento < 30) {
       const alertaMedicamento = await alerta.criarAlerta(item,'Vencimento de medicamento',`O medicamento ${item.nome} vence em 30 dias, verificar no estoque. ` );
 
-    return alertaMedicamento;
+    listaAlertas.add(alertaMedicamento);
     }
     else if (item.tipo=='Alimento Perecível' && diasParaVencimento < 10) {
       const alertaPerecivel = await alerta.criarAlerta(item,'Vencimento de perecível',`O alimento perecível ${item.nome} vence em 10 dias, verificar no estoque. ` );
-      return alertaPerecivel;
+      listaAlertas.add(alertaPerecivel);
     }
     else if (item.tipo=='Alimento não Perecível' && diasParaVencimento < 15) {
       const alertaNPerecivel = await alerta.criarAlerta(item,'Vencimento de não perecível',`O alimento não perecível ${item.nome} vence em 15 dias, verificar no estoque. ` );
-      return alertaNPerecivel;
+      listaAlertas.add(alertaNPerecivel);
     }
   }
 };
@@ -73,8 +73,6 @@ item.todosItensEmBaixaQuantidade = async function () {
       estaEmBaixa: await this.verificaSeEstaEmBaixaQuantidade(item.nome),
     }))
   );
-
- 
   const itensUnicos = [];
   const nomesRepetidos = new Set(); //isso é pra n adicionar o mesmo item mais de uma vez
 
@@ -86,19 +84,6 @@ item.todosItensEmBaixaQuantidade = async function () {
   }
 
   return itensUnicos;
-};
-
-
-item.criarAlerta = async function (itemAlertado, motivoAlertado, conteudoAlertado) {
-  const novoAlerta = await alerta.create({
-    conteudo: conteudoAlertado,
-    motivo: motivoAlertado,
-    data_criacao: new Date(),
-    id_item: itemAlertado.id_item,
-    id_estoque: 1,
-    id_gerente: 1,
-  });
-  return novoAlerta;
 };
 
 
