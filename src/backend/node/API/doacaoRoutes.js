@@ -21,12 +21,13 @@ router.post('/api/estoque/registrarDoacao', async (req, res) => {
       if (!doadorAtual ) {
         doadorAtual = doador.criarDoador(nomeDoador,emailDoador);
       }
+
       // Cria o item que vai ser doado no banco
       let itemDoado = app.criarItem(nomeItem,quantidade,validade,doadorAtual.id_doador);
       
       // Cria um registro de doação
       const novaDoacao = app.criaDoacao(doadorAtual.id_doador,itemDoado.id_item,quantidade);
-  
+
       res.status(201).json({ message: 'Doação registrada com sucesso', doacao: novaDoacao });
     } catch (error) {
       console.error('Erro ao registrar doação:', error);

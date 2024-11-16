@@ -19,25 +19,23 @@ router.post('/api/estoque/pedirDoacao', autenticarToken, async (req,res) => {
     console.error('Erro ao criar item:', error);
     res.status(500).json({ error: 'Erro ao enviar email' });
   }
-
-
+  
 });
 
 
-async function criaTextoDeDoacao(nomeDoador) {
+async function criaTextoDeDoacao(nomeDoador) 
+{
 
   let mensagem = `Prezado doador${nomeDoador}, esperamos que esteja bem! \n`;
   mensagem+= `Nós do lar
   da Vovó estamos precisando de sua ajuda mais uma vez, caso tenha interesse em contribuir novamente
   com a nossa instituição, estes são os itens que mais estão em falta: \n`;
-  const itensEmBaixa = await item.todosItensEmBaixaQuantidade();
 
+  const itensEmBaixa = await item.todosItensEmBaixaQuantidade();
   itensEmBaixa.forEach((item) => {
     mensagem+=`- ${item.nome}\n`;
   });
-
   return mensagem;
-
 
 }
 

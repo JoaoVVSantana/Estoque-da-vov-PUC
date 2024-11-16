@@ -19,7 +19,6 @@ const doacao = database.define ('doacao', {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-
 },
 {
 tableName: 'doacoes',
