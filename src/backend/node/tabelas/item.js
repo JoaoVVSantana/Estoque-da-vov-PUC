@@ -2,7 +2,7 @@ import {
   DataTypes,
   alerta,
 } from './../../packages.js';
-import database from '../../../db/database.js';
+import database from '../../db/database.js';
 const item = database.define('item', {
   id_item: {
     type: DataTypes.INTEGER,
