@@ -2,7 +2,7 @@ import 'module-alias/register.js';
 import cors from 'cors';
 import express from 'express';
 import dotenv from 'dotenv';
-
+dotenv.config();
 import database from '../db/database.js';
 //login no banco
 database.authenticate()
@@ -25,7 +25,7 @@ import doacaoRoutes from '../node/routes/doacaoRoutes.js';
 import alteracaoRoutes from '../node/routes/alteracaoRoutes.js';
 import estoqueRoutes from '../node/routes/estoqueRoutes.js';
 //#endregion
-dotenv.config();
+
 const PORT = process.env.PORT || 4000;
 const app = express();
 app.use(express.json());
