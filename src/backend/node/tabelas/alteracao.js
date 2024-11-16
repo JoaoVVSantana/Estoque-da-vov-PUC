@@ -86,6 +86,7 @@ alteracao.criarRetiradaDeItem = async function (itemA, estoqueA,transaction) {
         id_estoque:estoqueA.id_estoque,
         id_item:itemA.id_item,
         id_historico:estoqueA.id_historico,
+        id_gerente:1,
       },
       { transaction }
     );

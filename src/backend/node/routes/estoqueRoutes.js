@@ -24,11 +24,10 @@ router.post('/criarEstoque', async (req,res) => {
 
 })
 /// RETIRAR DO ESTOQUE 
-router.post('/:id_estoque/retirar', async (req, res) => { 
-  const { id_estoque } = req.params;
+router.post('/retirarItem', async (req, res) => { 
   const { id_item} = req.body;
   try { 
-    await estoque.retirarItem(id_item, id_estoque)
+    await estoque.retirarItem(id_item, 1)
     res.json({ message: 'Retirada realizada com sucesso ', item: id_item });
   } catch (error) {
     console.error('Erro ao processar a retirada:', error);
@@ -51,7 +50,7 @@ try {
 });
 
 // RELATÓRIO DE ITENS EM FALTA NO ESTOQUE
-router.get('/:id_estoque/itensFaltando',  async (req,res) => {
+router.get('/itensFaltando',  async (req,res) => {
 const { id_estoque } = req.params;
 // Verifica se o estoque existe
 try {

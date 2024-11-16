@@ -57,7 +57,7 @@ estoque.itemFoiRetirado = async function (id_item, id_estoque, transaction) {
     estoqueA.armazenamento_disponivel -= 1;
     estoqueA.quantidadeItens -= 1;
 
-    await alteracao.criarRetiradaDeItem(itemA, id_estoque, transaction); 
+    await alteracao.criarRetiradaDeItem(itemA, estoqueA, transaction); 
 
     await estoqueA.save({ transaction });
   
