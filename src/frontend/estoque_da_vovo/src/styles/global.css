@@ -1,0 +1,12 @@
+:root {
+    --primary-color: #906ec0;
+    --secondary-color: #f0bbc6;
+    --secondary-color-1: #ffe5ec;
+    --secondary-color-2: #EF88A0;
+
+    --text-color: #333333;
+
+    --btn-background:#f0bbc6;
+    --btn-secondary-color: #e5a0b0;
+    --btn-transition: background-color 0.8s !important;
+}

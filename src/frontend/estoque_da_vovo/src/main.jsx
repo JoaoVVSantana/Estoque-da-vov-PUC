@@ -6,6 +6,7 @@ import router from './routes/router.jsx';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
+import './styles/global.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

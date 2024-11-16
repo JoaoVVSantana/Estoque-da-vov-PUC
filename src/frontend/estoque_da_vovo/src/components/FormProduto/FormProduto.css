@@ -1,0 +1,25 @@
+.form-produto {
+    padding: 5px;
+    font-weight: 700;
+    color: var(--primary-color);
+
+    input,
+    select {
+        border: solid 1px var(--secondary-color-1);
+        border-radius: 10px;
+    }
+    input::placeholder {
+        color: #b1b1b1;
+    }
+
+
+    .input-group button {
+        background-color: var(--btn-background);
+        color: #fff;
+        border: solid 1px var(--secondary-color-1);
+        transition: var(--btn-transition);
+    }
+    .input-group button:hover{
+        background-color: var(--btn-secondary-color);
+    }
+}
