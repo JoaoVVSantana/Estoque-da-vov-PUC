@@ -1,9 +1,7 @@
 import {
-  
-  database,
   DataTypes,
 } from './../../packages.js';
-
+import database from '../../../db/database.js';
 const historico = database.define('historico', {
   id_historico: {
     type: DataTypes.INTEGER,
@@ -14,10 +12,10 @@ const historico = database.define('historico', {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
   },
-  alteracoes: {
+  quantidadeAlteracoes: {
     type: DataTypes.INTEGER,
     
-    allowNull: false,
+    allowNull: true,
   },
   id_estoque: {
     type: DataTypes.INTEGER,
@@ -38,6 +36,13 @@ historico.exibirAlteracoes = async function () {
 
   const listaAlteracoes = await this.alteracoes;
   return listaAlteracoes;
+}
+historico.criarHistoricoNoBanco = async function (estoqueC) {
+    const novoHistorico = await historico.create({
+      id_estoque: estoqueC
+    })
+
+    return novoHistorico;
 }
 // #endregion
 export default  historico;

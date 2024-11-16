@@ -1,6 +1,6 @@
 import {
-  autenticarToken
-} from './../../packages.js';
+  //autenticarToken
+} from '../../packages.js';
 
 import nodemailer from 'nodemailer';
 import express from 'express';
@@ -8,7 +8,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 const router = express.Router();
 
-router.post('/api/estoque/pedirDoacao', autenticarToken, async (req,res) => {
+router.post('/api/estoque/pedirDoacao', async (req,res) => {
   const {id_doador} = req.params;
   const {nomeDoador, enderecoEmailDoador} = req.body;
   

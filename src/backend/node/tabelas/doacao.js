@@ -1,10 +1,9 @@
 import {
   DataTypes,
   doador,  
-  database,
 
 } from './../../packages.js';
-
+import database from '../../../db/database.js';
 const doacao = database.define ('doacao', {
   id_doacao:{
       type: DataTypes.INTEGER,

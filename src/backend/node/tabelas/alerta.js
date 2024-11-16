@@ -1,7 +1,7 @@
 import {
-  database,
   DataTypes,
 } from './../../packages.js';
+import database from '../../../db/database.js';
 
 const alerta = database.define('alerta', {
   id_alerta: {

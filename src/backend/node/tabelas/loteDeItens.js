@@ -1,11 +1,11 @@
 import{
 item,
 estoque,
-sequelize
-} from 'src/packages';
-
+} from './relacionamentos.js';
+import { DataTypes } from 'sequelize';
+import database from '../../../db/database.js';
 //É uma lista de cada item, como se fosse a coleção de itens do mesmo tipo
-const estoqueDeItens = sequelize.define('EstoqueItem', {
+const loteDeItens = database.define('EstoqueItem', {
   id_estoque: {
     type: DataTypes.INTEGER,
     references: {
@@ -31,6 +31,6 @@ const estoqueDeItens = sequelize.define('EstoqueItem', {
   tableName: 'estoque_itens',
   timestamps: false,
 });
-estoqueDeItens.hasMany(item,{foreignkey:'id_item', as:'itens'});
-estoqueDeItens.belongsTo(estoque,{foreignkey:'id_etoque',as:'estoque'});
-module.exports = estoqueDeItens;
+loteDeItens.hasMany(item,{foreignkey:'id_item', as:'itens'});
+loteDeItens.belongsTo(estoque,{foreignkey:'id_etoque',as:'estoque'});
+module.exports = loteDeItens;

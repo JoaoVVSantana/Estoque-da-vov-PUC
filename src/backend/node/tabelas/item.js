@@ -1,10 +1,8 @@
 import {
-  database,
   DataTypes,
   alerta,
 } from './../../packages.js';
-
-
+import database from '../../../db/database.js';
 const item = database.define('item', {
   id_item: {
     type: DataTypes.INTEGER,
@@ -96,39 +94,34 @@ item.estaEmBaixaQuantidadePorNome = async function (nomeDoItem)  {
   
 };
 
-item.retornaTodosItensDeBaixaQuantidade = async function   (){
+item.todosItensDeBaixaQuantidade = async function   (){
   const todosItens = await item.findAll();
   const itensEmBaixa = todosItens.filter(item => item.estaEmBaixaQuantidade(item.nome));
 
   return itensEmBaixa;
 
 };
-item.retornaQuantidadePorNome = async function  (nomeDoItem) {
+item.quantidadePorNome = async function  (nomeDoItem) {
   const totalDeItens = await item.count({ where: { nome: nomeDoItem } });
 
   return totalDeItens;
 };
 
-item.retornaTodosItensPorNome = async function  (nomeDoItem) {
+item.todosItensPorNome = async function  (nomeDoItem) {
   const listaDeItens = await item.findAll({where: {nome: nomeDoItem} });
   return listaDeItens;
 };
 
-item.retornaTodosItensRegistrados = async function  () {
+item.todosItensRegistrados = async function  () {
   const listaDeItens = await item.findAll();
   return listaDeItens;
 };
 
-item.criarItemNoEstoque = async function (nomeI, validadeI, tipoI) {
-  const itemNovo = await item.create({
-    nome: nomeI,
-    validade: validadeI,
-    tipo: tipoI,
-    id_estoque:1
-  });
-  return itemNovo;
-};
 
+item.verificaSeExisteItem= async function (itemA) {
+ 
+  return itemA ? true : false;
+};
 // #endregion
 
 export default  item;

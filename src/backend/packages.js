@@ -1,17 +1,5 @@
 //Requer npm install sequelize express dotenv
-
 import { DataTypes} from 'sequelize';
-import database from '../db/database.js';
-
-//API
-import autenticarToken from './middlewares/autenticarToken.js';
-import authRoutes from './node/API/authRoutes.js';
-import itemRoutes from './node/API/itemRoutes.js';
-import doacaoRoutes from './node/API/doacaoRoutes.js';
-import alteracaoRoutes from './node/API/alteracaoRoutes.js';
-
-import estoqueRoutes from './node/API/estoqueRoutes.js';
-
 
 //Tabelas
 import alerta from './node/tabelas/alerta.js';
@@ -25,13 +13,6 @@ import item from './node/tabelas/item.js';
 
 export {
     DataTypes,
-    database,
-    autenticarToken,
-    estoqueRoutes,
-    authRoutes,
-    alteracaoRoutes,
-    itemRoutes,
-    doacaoRoutes,
     alerta,
     alteracao,
     doacao,
