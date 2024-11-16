@@ -32,14 +32,9 @@ const gerente = database.define('gerente', {
     type:DataTypes.INTEGER,
    
     allowNull:false,
-  },
-  alteracoes:{
-    type:DataTypes.INTEGER,
-   
-    allowNull:false,
   }
 }, {
-  tableName: 'gerenteUm',
+  tableName: 'gerente',
   timestamps: false,
 });
 

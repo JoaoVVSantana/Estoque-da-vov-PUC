@@ -23,13 +23,10 @@ const alerta = database.define('alerta', {
   },
   id_item: {
     type: DataTypes.INTEGER,
-    allowNull: true,
-    
-    
+    allowNull: true,  
   },
   id_gerente: {
     type: DataTypes.INTEGER,
-    
     allowNull: true,
   },
 }, {

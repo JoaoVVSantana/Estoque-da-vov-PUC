@@ -3,10 +3,6 @@
 import { DataTypes} from 'sequelize';
 import database from '../db/database.js';
 
-
-
-
-
 //API
 import autenticarToken from './middlewares/autenticarToken.js';
 import authRoutes from './node/API/authRoutes.js';

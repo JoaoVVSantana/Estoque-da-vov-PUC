@@ -1,10 +1,7 @@
 import {
-  
   database,
   DataTypes,
   alerta,
-  doador,
-  estoque,
 } from './../../packages.js';
 
 
@@ -23,7 +20,7 @@ const item = database.define('item', {
     allowNull: false,
   },
   tipo: {
-    type: DataTypes.ENUM('Medicamento', 'Alimento perecível', 'Alimento não perecível'),
+    type: DataTypes.STRING, // Antigo ENUM, testar se dá pra fazer assim
     allowNull: false,
   },
   id_estoque: {
@@ -33,7 +30,7 @@ const item = database.define('item', {
   },
   id_doador: {
     type:DataTypes.INTEGER,
-   
+    allowNull:true,
   }
 },
 {
@@ -45,14 +42,15 @@ const item = database.define('item', {
 
 // #endregion
 
-
 // #region Métodos
-item.pertoDoVencimento = async function  (){ 
-  const itens = await item.findAll({ where: { id_estoque: this.id_estoque } });
+item.todosItensPertoDoVencimento = async function  () { 
+
+  const itens = await item.findAll();
+
   for (const item of itens) {
      const diasParaVencimento = (new Date(item.validade) - new Date()) / (1000 * 60 * 60 * 24);
      
-    if (item.tipo=='Medicamento' && diasParaVencimento < 30) {
+    if (item.tipo=='medicamento' && diasParaVencimento < 30) {
       const alertaMedicamento = await alerta.criarAlerta(item,'Vencimento de medicamento',`O medicamento ${item.nome} vence em 30 dias, verificar no estoque. ` );
 
     return alertaMedicamento;
@@ -68,6 +66,15 @@ item.pertoDoVencimento = async function  (){
   }
 };
 
+item.todosItensBaixaQuantidade = async function () { // Método pra criar alerta de estoque baixo pro gerente
+  const itens = await item.findAll();
+  const itensEmBaixa = itens.filter(item => item.estaEmBaixaQuantidade(item.nome));
+  
+  for (const item of itensEmBaixa) {
+    criarAlerta(item,'Baixa Quantidade no Estoque',`Poucas unidades de ${item.nome} no estoque. `);
+  }
+};
+
 item.criarAlerta = async function (itemAlertado, motivoAlertado, conteudoAlertado) {
   const novoAlerta = await alerta.create({
     conteudo: conteudoAlertado,
@@ -78,16 +85,8 @@ item.criarAlerta = async function (itemAlertado, motivoAlertado, conteudoAlertad
     id_gerente: 1,
   });
   return novoAlerta;
-}
-
-item.criaAlertaBaixaQuantidade= async function () { // Método pra criar alerta de estoque baixo pro gerente
-  const itens = await this.getItens();
-  const itensEmBaixa = itens.filter(item => item.estaEmBaixaQuantidade(item.nome));
-  
-  for (const item of itensEmBaixa) {
-    criarAlerta(item,'Baixa Quantidade no Estoque',`Poucas unidades de ${item.nome} no estoque. `);
-  }
 };
+
 
 item.estaEmBaixaQuantidadePorNome = async function (nomeDoItem)  {
   const itensVerificados = await retornaQuantidadePorNome(nomeDoItem); //Busca em todos os itens pelo nome
@@ -97,25 +96,28 @@ item.estaEmBaixaQuantidadePorNome = async function (nomeDoItem)  {
   
 };
 
-item.verificarTodosItensSeBaixaQuantidade = async function   (){
+item.retornaTodosItensDeBaixaQuantidade = async function   (){
   const todosItens = await item.findAll();
-  const itensEmBaixa = await todosItens.filter(item => item.estaEmBaixaQuantidade(item.nome));
+  const itensEmBaixa = todosItens.filter(item => item.estaEmBaixaQuantidade(item.nome));
 
   return itensEmBaixa;
 
-  
-}
+};
 item.retornaQuantidadePorNome = async function  (nomeDoItem) {
   const totalDeItens = await item.count({ where: { nome: nomeDoItem } });
 
   return totalDeItens;
 };
 
-item.listaDeItensPorNome = async function  (nomeDoItem) {
+item.retornaTodosItensPorNome = async function  (nomeDoItem) {
   const listaDeItens = await item.findAll({where: {nome: nomeDoItem} });
   return listaDeItens;
 };
 
+item.retornaTodosItensRegistrados = async function  () {
+  const listaDeItens = await item.findAll();
+  return listaDeItens;
+};
 
 item.criarItemNoEstoque = async function (nomeI, validadeI, tipoI) {
   const itemNovo = await item.create({
@@ -125,10 +127,8 @@ item.criarItemNoEstoque = async function (nomeI, validadeI, tipoI) {
     id_estoque:1
   });
   return itemNovo;
-}
-
+};
 
 // #endregion
-
 
 export default  item;

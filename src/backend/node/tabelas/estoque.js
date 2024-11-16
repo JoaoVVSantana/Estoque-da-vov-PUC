@@ -18,7 +18,7 @@ const estoque = database.define('estoque', {
   },
   historico: {
     type: DataTypes.INTEGER,
-  
+
     allowNull:true,
   },
   listaItens: {
@@ -33,7 +33,7 @@ const estoque = database.define('estoque', {
   }
 
 }, {
-  tableName: 'estoqueUm',
+  tableName: 'estoque',
   timestamps: false,
 });
 
@@ -66,8 +66,8 @@ estoque.retirarItemDoEstoque = async function (id_item) {
 }
 estoque.inserirItemNoEstoque = async function (itemParaInserir) {
 
-      itemParaInserir.adicionarQuantidade(quantidadeInserida); // Atualizar a quantidade do item no estoque
-      this.armazenamento_disponivel-=quantidadeInserida; // Atualizar o espaço disponível do estoque
+      
+      this.armazenamento_disponivel-=1; // Atualizar o espaço disponível do estoque
       await itemParaInserir.save();
 
       await alteracao.create({

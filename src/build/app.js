@@ -7,7 +7,7 @@ import {
   authRoutes,
   estoqueRoutes,
   autenticarToken,
-} from './packages.js';
+} from '../backend/packages.js';
 
 import dotenv from 'dotenv';
 dotenv.config();
