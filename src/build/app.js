@@ -29,7 +29,6 @@ database.sync({ alter: true }).then(() => {
   console.error('Erro ao sincronizar o banco:', err);
 });
 
-
 //middlewares
 app.use(express.json());
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
