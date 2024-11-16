@@ -37,13 +37,13 @@ router.post('/:id_estoque/retirar', async (req, res) => {
 });
 
 // INSERIR ITEM NO ESTOQUE
-router.post('/:id_estoque/inserirItem',  async (req, res) => { 
-const dadosItem = req.body; //nome, validade e tipo!!!
-const {id_estoque} = req.params;
+router.post('/inserirItem',  async (req, res) => { 
+const {nome,validade,tipo} = req.body; //notnull
+const id_estoque = 1;
 try {
-  await estoque.inserirItem(dadosItem, id_estoque)
+  await estoque.inserirItem(nome,validade,tipo, id_estoque)
   
-  res.json({ message: 'Item inserido com sucesso', item: novoItem });
+  res.json({ message: 'Item inserido com sucesso', item: nome });
 } catch (error) {
   console.error('Erro ao inserir o item:', error);
   res.status(400).json({ error: error.message });
@@ -61,7 +61,7 @@ try {
   }
 
   
-// TERMINAR AQUI ***************************
+// TERMINAR AQUI **************************
 } catch (error) {
   console.error('Erro ao processar o relatório:', error);
   res.status(400).json({ error: error.message });

@@ -10,7 +10,7 @@ import {
   } from './../../packages.js';
 //
 item.belongsTo(estoque, { foreignKey: 'id_estoque', as: 'Estoque Principal' });
-item.belongsTo(doacao, { foreignKey: 'id_doador', as: 'Item de Doacao' });
+item.belongsTo(doacao, { foreignKey: 'id_doacao', as: 'Item de Doacao' });
 item.hasMany(alerta, { foreignKey: 'id_item', as: 'Alertas Criados' });
 //
 historico.hasMany(alteracao, { foreignKey: 'id_historico', as: 'Lista de Alteracoes' }); // Corrige a chave estrangeira

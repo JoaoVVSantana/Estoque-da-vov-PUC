@@ -1,22 +1,35 @@
 import database from './database.js';
-//Pra ativar esse módulo usar npm run sync > está definido no package.json em scripts
+// Fluxo principal
+const executarSincronizacao = async () => {
+  await autenticarBanco();
+  await sincronizarBanco();
+  console.log('Sincronização concluída.');
+  process.exit(0); // Encerra o processo com sucesso
+};
 
-//login no banco
-database.authenticate()
-  .then(() => {
+const autenticarBanco = async () => {
+  try {
+    await database.authenticate();
     console.log('Conectado ao BD com sucesso.');
-  })
-  .catch((err) => {
+  } catch (err) {
     console.error('Não foi possível conectar ao banco de dados:', err);
-  })
-  .finally(() => {
-    console.log('Tentativa de conexão concluída.');
-    // Continua a execução mesmo em caso de erro
-  });
-// Pega os modelos que estão feitos na pasta "tabelas" e sincroniza com o banco.
-// Pra não ficar executando isso toda vez que rodar o app, vai ficar nesse moodulo
-database.sync({ alter: true }).then(() => {
+    process.exit(1); // Encerra o processo em caso de erro na conexão
+  }
+};
+
+const sincronizarBanco = async () => {
+  try {
+    //await database.sync({ alter: true });
+    await database.sync({ alter: true,force: true }); //isso força o banco a mudar conforme o sequelize
+    //!!! DESATIVAR DEPOIS Q ACABAR O DESENVOLVIMENTO!!!
+
     console.log('Banco sincronizado com sucesso.');
-  }).catch((err) => {
+  } catch (err) {
     console.error('Erro ao sincronizar o banco:', err);
-  });
+    process.exit(1); // Encerra o processo em caso de erro na sincronização
+  }
+};
+
+
+executarSincronizacao();
+

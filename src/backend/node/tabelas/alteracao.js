@@ -15,10 +15,6 @@ const alteracao = database.define('alteracao', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  quantidade: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
   data_alteracao: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
@@ -39,6 +35,10 @@ const alteracao = database.define('alteracao', {
   id_item: {
     type:DataTypes.INTEGER,
     allowNull:false,
+  },
+  id_gerente:{
+    type:DataTypes.INTEGER,
+    allowNull:false,
   }
 }, {
   tableName: 'alteracoes',
@@ -53,6 +53,8 @@ const alteracao = database.define('alteracao', {
 
 alteracao.criarInsercaoDeItem = async function (itemA, estoqueA,transaction) {
  
+    console.log('ID ESTOQUE',estoqueA.id_estoque);
+    console.log('ID HHHHHH',estoqueA.id_historico);
     try {
       // Cria a alteração no histórico
       await alteracao.create(
@@ -63,6 +65,7 @@ alteracao.criarInsercaoDeItem = async function (itemA, estoqueA,transaction) {
           id_estoque:estoqueA.id_estoque,
           id_item:itemA.id_item,
           id_historico:estoqueA.id_historico,
+          id_gerente:1,
         },
         { transaction }
       );

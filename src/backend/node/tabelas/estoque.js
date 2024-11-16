@@ -16,7 +16,7 @@ const estoque = database.define('estoque', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  historicoAlteracoes: {
+  id_historico: {
     type: DataTypes.INTEGER,
 
     allowNull:true,
@@ -28,7 +28,11 @@ const estoque = database.define('estoque', {
   quantidadeAlertas: {
     type: DataTypes.INTEGER,
     defaultValue: 0,
-  }
+  },
+  id_gerente: { 
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
 
 }, {
   tableName: 'estoque',
@@ -53,7 +57,7 @@ estoque.itemFoiRetirado = async function (id_item, id_estoque, transaction) {
     estoqueA.armazenamento_disponivel -= 1;
     estoqueA.quantidadeItens -= 1;
 
-    await criarRetiradaDeItem(itemA, id_estoque, transaction); 
+    await alteracao.criarRetiradaDeItem(itemA, id_estoque, transaction); 
 
     await estoqueA.save({ transaction });
   
@@ -70,7 +74,7 @@ estoque.itemFoiInserido = async function (novoItem, estoqueA, transaction) {
     estoqueA.quantidadeItens += 1;
 
     // Cria um registro no histórico de alterações
-    await criarInsercaoDeItem(novoItem, estoqueA.id_estoque, transaction);
+    await alteracao.criarInsercaoDeItem(novoItem, estoqueA, transaction);
 
     // Salva as alterações no estoque
     await estoqueA.save({ transaction });
@@ -87,9 +91,11 @@ estoque.verificaSeEPossivelInserirItem = async function (id_estoque) {
   if (!estoqueA) {
     throw new Error(`Estoque com ID ${id_estoque} não encontrado.`);
   }
-
+  console.log(id_estoque,'<<<<<<<<<<<<<');
+  console.log(estoqueA.quantidadeItens,'<<<<<<<<<<<<<');
+  console.log(estoqueA.armazenamento_disponivel,'<<<<<<<<<<<<<');
   // Retorna se é possível inserir
-  return estoqueA.armazenamento_disponivel > estoqueA.quantidadeItens;
+  return !estoqueA.armazenamento_disponivel > estoqueA.quantidadeItens;
 };
 estoque.verificaSeEPossivelRetirarItem = async function (id_estoque) {
   const estoqueA = await estoque.findByPk(id_estoque);
@@ -108,9 +114,11 @@ estoque.verificaSeEPossivelRetirarItem = async function (id_estoque) {
 estoque.criarEstoqueNoBanco = async function (armazenamento) {
   const novoEstoque = await estoque.create({
     armazenamento_disponivel:armazenamento,
+    id_gerente:1,
   })
   const novoHistorico = await historico.criarHistoricoNoBanco(novoEstoque.id_estoque);
-  novoEstoque.historicoAlteracoes = novoHistorico.id_historico;
+  novoEstoque.historico = novoHistorico.id_historico;
+
   
   return novoEstoque;
 }
@@ -149,20 +157,22 @@ estoque.retirarItem = async function (id_item, id_estoque) {
   }
 };
 
-estoque.inserirItem = async function (dadosItem, id_estoque) {
+estoque.inserirItem = async function (nome,validade,tipo, id_estoque) {
   const transaction = await database.transaction();
 
   try {
     // Encontra o estoque pelo ID
     const estoqueA = await estoque.findByPk(id_estoque);
     // Verifica se o armazenamento disponível permite a inserção
-    if (await verificaSeEPossivelInserirItem(id_estoque)) {
+    if (await estoque.verificaSeEPossivelInserirItem(id_estoque)) {
       throw new Error('Não há espaço disponível no estoque para inserir o item.');
     }
 
     const novoItem = await item.create(
       {
-        dadosItem,
+        nome,
+        validade,
+        tipo,
         id_estoque,
       },
       { transaction }

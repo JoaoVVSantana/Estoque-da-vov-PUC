@@ -26,7 +26,7 @@ const item = database.define('item', {
    
     allowNull: false,
   },
-  id_doador: {
+  id_doacao: {
     type:DataTypes.INTEGER,
     allowNull:true,
   }
