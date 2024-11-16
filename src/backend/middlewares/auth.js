@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-dotenv.config('../../build/.env');
+dotenv.config();
 import express from 'express';
 const router = express.Router();
 

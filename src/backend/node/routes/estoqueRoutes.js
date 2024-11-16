@@ -3,7 +3,7 @@ import {
   estoque,
   item
 } from './../../packages.js';
-import database from '../../../db/database.js';
+import database from '../../db/database.js';
 import express from 'express';
 const router = express.Router();
 
