@@ -2,7 +2,7 @@ import 'module-alias/register.js';
 import cors from 'cors';
 import express from 'express';
 import dotenv from 'dotenv';
-
+dotenv.config(); 
 import database from '../db/database.js';
 //login no banco
 database.authenticate()
@@ -28,7 +28,7 @@ import estoqueRoutes from '../backend/node/routes/estoqueRoutes.js';
 
 const PORT = process.env.PORT || 4000;
 const app = express();
-dotenv.config();
+
 app.use(express.json());
 app.use(cors());
 //Por enquanto vamos usar o cors permitindo que qualquer host acesse a API, sem fazer autenticacao

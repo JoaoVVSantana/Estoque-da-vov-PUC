@@ -51,16 +51,22 @@ try {
 
 // RELATÓRIO DE ITENS EM FALTA NO ESTOQUE
 router.get('/itensFaltando',  async (req,res) => {
-const { id_estoque } = req.params;
+const  id_estoque  = 1;
 // Verifica se o estoque existe
 try {
   const estoqueA = await estoque.findByPk(id_estoque); 
   if (!estoqueA) {
     return res.status(404).json({ error: 'Estoque não encontrado' });
   }
+  const listaDosItens = await item.todosItensBaixaQuantidade(); 
 
+  res.json({
+    message: 'Itens em Falta:',
+    itens: listaDosItens.map(item => ({
+      nome: item.nome,
+    })),
+  });
   
-// TERMINAR AQUI **************************
 } catch (error) {
   console.error('Erro ao processar o relatório:', error);
   res.status(400).json({ error: error.message });

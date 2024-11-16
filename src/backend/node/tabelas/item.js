@@ -64,13 +64,10 @@ item.todosItensPertoDoVencimento = async function  () {
   }
 };
 
-item.todosItensBaixaQuantidade = async function () { // Método pra criar alerta de estoque baixo pro gerente
+item.todosItensEmBaixaQuantidade = async function () { // Método pra criar alerta de estoque baixo pro gerente
   const itens = await item.findAll();
-  const itensEmBaixa = itens.filter(item => item.estaEmBaixaQuantidade(item.nome));
-  
-  for (const item of itensEmBaixa) {
-    criarAlerta(item,'Baixa Quantidade no Estoque',`Poucas unidades de ${item.nome} no estoque. `);
-  }
+  const itensEmBaixa = itens.filter(item => item.verificaSeEstaEmBaixaQuantidade(item.nome));
+  return itensEmBaixa;
 };
 
 item.criarAlerta = async function (itemAlertado, motivoAlertado, conteudoAlertado) {
@@ -86,34 +83,21 @@ item.criarAlerta = async function (itemAlertado, motivoAlertado, conteudoAlertad
 };
 
 
-item.estaEmBaixaQuantidadePorNome = async function (nomeDoItem)  {
-  const itensVerificados = await retornaQuantidadePorNome(nomeDoItem); //Busca em todos os itens pelo nome
+item.verificaSeEstaEmBaixaQuantidade = async function (nomeDoItem)  {
+  const itensVerificados = await contaQuantosItensExistemPeloNome(nomeDoItem); //Busca em todos os itens pelo nome
   
-  if(itensVerificados<5) return true;
-  else return false;
+  return itensVerificados < 5;
   
 };
 
-item.todosItensDeBaixaQuantidade = async function   (){
-  const todosItens = await item.findAll();
-  const itensEmBaixa = todosItens.filter(item => item.estaEmBaixaQuantidade(item.nome));
-
-  return itensEmBaixa;
-
-};
-item.quantidadePorNome = async function  (nomeDoItem) {
+item.contaQuantosItensExistemPeloNome = async function  (nomeDoItem) {
   const totalDeItens = await item.count({ where: { nome: nomeDoItem } });
 
   return totalDeItens;
 };
 
-item.todosItensPorNome = async function  (nomeDoItem) {
+item.retornaTodosItensComAqueleNome = async function  (nomeDoItem) {
   const listaDeItens = await item.findAll({where: {nome: nomeDoItem} });
-  return listaDeItens;
-};
-
-item.todosItensRegistrados = async function  () {
-  const listaDeItens = await item.findAll();
   return listaDeItens;
 };
 
