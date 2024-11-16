@@ -20,15 +20,14 @@ database.authenticate()
 //#region Importando rotas
 //import autenticarToken from '../backend/middlewares/autenticarToken.js';
 //import authRoutes from '../backend/node/routes/authRoutes.js';
-import itemRoutes from '../backend/node/routes/itemRoutes.js';
-import doacaoRoutes from '../backend/node/routes/doacaoRoutes.js';
-import alteracaoRoutes from '../backend/node/routes/alteracaoRoutes.js';
-import estoqueRoutes from '../backend/node/routes/estoqueRoutes.js';
+import itemRoutes from '../node/routes/itemRoutes.js';
+import doacaoRoutes from '../node/routes/doacaoRoutes.js';
+import alteracaoRoutes from '../node/routes/alteracaoRoutes.js';
+import estoqueRoutes from '../node/routes/estoqueRoutes.js';
 //#endregion
-
+dotenv.config();
 const PORT = process.env.PORT || 4000;
 const app = express();
-dotenv.config();
 app.use(express.json());
 app.use(cors());
 //Por enquanto vamos usar o cors permitindo que qualquer host acesse a API, sem fazer autenticacao

@@ -5,7 +5,7 @@ import {
   alerta,
   item
 } from './../../packages.js';
-import database from '../../../db/database.js';
+import database from '../../db/database.js';
 const estoque = database.define('estoque', {
   id_estoque: {
     type: DataTypes.INTEGER,

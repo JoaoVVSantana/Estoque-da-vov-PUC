@@ -5,8 +5,8 @@
   "main": "src/backend/app.js",
   "type": "module",
   "scripts": {
-    "start": "node ./app.js",
-    "dev": "nodemon ./app.js",
+    "start": "node ./build/app.js",
+    "dev": "nodemon ./build/app.js",
     "sync-db": "node ../db/databaseSync.js",
     "test": "jest"
   },

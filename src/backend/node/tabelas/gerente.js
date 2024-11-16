@@ -1,7 +1,7 @@
 import {
   DataTypes,
 } from './../../packages.js';
-import database from '../../../db/database.js';
+import database from '../../db/database.js';
 const gerente = database.define('gerente', {
   id_gerente: {
     type: DataTypes.INTEGER,

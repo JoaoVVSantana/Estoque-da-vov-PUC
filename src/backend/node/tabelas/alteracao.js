@@ -4,7 +4,7 @@ import {
   historico,
   item
 } from './../../packages.js';
-import database from '../../../db/database.js';
+import database from '../../db/database.js';
 const alteracao = database.define('alteracao', {
   id_alteracao: {
     type: DataTypes.INTEGER,

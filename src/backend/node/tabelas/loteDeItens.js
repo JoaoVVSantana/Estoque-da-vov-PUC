@@ -3,7 +3,7 @@ item,
 estoque,
 } from './relacionamentos.js';
 import { DataTypes } from 'sequelize';
-import database from '../../../db/database.js';
+import database from '../../db/database.js';
 //É uma lista de cada item, como se fosse a coleção de itens do mesmo tipo
 const loteDeItens = database.define('EstoqueItem', {
   id_estoque: {
