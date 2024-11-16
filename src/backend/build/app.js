@@ -2,7 +2,9 @@ import 'module-alias/register.js';
 import cors from 'cors';
 import express from 'express';
 import dotenv from 'dotenv';
+
 dotenv.config();
+
 import database from '../db/database.js';
 //login no banco
 database.authenticate()
@@ -20,10 +22,12 @@ database.authenticate()
 //#region Importando rotas
 //import autenticarToken from '../backend/middlewares/autenticarToken.js';
 //import authRoutes from '../backend/node/routes/authRoutes.js';
+
 import itemRoutes from '../node/routes/itemRoutes.js';
 import doacaoRoutes from '../node/routes/doacaoRoutes.js';
 import alteracaoRoutes from '../node/routes/alteracaoRoutes.js';
 import estoqueRoutes from '../node/routes/estoqueRoutes.js';
+
 //#endregion
 
 const PORT = process.env.PORT || 4000;
