@@ -58,7 +58,7 @@ try {
   if (!estoqueA) {
     return res.status(404).json({ error: 'Estoque não encontrado' });
   }
-  const listaDosItens = await item.todosItensBaixaQuantidade(); 
+  const listaDosItens = await item.todosItensEmBaixaQuantidade(); 
 
   res.json({
     message: 'Itens em Falta:',

@@ -64,11 +64,30 @@ item.todosItensPertoDoVencimento = async function  () {
   }
 };
 
-item.todosItensEmBaixaQuantidade = async function () { // Método pra criar alerta de estoque baixo pro gerente
+item.todosItensEmBaixaQuantidade = async function () {
+  // Busca todos os itens
   const itens = await item.findAll();
-  const itensEmBaixa = itens.filter(item => item.verificaSeEstaEmBaixaQuantidade(item.nome));
-  return itensEmBaixa;
+  const itensEmBaixa = await Promise.all(
+    itens.map(async item => ({
+      nome: item.nome,
+      estaEmBaixa: await this.verificaSeEstaEmBaixaQuantidade(item.nome),
+    }))
+  );
+
+ 
+  const itensUnicos = [];
+  const nomesRepetidos = new Set(); //isso é pra n adicionar o mesmo item mais de uma vez
+
+  for (const item of itensEmBaixa) {
+    if (item.estaEmBaixa && !nomesRepetidos.has(item.nome)) {
+      itensUnicos.push(item);
+      nomesRepetidos.add(item.nome);
+    }
+  }
+
+  return itensUnicos;
 };
+
 
 item.criarAlerta = async function (itemAlertado, motivoAlertado, conteudoAlertado) {
   const novoAlerta = await alerta.create({
@@ -84,7 +103,7 @@ item.criarAlerta = async function (itemAlertado, motivoAlertado, conteudoAlertad
 
 
 item.verificaSeEstaEmBaixaQuantidade = async function (nomeDoItem)  {
-  const itensVerificados = await contaQuantosItensExistemPeloNome(nomeDoItem); //Busca em todos os itens pelo nome
+  const itensVerificados = await this.contaQuantosItensExistemPeloNome(nomeDoItem); //Busca em todos os itens pelo nome
   
   return itensVerificados < 5;
   
