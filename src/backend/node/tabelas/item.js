@@ -97,6 +97,29 @@ item.buscarTodosItens = async function () {
   }
 };
 
+// ATENÇÃO VERIFIQUE SE ESTA CORRETO A IMPLEMENTAÇÃO, MAS ESTA FUNCIONANDO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//ALTERA OS DADOS DE UM ITEM ESPECIFICO ATRAVÉS DE SEU ID
+item.atualizarItem = async function (id_item, novosDados) {
+  try {
+    const itemA = await item.findByPk(id_item);
+
+    if (!itemA) {
+      throw new Error(`Item com ID ${id_item} não encontrado.`);
+    }
+    //Verifica se estão preenchidos
+    if (!novosDados.nome || !novosDados.validade || !novosDados.tipo) {
+      throw new Error('Os campos nome, validade e tipo são obrigatórios.');
+    }
+
+    // Atualiza os campos do item com os novos dados
+    await itemA.update(novosDados);
+
+    return itemA; // Retorna o item atualizado
+  } catch (error) {
+    throw new Error('Erro ao atualizar o item: ' + error.message);
+  }
+};
+
 
 
 item.verificaSeEstaEmBaixaQuantidade = async function (nomeDoItem)  {
