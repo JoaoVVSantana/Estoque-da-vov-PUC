@@ -2,12 +2,13 @@ import { createBrowserRouter } from "react-router-dom";
 
 import App from "../App.jsx";
 import Dashboard from "../pages/Dashboard/Dashboard.jsx";
-import Doacao from "../pages/Doacao/Doacao.jsx";
+import Doadores from "../pages/Doadores/Doadores.jsx";
 import Estoque from "../pages/Estoque/Estoque.jsx";
 import Historico from "../pages/Historico/Historico.jsx";
 import Relatorio from "../pages/Relatorio/Relatorio.jsx";
 import ErrorPage from "../pages/ErrorPage/ErrorPage.jsx";
 import NovoProduto from "../pages/NovoProduto/NovoProduto.jsx";
+import NovoDoador from "../pages/NovoDoador/NovoDoador.jsx";
 
 const router = createBrowserRouter([
   {
@@ -20,8 +21,12 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: "/doacao",
-        element: <Doacao />,
+        path: "/doadores",
+        element: <Doadores />,
+      },
+      {
+        path: "/doadores/novo-doador",
+        element:  <NovoDoador />,
       },
       {
         path: "/estoque",

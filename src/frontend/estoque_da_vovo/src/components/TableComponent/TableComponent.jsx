@@ -1,75 +1,93 @@
-import React from 'react';
-import { Table, Tabs, Tab } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Table } from 'react-bootstrap';
+import './TableComponent.css'
 
-export default function TableComponent() {
+export default function TableComponent({ items, onRowClick, onSelectionChange }) {
+  const [selectedIds, setSelectedIds] = useState([]);
+
+  if (!items || items.length === 0) {
+    return <p>Nenhum dado disponível.</p>;
+  }
+
+  // Normalizar os nomes das colunas de ID para "id"
+  const normalizedItems = items.map((item) => {
+    const normalizedItem = { ...item };
+    for (const key in item) {
+      if (key.startsWith('id_')) {
+        normalizedItem['id'] = item[key];
+        delete normalizedItem[key];
+      }
+    }
+    return normalizedItem;
+  });
+
+  // Extrai as chaves do primeiro item para criar o cabeçalho dinamicamente
+  const headers = Object.keys(normalizedItems[0]);
+
+  // Função para alternar a seleção de um item
+  const toggleSelection = (id) => {
+    const newSelectedIds = selectedIds.includes(id)
+      ? selectedIds.filter((selectedId) => selectedId !== id) // Remove o ID se já estiver selecionado
+      : [...selectedIds, id]; // Adiciona o ID se não estiver selecionado
+
+    setSelectedIds(newSelectedIds);
+    onSelectionChange(newSelectedIds); // Emite os IDs selecionados para o componente pai
+  };
+
   return (
-    <Tabs defaultActiveKey="geral" id="table-tabs" className="mb-3">
-      <Tab eventKey="geral" title="Geral">
-        <Table striped bordered hover responsive>
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>Descrição</th>
-              <th>Categoria</th>
-              <th>Quantidade</th>
-              <th>Previsão de Término</th>
-              <th>Validade</th>
-              <th>Gasto Diário</th>
-              <th>Data</th>
+    <div className='table-container'>
+      <Table striped bordered hover responsive>
+        <thead>
+          <tr>
+            <th>
+              <input
+                type="checkbox"
+                onChange={(e) => {
+                  const isChecked = e.target.checked;
+                  if (isChecked) {
+                    const allIds = normalizedItems.map((item) => item.id);
+                    setSelectedIds(allIds);
+                    onSelectionChange(allIds);
+                  } else {
+                    setSelectedIds([]);
+                    onSelectionChange([]);
+                  }
+                }}
+                checked={selectedIds.length === normalizedItems.length && normalizedItems.length > 0}
+              />
+            </th>
+            {headers.map((header, index) => (
+              <th key={index}>{header.charAt(0).toUpperCase() + header.slice(1)}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {normalizedItems.map((item) => (
+            <tr
+              key={item.id}
+              onClick={() => onRowClick(item.id)} // Retorna o ID ao clicar na linha
+              style={{ cursor: 'pointer' }}
+            >
+              <td
+                onClick={(e) => e.stopPropagation()} // Impede o clique no checkbox de acionar o clique na linha
+              >
+                <input
+                  type="checkbox"
+                  checked={selectedIds.includes(item.id)}
+                  onChange={(e) => {
+                    e.stopPropagation(); // Impede o clique no checkbox de acionar o clique na linha
+                    toggleSelection(item.id);
+                  }}
+                />
+              </td>
+              {headers.map((header, index) => (
+                <td key={index}>{item[header]}</td>
+              ))}
             </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Produto 1</td>
-              <td>Descrição 1</td>
-              <td>Categoria 1</td>
-              <td>100</td>
-              <td>30/12/2024</td>
-              <td>15/12/2024</td>
-              <td>5</td>
-              <td>01/11/2024</td>
-            </tr>
-            <tr>
-              <td>Produto 2</td>
-              <td>Descrição 2</td>
-              <td>Categoria 2</td>
-              <td>200</td>
-              <td>25/11/2024</td>
-              <td>10/11/2024</td>
-              <td>10</td>
-              <td>02/11/2024</td>
-            </tr>
-          </tbody>
-        </Table>
-      </Tab>
-      <Tab eventKey="medicamentos" title="Medicamentos">
-        <Table striped bordered hover responsive>
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>Descrição</th>
-              <th>Categoria</th>
-              <th>Quantidade</th>
-              <th>Previsão de Término</th>
-              <th>Validade</th>
-              <th>Gasto Diário</th>
-              <th>Data</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Medicamento 1</td>
-              <td>Descrição Medicamento</td>
-              <td>Medicamentos</td>
-              <td>50</td>
-              <td>30/11/2024</td>
-              <td>20/11/2024</td>
-              <td>2</td>
-              <td>01/11/2024</td>
-            </tr>
-          </tbody>
-        </Table>
-      </Tab>
-    </Tabs>
+          ))}
+        </tbody>
+      </Table>
+    </div>
   );
 }
+

@@ -3,10 +3,31 @@
     --secondary-color: #f0bbc6;
     --secondary-color-1: #ffe5ec;
     --secondary-color-2: #EF88A0;
+    --tertiary-color: #F2EDF3;
 
     --text-color: #333333;
 
-    --btn-background:#f0bbc6;
+    --btn-background: #f0bbc6;
     --btn-secondary-color: #e5a0b0;
     --btn-transition: background-color 0.8s !important;
+}
+
+:root {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* Para tirar a visual setinha do Dropdown do bootstrap apareça*/
+.dropdown-toggle::after {
+    display: none !important;
 }

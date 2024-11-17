@@ -13,12 +13,12 @@ export default function SideBar({ expanded, toggleSidebar }) {
   return (
     <div className={`sidebar d-flex flex-column collapsed ${expanded ? 'expanded' : 'collapsed'}`}>
       <div className='area-logo d-flex justify-content-between'>
-       
-      <div className='ms-auto'>
-      <Button variant="primary" onClick={toggleSidebar} className="rounded-circle ">
-        {expanded ? <FontAwesomeIcon icon={faAnglesLeft} /> : <FontAwesomeIcon icon={faAnglesRight} />}
-      </Button>
-      </div>
+
+        <div className='ms-auto'>
+          <Button variant="primary" onClick={toggleSidebar} className="rounded-circle ">
+            {expanded ? <FontAwesomeIcon icon={faAnglesLeft} /> : <FontAwesomeIcon icon={faAnglesRight} />}
+          </Button>
+        </div>
       </div>
       <Nav className={`side-nav flex-column p-2 mt-4 collapsed ${expanded ? 'expanded' : 'collapsed'}`}>
         <Nav.Item className="mb-3">
@@ -28,25 +28,25 @@ export default function SideBar({ expanded, toggleSidebar }) {
           </Nav.Link>
         </Nav.Item>
         <Nav.Item className="mb-3">
-          <Nav.Link as={Link} to={'/estoque'} className={location.pathname === '/estoque' ? 'navbar-link active' : ''}>
+          <Nav.Link as={Link} to={'/estoque'} className={location.pathname.includes('/estoque') ? 'navbar-link active' : ''}>
             <FontAwesomeIcon icon={faCubesStacked} />
             {expanded && <span className="ms-3">Estoque</span>}
           </Nav.Link>
         </Nav.Item>
         <Nav.Item className="mb-3">
-          <Nav.Link as={Link} to={'/doacao'} className={location.pathname === '/doacao' ? 'navbar-link active' : ''}>
+          <Nav.Link as={Link} to={'/doadores'} className={location.pathname.includes('/doadores') ? 'navbar-link active' : ''}>
             <FontAwesomeIcon icon={faHandHoldingDollar} />
             {expanded && <span className="ms-3">Doações</span>}
           </Nav.Link>
         </Nav.Item>
         <Nav.Item className="mb-3">
-          <Nav.Link as={Link} to={'/relatorio'} className={location.pathname === '/relatorio' ? 'navbar-link active' : ''}>
+          <Nav.Link as={Link} to={'/relatorio'} className={location.pathname.includes('/relatorio') ? 'navbar-link active' : ''}>
             <FontAwesomeIcon icon={faClipboardList} />
             {expanded && <span className="ms-3">Relatórios</span>}
           </Nav.Link>
         </Nav.Item>
         <Nav.Item className="mb-3">
-          <Nav.Link as={Link} to={'/historico'} className={location.pathname === '/historico' ? 'navbar-link active' : ''}>
+          <Nav.Link as={Link} to={'/historico'} className={location.pathname.includes('/historico') ? 'navbar-link active' : ''}>
             <FontAwesomeIcon icon={faBusinessTime} />
             {expanded && <span className="ms-3">Histórico</span>}
           </Nav.Link>

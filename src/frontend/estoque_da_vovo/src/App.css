@@ -3,7 +3,8 @@
     background-color: #F2EDF3;
 }
 
-.dropdown-toggle::after {
-    display:none !important;
+/*Isso evita do scroll da tabela não aparecer*/
+.content-area{
+    overflow-x: hidden;
 }
 
