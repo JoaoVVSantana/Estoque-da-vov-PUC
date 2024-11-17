@@ -32,6 +32,7 @@ doacao.belongsTo(doador, {primaryKey:'id_doador', as:'Responsavel'});
 doacao.hasMany(item, { foreignKey: 'id_doacao', as: 'Itens da doacao' });
 //
 alteracao.belongsTo(historico, { foreignKey: 'id_historico', as: 'Historico de Alteracoes' });
+
 alerta.belongsTo(item, { foreignKey: 'id_item', as: 'Alertas do item' });
 
 

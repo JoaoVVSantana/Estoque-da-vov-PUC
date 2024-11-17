@@ -20,6 +20,10 @@ import {
         type:DataTypes.INTEGER,
         allowNull:true,
     },
+    id_estoque:{
+        type: DataTypes.STRING,
+        allowNull:false,
+    },
 
 },
 {
@@ -35,6 +39,7 @@ doador.criarDoador = async function (nome,email) {
 const doadorNovo = await doador.create({
   nome: nome,
   email: email,
+  id_estoque:1,
 });
 return doadorNovo;
 }
