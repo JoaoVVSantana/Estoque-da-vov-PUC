@@ -72,5 +72,19 @@ try {
   res.status(400).json({ error: error.message });
 }
 });
+// ATENÇÃO VERIFIQUE SE ESTA CORRETO A IMPLEMENTAÇÃO, MAS ESTA FUNCIONANDO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// LISTA TODOS ITENS DO ESTOQUE
+router.get('/listarItens', async (req, res) => {
+  try {
+    const todosItens = await item.buscarTodosItens();
+    res.json({
+      message: 'Lista de todos os itens no estoque',
+      itens: todosItens,
+    });
+  } catch (error) {
+    console.error('Erro ao buscar todos os itens:', error);
+    res.status(400).json({ error: error.message });
+  }
+});
 
 export default router;

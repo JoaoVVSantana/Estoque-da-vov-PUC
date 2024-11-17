@@ -86,6 +86,18 @@ item.todosItensEmBaixaQuantidade = async function () {
   return itensUnicos;
 };
 
+// ATENÇÃO VERIFIQUE SE ESTA CORRETO A IMPLEMENTAÇÃO, MAS ESTA FUNCIONANDO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// LISTA TODOS ITENS DO ESTOQUE
+item.buscarTodosItens = async function () {
+  try {
+    const itens = await item.findAll(); // Busca todos os itens na tabela
+    return itens;
+  } catch (error) {
+    throw new Error('Erro ao buscar todos os itens: ' + error.message);
+  }
+};
+
+
 
 item.verificaSeEstaEmBaixaQuantidade = async function (nomeDoItem)  {
   const itensVerificados = await this.contaQuantosItensExistemPeloNome(nomeDoItem); //Busca em todos os itens pelo nome
