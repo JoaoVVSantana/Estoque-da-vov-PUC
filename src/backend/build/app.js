@@ -41,32 +41,29 @@ app.use(cors());
 //app.use('/api/login',auth)
 //app.use('/api/auth', authRoutes);
 
+
+// ----------- V = Funcionando
+// ----------- X = Não Funcionando
+
 app.use('/api/item', itemRoutes);
-/// - /itensPertoDoVencimento -> exibe uma lista de todos os itens que estão perto de vencer
+/// V /itensPertoDoVencimento -> exibe uma lista de todos os itens que estão perto de vencer
 
 app.use('/api/doacoes', doacaoRoutes);
-// - /registrarDoador -> recebe nome e email, cadastra no banco
+// V /registrarDoador -> recebe nome e email, cadastra no banco
 
 app.use('/api/estoque', estoqueRoutes);
-// - /criarEstoque -> cria um estoque no banco
-// - /retirarItem -> recebe um id de item por param e deleta do banco
-// - /inserirItem -> recebe nome,validade,tipo no body. Cria e coloca no banco
-// - /itensFaltando -> exibe uma lista de itens que estão com quantidade 5<
+// V /criarEstoque -> cria um estoque no banco
+// V /retirarItem -> recebe um id de item por param e deleta do banco
+// V /inserirItem -> recebe nome,validade,tipo no body. Cria e coloca no banco
+// V /itensFaltando -> exibe uma lista de itens que estão com quantidade 5<
 
 
 
-app.use('/api',alteracaoRoutes);
-//
+app.use('/api/alteracoes',alteracaoRoutes);
+// X //historico -> exibe o historico de todas as alteracoes
 
 app.use('/api/email',enviarEmail);
-//
-
-console.log('Rotas registradas.');
-app._router.stack.forEach((layer) => {
-  if (layer.route) {
-    console.log(layer.route.path);
-  }
-});
+// V /pedirDoacao -> recebe nome e email, constroi uma msg com os itens em falta
 
 //caso n encontre rota
 app.use((req, res) => res.status(404).json({ error: 'Rota não encontrada' }));

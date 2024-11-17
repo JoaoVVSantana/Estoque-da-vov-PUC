@@ -8,7 +8,7 @@ import express from 'express';
 const router = express.Router();
 
 //HISTORICO DE ALTERACOES
-router.get('/api/historico', async (req, res) => { 
+router.get('/historico', async (req, res) => { 
     try {
       const historicoCompleto = await historico.findAll({include: [{ model: alteracao, as: 'alteracoes' }] });
   

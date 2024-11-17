@@ -23,10 +23,8 @@ router.post('/pedirDoacao', async (req,res) => {
 
 async function criaTextoDeDoacao(nomeDoador) 
 {
-  let mensagem = `Prezado doador${nomeDoador}, esperamos que esteja bem! \n`;
-  mensagem+= `Nós do lar
-  da Vovó estamos precisando de sua ajuda mais uma vez, caso tenha interesse em contribuir novamente
-  com a nossa instituição, estes são os itens que mais estão em falta: \n`;
+  let mensagem = `Prezado doador ${nomeDoador}, esperamos que esteja bem! \n`;
+  mensagem+= `Nós do lar da Vovó estamos precisando de sua ajuda mais uma vez. Caso tenha interesse em contribuir novamente com a nossa instituição, estes são os itens que mais estão em falta: \n`;
 
   const itensEmBaixa = await item.todosItensEmBaixaQuantidade();
   itensEmBaixa.forEach((item) => {
