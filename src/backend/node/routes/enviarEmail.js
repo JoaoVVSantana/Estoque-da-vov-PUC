@@ -28,7 +28,7 @@ async function criaTextoDeDoacao(nomeDoador)
 
   const itensEmBaixa = await item.todosItensEmBaixaQuantidade();
   itensEmBaixa.forEach((item) => {
-    mensagem+=`- ${item.nome}\n`;
+    mensagem+=`-- ${item.nome} --\n`;
   });
   mensagem+=`Obrigado! `;
   return mensagem;
