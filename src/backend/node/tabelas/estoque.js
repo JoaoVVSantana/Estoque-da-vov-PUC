@@ -47,42 +47,6 @@ const estoque = database.define('estoque', {
 // #region Métodos
 
 
-estoque.itemFoiRetirado = async function (id_item, id_estoque, transaction) {
-  
-  // Atualiza o armazenamento disponível e a quantidade de itens
-  try {
-    const estoqueA = await estoque.findByPk(id_estoque);
-    const itemA = await item.findByPk(id_item);
-    
-    estoqueA.armazenamento_disponivel -= 1;
-    estoqueA.quantidadeItens -= 1;
-
-    await alteracao.criarRetiradaDeItem(itemA, estoqueA, transaction); 
-
-    await estoqueA.save({ transaction });
-  
-
-  } catch (error) {
-    throw new Error('Erro ao atualizar o estoque: ' + error.message);
-  }
-};
-
-estoque.itemFoiInserido = async function (novoItem, estoqueA, transaction) {
-  try {
-    // Atualiza o armazenamento disponível e a quantidade de itens no estoque
-    estoqueA.armazenamento_disponivel -= 1; // Ou use o tamanho do item, se aplicável
-    estoqueA.quantidadeItens += 1;
-
-    // Cria um registro no histórico de alterações
-    await alteracao.criarInsercaoDeItem(novoItem, estoqueA, transaction);
-
-    // Salva as alterações no estoque
-    await estoqueA.save({ transaction });
-  } catch (error) {
-    throw new Error('Erro ao atualizar o estoque: ' + error.message);
-  }
-};
-
 
 estoque.verificaSeEPossivelInserirItem = async function (id_estoque) {
   const estoqueA = await estoque.findByPk(id_estoque);
@@ -157,6 +121,27 @@ estoque.retirarItem = async function (id_item, id_estoque) {
   }
 };
 
+
+estoque.itemFoiRetirado = async function (id_item, id_estoque, transaction) {
+  
+  // Atualiza o armazenamento disponível e a quantidade de itens
+  try {
+    const estoqueA = await estoque.findByPk(id_estoque);
+    const itemA = await item.findByPk(id_item);
+    
+    estoqueA.armazenamento_disponivel -= 1;
+    estoqueA.quantidadeItens -= 1;
+
+    await alteracao.criarRetiradaDeItem(itemA, estoqueA, transaction); 
+
+    await estoqueA.save({ transaction });
+  
+
+  } catch (error) {
+    throw new Error('Erro ao atualizar o estoque: ' + error.message);
+  }
+};
+
 estoque.inserirItem = async function (nome,validade,tipo, id_estoque) {
   const transaction = await database.transaction();
 
@@ -190,6 +175,22 @@ estoque.inserirItem = async function (nome,validade,tipo, id_estoque) {
     throw error;
   }
 };
+estoque.itemFoiInserido = async function (novoItem, estoqueA, transaction) {
+  try {
+    // Atualiza o armazenamento disponível e a quantidade de itens no estoque
+    estoqueA.armazenamento_disponivel -= 1; // Ou use o tamanho do item, se aplicável
+    estoqueA.quantidadeItens += 1;
+
+    // Cria um registro no histórico de alterações
+    await alteracao.criarInsercaoDeItem(novoItem, estoqueA, transaction);
+
+    // Salva as alterações no estoque
+    await estoqueA.save({ transaction });
+  } catch (error) {
+    throw new Error('Erro ao atualizar o estoque: ' + error.message);
+  }
+};
+
 
 // #endregion
 export default  estoque;
