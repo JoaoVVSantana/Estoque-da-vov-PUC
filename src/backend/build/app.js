@@ -59,7 +59,7 @@ app.use('/api/doacoes', doacaoRoutes);
 app.use('/api/estoque', estoqueRoutes);
 // POST http://localhost:5000/api/estoque/criarEstoque -> armazenamento -> cria um estoque no banco
 // DELETE http://localhost:5000/api/estoque/retirarItem -> id_item ->  por BODY e deleta do banco
-// DELETE http://localhost:5000/api/estoque/:id/retirar -> id_item ->  por PARAM e deleta do banco
+// DELETE http://localhost:5000/api/estoque/retirar/:id_item -> id_item ->  por PARAM e deleta do banco
 // POST http://localhost:5000/api/estoque/inserirItem -> nome, validade, tipo -> Cria e coloca no banco
 // POST http://localhost:5000/api/estoque/inserirItemDoacao -> nome, validade, tipo, id_doador  -> Cria e coloca no banco
 // GET http://localhost:5000/api/estoque/itensFaltando -> exibe uma lista de itens que estão com quantidade 5<
