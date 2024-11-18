@@ -33,7 +33,7 @@ router.post('/retirarItem', async (req, res) => {
 });
 
 /// RETIRAR DO ESTOQUE POR PARAMS
-router.delete('/retirar/:id', async (req, res) => {
+router.delete('/retirar/:id_item', async (req, res) => {
   const { id_item } = req.params;
 
   try {
