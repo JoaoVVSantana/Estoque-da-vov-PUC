@@ -1,0 +1,21 @@
+.card-var1 {
+    background-color: var(--primary-color) !important;
+    color: #000 !important;
+}
+
+.card-var2 {
+    background-color: var(--secondary-color-2) !important;
+    color: #ffffff !important;
+}
+.card{
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
+}
+
+.card-body {
+    height: 100px;
+  }
+  
+  .icon-container {
+    font-size: 2rem;  /* Ajuste o tamanho do ícone conforme necessário */
+  }
+  

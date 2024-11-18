@@ -1,8 +1,11 @@
+import BreadCrumbNav from '../../components/BreadCrumbNav/BreadCrumbNav.jsx'; 
+import TitleContent from '../../components/TitleContent/TitleContent.jsx'; 
+
 export default function Historico() {
     return (
         <>
-            <h1>Historico</h1>
-            <p>This is where the main content will go.</p>
+            <BreadCrumbNav />
+            <TitleContent title={"Histórico"} />
         </>
     );
 }
