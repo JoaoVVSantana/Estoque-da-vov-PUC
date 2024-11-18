@@ -5,6 +5,7 @@ import { faChartLine, faCubesStacked, faHandHoldingDollar, faBusinessTime, faCli
 
 import { Link, useLocation } from 'react-router-dom';
 import logo from "../../assets/logo_lar_vovo.png";
+import logoIcon from "../../assets/logo_lar_vovo_icon.png";
 
 import './SideBar.css'
 
@@ -13,9 +14,10 @@ export default function SideBar({ expanded, toggleSidebar }) {
 
   return (
     <div className={`sidebar d-flex flex-column collapsed ${expanded ? 'expanded' : 'collapsed'}`}>
-      <div className='area-logo d-flex justify-content-between'>
-        {expanded && <img src={logo}/>}
-        <div className='ms-auto'>
+      <div className={`area-logo d-flex justify-content-between  ${expanded ? 'expanded' : 'collapsed'}`}>
+      <img src={logo} className={!expanded && "d-none"}/> 
+      <img src={logoIcon} className={expanded && "d-none"}/>
+        <div className=''>
           <Button variant="primary" onClick={toggleSidebar} className="rounded-circle ">
             {expanded ? <FontAwesomeIcon icon={faAnglesLeft} /> : <FontAwesomeIcon icon={faAnglesRight} />}
           </Button>

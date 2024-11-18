@@ -17,16 +17,33 @@
   .side-nav.collapsed .nav-item{
     width: 87%  !important;
   }
+  .area-logo.expanded img,.area-logo img{
+    margin: 15px;
+  }
   
+  .area-logo.expanded img{
+    width: 140px !important;
+
+  }
   .area-logo img{
-    width: 205px;
+    width: 43px;
+  }
+  .area-logo{
+    height: 80px;
   }
 
+  .area-logo.expanded button{
+    transition: all 0.3s;
+    position: fixed;
+    top: 18px;
+    left: 225px;
+  }
   .area-logo button{
-    position: relative;
-    margin-top: 10px;
-    right: -12px;
-    z-index: 1000; /* Mantém o botão acima do Header */
+    transition: all 0.3s;
+    position: fixed;
+    top: 18px;
+    left: 65px;
+    z-index: 1000;
     width: 30px;
     height: 30px;
     display: flex;
