@@ -26,10 +26,10 @@ const item = database.define('item', {
    
     allowNull: false,
   },
-  id_doacao: {
+  id_doador: {
     type:DataTypes.INTEGER,
     allowNull:true,
-  }
+  },
 },
 {
   tableName: 'itens',

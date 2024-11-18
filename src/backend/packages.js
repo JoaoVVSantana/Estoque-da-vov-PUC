@@ -4,7 +4,6 @@ import { DataTypes} from 'sequelize';
 //Tabelas
 import alerta from './node/tabelas/alerta.js';
 import alteracao from './node/tabelas/alteracao.js';
-import doacao from './node/tabelas/doacao.js';
 import doador from './node/tabelas/doador.js';
 import estoque from './node/tabelas/estoque.js';
 import gerente from './node/tabelas/gerente.js';
@@ -15,7 +14,6 @@ export {
     DataTypes,
     alerta,
     alteracao,
-    doacao,
     doador,
     estoque,
     gerente,

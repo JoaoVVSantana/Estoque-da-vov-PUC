@@ -23,7 +23,7 @@ router.post('/criarEstoque', async (req, res) => {
   }
 
 })
-/// RETIRAR DO ESTOQUE 
+/// RETIRAR DO ESTOQUE POR BODY
 router.post('/retirarItem', async (req, res) => {
   const { id_item } = req.body;
   try {
@@ -35,12 +35,47 @@ router.post('/retirarItem', async (req, res) => {
   }
 });
 
-// INSERIR ITEM NO ESTOQUE
+/// RETIRAR DO ESTOQUE POR PARAMS
+router.delete('/:id/retirar', async (req, res) => {
+  const { id_item } = req.params;
+  try {
+    await estoque.retirarItem(id_item, 1)
+    res.json({ message: 'Retirada realizada com sucesso ', item: id_item });
+  } catch (error) {
+    console.error('Erro ao processar a retirada:', error);
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// INSERIR ITEM NO ESTOQUE (sem Doacao)
 router.post('/inserirItem', async (req, res) => {
-  const { nome, validade, tipo } = req.body; //notnull
+  const { nome, validade, tipo, id_doador } = req.body; //notnull
   const id_estoque = 1;
+  //verifica se os dados foram inseridos
+  if (!nome || !validade || !tipo) {
+    return res.status(400).json({ error: 'Todos os campos são obrigatórios: nome, validade, tipo' });
+  }
+
   try {
     await estoque.inserirItem(nome, validade, tipo, id_estoque)
+
+    res.json({ message: 'Item inserido com sucesso', item: nome });
+  } catch (error) {
+    console.error('Erro ao inserir o item:', error);
+    res.status(400).json({ error: error.message });
+  }
+});
+// INSERIR ITEM NO ESTOQUE (com Doacao)
+router.post('/inserirItemDoacao', async (req, res) => {
+  const { nome, validade, tipo, id_doador } = req.body; //notnull
+  const id_estoque = 1;
+  //verifica se os dados foram inseridos
+  if (!nome || !validade || !tipo|| !id_doador) {
+    return res.status(400).json({ error: 'Todos os campos são obrigatórios: nome, validade, tipo, id_doador' });
+  }
+
+  try {
+    await estoque.inserirItem(nome, validade, tipo, id_estoque, id_doador)
 
     res.json({ message: 'Item inserido com sucesso', item: nome });
   } catch (error) {

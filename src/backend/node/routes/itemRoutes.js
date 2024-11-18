@@ -8,7 +8,7 @@ import express from 'express';
 const router = express.Router();
 
 // Criar alertas se tem itens perto da data de vencimento.
-router.post('/itensPertoDoVencimento', async (req, res) => {
+router.get('/itensPertoDoVencimento', async (req, res) => {
   try {
     const estoqueEncontrado = await estoque.findByPk(1); 
     if (!estoqueEncontrado) {
