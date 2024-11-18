@@ -1,0 +1,18 @@
+.toolbar {
+    background-color: var(--secondary-color-2);
+    color: #fff;
+    border: solid 1px var(--btn-secondary-color) !important;
+    border-radius: 11px;
+    box-shadow: 0px 0px 6px rgb(0, 0, 0, 0.2);
+
+    .btn-group button{
+        font-size: 1.1rem;
+        color: #fff;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    .btn-group button:hover{
+        color: var(--primary-color);
+    }
+
+}
