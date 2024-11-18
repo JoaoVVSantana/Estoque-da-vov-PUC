@@ -18,7 +18,9 @@
     width: 87%  !important;
   }
   
-
+  .area-logo img{
+    width: 205px;
+  }
 
   .area-logo button{
     position: relative;

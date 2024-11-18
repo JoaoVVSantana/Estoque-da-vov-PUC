@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartLine, faCubesStacked, faHandHoldingDollar, faBusinessTime, faClipboardList, faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 
 import { Link, useLocation } from 'react-router-dom';
+import logo from "../../assets/logo_lar_vovo.png";
 
 import './SideBar.css'
 
@@ -13,7 +14,7 @@ export default function SideBar({ expanded, toggleSidebar }) {
   return (
     <div className={`sidebar d-flex flex-column collapsed ${expanded ? 'expanded' : 'collapsed'}`}>
       <div className='area-logo d-flex justify-content-between'>
-
+        {expanded && <img src={logo}/>}
         <div className='ms-auto'>
           <Button variant="primary" onClick={toggleSidebar} className="rounded-circle ">
             {expanded ? <FontAwesomeIcon icon={faAnglesLeft} /> : <FontAwesomeIcon icon={faAnglesRight} />}

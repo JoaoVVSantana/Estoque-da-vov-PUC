@@ -17,7 +17,7 @@ export default function Header() {
     return (
         // bg="dark" variant="dark"
         <Navbar expand="lg" className="header pe-4 ps-5">
-            <Navbar.Brand href="#">Estoque da Vovó</Navbar.Brand>
+            <Navbar.Brand>Estoque da Vovó</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ms-auto">

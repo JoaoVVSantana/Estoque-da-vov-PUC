@@ -2,8 +2,23 @@
     background-color: #EF88A0;
     box-shadow: 10px 2px 15px rgba(0, 0, 0, 0.1);
 
+    .navbar-brand:hover{
+        color: #fff;
+    }
+    .navbar-brand, .nav-link, svg{
+        color: #fff;
+    }
+    .navbar-nav{
+        padding: 5px;
+        align-items: center;
+    }
+    .nav-link, svg{
+        font-size: 20px;
+    }
+    .nav-link{
+        height: 50px;
+    }
+
+
 }
 
-.header .navbar-brand, .header .nav-link{
-    color: #fff;
-}
