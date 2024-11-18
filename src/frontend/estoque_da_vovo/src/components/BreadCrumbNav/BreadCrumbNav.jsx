@@ -6,10 +6,10 @@ import './BreadCrumbNav.css'
 
 export default function BreadCrumbNav() {
     const location = useLocation();
-    console.log(location);
+
     // Divide o caminho em partes para cada segmento
     const pathnames = location.pathname.split('/').filter(x => x);
-    console.log(pathnames);
+
     return (
         <Breadcrumb>
             <Breadcrumb.Item />
