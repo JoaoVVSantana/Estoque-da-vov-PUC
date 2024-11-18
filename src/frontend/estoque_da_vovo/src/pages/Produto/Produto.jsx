@@ -1,3 +1,4 @@
+import { useParams } from 'react-router-dom';
 import FormProduto from '../../components/FormProduto/FormProduto.jsx';
 import TitleContent from '../../components/TitleContent/TitleContent.jsx';
 import useAxios from '../../hooks/useAxios.js';
@@ -5,9 +6,11 @@ import { axiosInstanceEstoque } from '../../services/axiosInstance.js';
 import BreadCrumbNav from './../../components/BreadCrumbNav/BreadCrumbNav';
 import Alert from 'react-bootstrap/Alert';
 
-export default function NovoProduto() {
+export default function Produto() {
+    const {id} = useParams;
+
     const [responseData, error, loading, axiosFetch] = useAxios();
-    console.log("load:", loading);
+
     const handleFormSubmit = (data) => {
         console.log("data:", data);
         axiosFetch({
@@ -23,12 +26,11 @@ export default function NovoProduto() {
     }
     console.log("RES:", responseData, error);
 
-    //criar modal/balão de confirmação de novo produto
     return (
         <>
             <BreadCrumbNav />
             <TitleContent title={"Criando Novo Produto"} />
-            <FormProduto onSubmitForm={handleFormSubmit} isNew />
+            <FormProduto onSubmitForm={handleFormSubmit}/>
             <div className='pt-3 pb-3'>
                 {!loading && !error && responseData.message && <Alert variant={"success"}>Produto inserido com sucesso</Alert>}
                 {loading && <Alert variant={"primary"}>Carregando...</Alert>}

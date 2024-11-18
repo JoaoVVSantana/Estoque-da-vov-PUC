@@ -9,6 +9,7 @@ import Relatorio from "../pages/Relatorio/Relatorio.jsx";
 import ErrorPage from "../pages/ErrorPage/ErrorPage.jsx";
 import NovoProduto from "../pages/NovoProduto/NovoProduto.jsx";
 import NovoDoador from "../pages/NovoDoador/NovoDoador.jsx";
+import Produto from "../pages/Produto/Produto.jsx";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: "/estoque/novo-produto",
         element:  <NovoProduto />,
+      },
+      {
+        path: "/estoque/produto/:id",
+        element:  <Produto />,
       },
       {
         path: "/historico",

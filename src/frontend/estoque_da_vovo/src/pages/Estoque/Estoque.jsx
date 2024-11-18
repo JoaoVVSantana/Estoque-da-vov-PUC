@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Btn from '../../components/Btn/Btn.jsx';
 import TableToolbar from '../../components/TableToolbar/TableToolbar.jsx';
@@ -16,19 +16,30 @@ import { useNavigate } from "react-router-dom";
 import { axiosInstanceEstoque } from '../../services/axiosInstance.js';
 import useAxios from '../../hooks/useAxios.js';
 import Loading from '../../components/Loading/Loadings.jsx';
-import {renameKey} from '../../utils/renameKey.js';
+import { renameKey } from '../../utils/renameKey.js';
 import { formatDate } from '../../utils/formatDate.js';
 
 export default function Estoque() {
-    const [produtosData, loading, error] = useAxios({
+    const [produtosData, error, loading, axiosFetch] = useAxios();
+
+    useEffect(() => {
+        axiosFetch({
+            axiosInstance: axiosInstanceEstoque,
+            method: 'GET',
+            url: 'estoque/listarItens'
+        });    
+    }, [])
+    
+    /** 
+    const [produtosData, loading] = useAxios({
         axiosInstance: axiosInstanceEstoque,
         method: 'GET',
         url: 'estoque/listarItens'
     })
-
+*/
     //falta map do doador
-    const produtos = produtosData?.itens?.map(({ id_item,id_estoque, ...rest }) =>{
-        rest = renameKey(rest,"id_doacao","doador");
+    const produtos = produtosData?.itens?.map(({ id_item, id_estoque, ...rest }) => {
+        rest = renameKey(rest, "id_doacao", "doador");
         rest.validade = formatDate(rest.validade);
         return rest;
     })

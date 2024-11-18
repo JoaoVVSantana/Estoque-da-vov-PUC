@@ -1,41 +1,42 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from "react";
 
-export default function useAxios({ axiosInstance, method, url, requestConfig = {} } = configApi) {
+const useAxios = () => {
+    const [response, setResponse] = useState([]);
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false); //different!
+    const [controller, setController] = useState();
 
-
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
-  const [error, setError] = useState('');
-  const effectRun = useRef(false); //para saber em qual vez esta execução do useEffect,evitar varias execução do useEffect.
-
-  useEffect(() => {
-    const controller = new AbortController(); //Para abortar requisições em andamento e evitar múltiplas chamadas
-
-    const fetch = async () => {
-      try {
-        const res = await axiosInstance[method.toLowerCase()](url, {
-          ...requestConfig,
-          signal: controller.signal,
-        })
-        console.log(res)
-        setData(res.data)
-      } catch (err) {
-        console.log(err.message)
-        setError(err.message)
-      } finally {
-        setLoading(false);
-      }
+    const axiosFetch = async ({ axiosInstance, method, url, data = {}, config = {} }) => {
+        try {
+            setLoading(true);
+            setError('');
+            setResponse([]);
+            const ctrl = new AbortController();
+            setController(ctrl);
+    
+            const res = await axiosInstance[method.toLowerCase()](url, data, {
+                ...config,
+                signal: ctrl.signal,
+            });
+            console.log("AXIOS response:",res);
+            setResponse(res.data);
+        } catch (err) {
+            console.log("AXIOS Erro na requisição:",err.message);
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
     }
 
-    if (effectRun.current) {
-      fetch();
-    }
+    useEffect(() => {
+        console.log("AXIOS Controller:",controller)
 
-    return () => { 
-      controller.abort(); //chamada para abortar
-      effectRun.current = true
-    }
-  }, [])
+        // useEffect cleanup function
+        return () => controller && controller.abort();
 
-  return [data, loading, error]
+    }, [controller]);
+
+    return [response, error, loading, axiosFetch];
 }
+
+export default useAxios
