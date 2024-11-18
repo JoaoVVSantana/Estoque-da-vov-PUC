@@ -4,7 +4,9 @@ estoque,
 } from './relacionamentos.js';
 import { DataTypes } from 'sequelize';
 import database from '../../db/database.js';
+
 //É uma lista de cada item, como se fosse a coleção de itens do mesmo tipo
+//configurar na próxima sprint
 const loteDeItens = database.define('EstoqueItem', {
   id_estoque: {
     type: DataTypes.INTEGER,

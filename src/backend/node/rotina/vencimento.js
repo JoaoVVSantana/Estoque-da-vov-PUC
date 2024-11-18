@@ -1,7 +1,7 @@
 import cron from 'node-cron';
 import axios from 'axios';
 
-
+//configurar na próxima sprint
 cron.schedule('0 0 */14 * *', async () => { // Executa a cada 14 dias
   console.log('Executando rotina de verificação de itens perto do vencimento.');
   try {

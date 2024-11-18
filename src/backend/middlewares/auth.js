@@ -4,6 +4,7 @@ dotenv.config();
 import express from 'express';
 const router = express.Router();
 
+//configurar na próxima sprint
 function gerarToken() {
     
     const payload = { id: process.env.SECRET_USER };
@@ -15,7 +16,7 @@ function gerarToken() {
     return token;
 }
 
-// Exemplo de uso no login
+//configurar na próxima sprint
 router.post('/api/login', async (req, res) => {
   const { id, senha } = req.body;
 

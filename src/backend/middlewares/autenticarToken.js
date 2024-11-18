@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
 
+//configurar na próxima sprint
 const autenticarToken = function(req, res, next) {
   const token = req.headers['authorization'];
 
