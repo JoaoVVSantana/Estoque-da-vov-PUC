@@ -7,9 +7,6 @@ import database from '../../db/database.js';
 import express from 'express';
 const router = express.Router();
 
-
-
-
 //CRIAR ESTOQUE NO BANCO
 router.post('/criarEstoque', async (req, res) => {
   const { armazenamento } = req.body;
@@ -22,7 +19,7 @@ router.post('/criarEstoque', async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 
-})
+});
 /// RETIRAR DO ESTOQUE POR BODY
 router.post('/retirarItem', async (req, res) => {
   const { id_item } = req.body;
