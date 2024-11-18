@@ -40,6 +40,9 @@ doador.atualizarItensDoados = async function (doadorA) {
     doadorA.quantidadeItensDoados+=1;
     await doadorA.save();
 }
-
+doador.atualizarEmail = async function (doadorA, emailAtt) {
+    doadorA.email=emailAtt;
+    await doadorA.save();
+}
 
 export default  doador;

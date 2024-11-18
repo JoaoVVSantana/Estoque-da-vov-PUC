@@ -140,6 +140,18 @@ item.retornaTodosItensComAqueleNome = async function  (nomeDoItem) {
   return listaDeItens;
 };
 
+// ATENÇÃO VERIFIQUE SE ESTA CORRETO A IMPLEMENTAÇÃO, MAS ESTA FUNCIONANDO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// LISTA TODOS ITENS DO ESTOQUE
+item.buscarItensDoacao = async function () {
+  try {
+    const itens = await item.buscarTodosItens(); // Busca todos os itens no bd
+    const itensDoados = itens.filter(item => item.id_doador !== null);
+    
+    return itensDoados;
+  } catch (error) {
+    throw new Error('Erro ao buscar os itens de doacao: ' + error.message);
+  }
+};
 
 item.verificaSeExisteItem= async function (itemA) {
  

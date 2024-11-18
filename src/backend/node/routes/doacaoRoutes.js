@@ -1,6 +1,6 @@
 import {
   doador,
-  
+  item
 } from './../../packages.js';
 import axios from 'axios';
 import express from 'express';
@@ -9,22 +9,27 @@ const router = express.Router();
 
 // REGISTRAR NOVO DOADOR (com Email)
 router.post('/registrarDoador', async (req, res) => { 
-  const { nomeDoador,emailDoador } = req.body;
+  const { nomeCompletoDoador,emailDoador } = req.body;
   
   // Validar se os dados fazem sentido 
   if (!emailDoador) {
     return res.status(400).json({ error: 'É necessário inserir um email' });
   }
   try {
-    // Verifica se o doador já existe pelo email
-    let doadorAtual = await doador.findOne({ where: { email: emailDoador } });
+    // Verifica se o doador já existe pelo nome
+    let doadorAtual = await doador.findOne({ where: { nome: nomeCompletoDoador } });
 
     // Se nao, cria
     if (!doadorAtual) {
-      doadorAtual= doador.create({nome:nomeDoador, email:emailDoador, id_estoque:1});
-      res.status(201).json({ message: 'Doador registrado com sucesso', doadorAtual:nomeDoador });
+      doadorAtual= doador.create({nome:nomeCompletoDoador, email:emailDoador, id_estoque:1});
+      res.status(201).json({ message: 'Doador registrado com sucesso', doadorAtual:nomeCompletoDoador });
     }
     else{
+      if(doadorAtual && doadorAtual.emailDoador == null)
+      {
+        await doador.atualizarEmail(doadorAtual,emailDoador);
+        return res.status(400).json({ error: 'O doador já está cadastrado, email atualizado' });
+      }
        return res.status(400).json({ error: 'O doador já está cadastrado' });
     }
   } catch (error) {
@@ -80,10 +85,14 @@ router.post('/registrarDoacao', async (req, res) => {
 });
 
 // LISTAR TODAS DOAÇÕES
-router.get('/doacoes', async (req, res) => { 
+router.get('/todosItensDeDoacoes', async (req, res) => { 
   try {
-    const itensDeDoacoes = await item.findAll({where:item.id_doador!=null});
-    res.json(itensDeDoacoes);
+    const itens = await item.buscarItensDoacao();
+    console.log(itens);
+    res.status(200).json({
+      message: 'Itens que foram doados: ',
+      itens,
+    });
   } catch (error) {
     console.error('Erro ao listar doações:', error);
     res.status(500).json({ error: 'Erro ao listar doações' });
@@ -95,7 +104,7 @@ router.get('/doacoes', async (req, res) => {
 router.get('/doadores', async (req, res) => { 
   try {
     const doadores = await doador.findAll();
-    res.json(doadores);
+    res.status(200).json(doadores);
   } catch (error) {
     console.error('Erro ao listar doadores: ', error);
     res.status(500).json({ error: 'Erro ao listar doadores ' });
