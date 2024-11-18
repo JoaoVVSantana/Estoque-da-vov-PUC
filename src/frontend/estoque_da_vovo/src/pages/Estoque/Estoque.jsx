@@ -17,6 +17,7 @@ import { axiosInstanceEstoque } from '../../services/axiosInstance.js';
 import useAxios from '../../hooks/useAxios.js';
 import Loading from '../../components/Loading/Loadings.jsx';
 import {renameKey} from '../../utils/renameKey.js';
+import { formatDate } from '../../utils/formatDate.js';
 
 export default function Estoque() {
     const [produtosData, loading, error] = useAxios({
@@ -28,6 +29,7 @@ export default function Estoque() {
     //falta map do doador
     const produtos = produtosData?.itens?.map(({ id_item,id_estoque, ...rest }) =>{
         rest = renameKey(rest,"id_doacao","doador");
+        rest.validade = formatDate(rest.validade);
         return rest;
     })
     const idsProdutos = produtosData?.itens?.map((item) => item.id_item);
