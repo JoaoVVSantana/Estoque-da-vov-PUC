@@ -45,30 +45,36 @@ app.use(cors());
 // TODAS QUE ESTÃO FUNCIONANDO ESTOU LISTADAS EM BAIXO DOS MÉTODOS
 
 app.use('/api/item', itemRoutes);
-// POST http://localhost:5000/api/item/itensPertoDoVencimento -> exibe uma lista de todos os itens que estão perto de vencer
+// GET http://localhost:5000/api/item/itensPertoDoVencimento -> exibe uma lista de todos os itens que estão perto de vencer
+// GET http://localhost:5000/api/item/itensVencidos -> exibe uma lista de todos os itens que estão vencidos
+
 
 app.use('/api/doacoes', doacaoRoutes);
-// POST http://localhost:5000/api/doacoes/registrarDoador -> recebe nome e email, cadastra no banco
-// POST http://localhost:5000/api/doacoes/registrarDoacao -> recebe nomeDoador, nomeItem, validade e tipo, cria doador (sem email) chama a outra API de inserir no estoque
+// POST http://localhost:5000/api/doacoes/registrarDoador -> nomeCompletoDoador, emailDoador -> cadastra no banco
+// POST http://localhost:5000/api/doacoes/registrarDoacao -> nomeCompletoDoador, nomeItem, validade, tipo -> cria doador (sem email) chama a outra API de inserir no estoque
 // GET http://localhost:5000/api/doacoes/todosItensDeDoacoes -> exibe todos os itens que possuem um doador/foram doados
 // GET http://localhost:5000/api/doacoes/doadores -> exibe todos doadores cadastrados
+// DELETE http://localhost:5000/api/doacoes/:id/apagarDoador -> id_doador -> remove da base
 
 app.use('/api/estoque', estoqueRoutes);
-// POST http://localhost:5000/api/estoque/criarEstoque -> cria um estoque no banco
-// DELETE http://localhost:5000/api/estoque/retirarItem -> recebe um id de item por BODY e deleta do banco
-// DELETE http://localhost:5000/api/estoque/:id/retirar -> recebe um id de item por PARAM e deleta do banco
-// POST http://localhost:5000/api/estoque/inserirItem -> recebe nome,validade,tipo no body. Cria e coloca no banco
-// POST http://localhost:5000/api/estoque/itensFaltando -> exibe uma lista de itens que estão com quantidade 5<
+// POST http://localhost:5000/api/estoque/criarEstoque -> armazenamento -> cria um estoque no banco
+// DELETE http://localhost:5000/api/estoque/retirarItem -> id_item ->  por BODY e deleta do banco
+// DELETE http://localhost:5000/api/estoque/:id/retirar -> id_item ->  por PARAM e deleta do banco
+// POST http://localhost:5000/api/estoque/inserirItem -> nome, validade, tipo -> Cria e coloca no banco
+// POST http://localhost:5000/api/estoque/inserirItemDoacao -> nome, validade, tipo, id_doador  -> Cria e coloca no banco
+// GET http://localhost:5000/api/estoque/itensFaltando -> exibe uma lista de itens que estão com quantidade 5<
+// GET http://localhost:5000/api/estoque/listarItens -> exibe todos itens do estoque
+// PUT http://localhost:5000/api/estoque//atualizarItem/:id_item -> id_item - novosDados -> atualiza um item por id recebido no param
 
 
 
 app.use('/api/alteracoes',alteracaoRoutes);
 // GET http://localhost:5000/api/alteracoes/historico -> exibe o historico de todas as alteracoes
 // GET http://localhost:5000/api/alteracoes/historicoMesAtual -> exibe as alteracoes feitas no mes em que é chamada
-// GET http://localhost:5000/api/alteracoes/historicoDiaEspecifico -> recebe uma data no formato "YYYY/MM/DD" exibe alteracoes no dia
+// GET http://localhost:5000/api/alteracoes/historicoDiaEspecifico -> dateCalendario -> recebe uma data no formato "YYYY/MM/DD" exibe alteracoes no dia
 
 app.use('/api/email',enviarEmail);
-// V POST http://localhost:5000/api/email/pedirDoacao -> recebe nome e email, constroi uma msg com os itens em falta
+// GET http://localhost:5000/api/email/pedirDoacao -> nomeDoador, emailDoador -> constroi uma msg com os itens em falta
 
 //caso n encontre rota
 app.use((req, res) => res.status(404).json({ error: 'Rota não encontrada' }));

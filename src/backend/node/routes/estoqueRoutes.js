@@ -33,8 +33,9 @@ router.post('/retirarItem', async (req, res) => {
 });
 
 /// RETIRAR DO ESTOQUE POR PARAMS
-router.delete('/:id/retirar', async (req, res) => {
+router.delete('/retirar/:id', async (req, res) => {
   const { id_item } = req.params;
+
   try {
     await estoque.retirarItem(id_item, 1)
     res.json({ message: 'Retirada realizada com sucesso ', item: id_item });
@@ -46,7 +47,7 @@ router.delete('/:id/retirar', async (req, res) => {
 
 // INSERIR ITEM NO ESTOQUE (sem Doacao)
 router.post('/inserirItem', async (req, res) => {
-  const { nome, validade, tipo, id_doador } = req.body; //notnull
+  const { nome, validade, tipo} = req.body; //notnull
   const id_estoque = 1;
   //verifica se os dados foram inseridos
   if (!nome || !validade || !tipo) {
@@ -104,7 +105,7 @@ router.get('/itensFaltando', async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-// ATENÇÃO VERIFIQUE SE ESTA CORRETO A IMPLEMENTAÇÃO, MAS ESTA FUNCIONANDO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 // LISTA TODOS ITENS DO ESTOQUE
 router.get('/listarItens', async (req, res) => {
   try {
@@ -121,9 +122,10 @@ router.get('/listarItens', async (req, res) => {
 // ATENÇÃO VERIFIQUE SE ESTA CORRETO A IMPLEMENTAÇÃO, MAS ESTA FUNCIONANDO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //ALTERA OS DADOS DE UM ITEM ESPECIFICO ATRAVÉS DE SEU ID
 router.put('/atualizarItem/:id_item', async (req, res) => {
-  const { id_item } = req.params;
-  const novosDados = req.body;
+  const { id_item }  = req.params;
 
+  const novosDados = req.body;
+  console.log(id_item);
   try {
     const itemAtualizado = await item.atualizarItem(id_item, novosDados);
 
