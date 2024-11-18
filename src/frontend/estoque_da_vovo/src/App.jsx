@@ -20,7 +20,7 @@ export default function App() {
     <div className="main-layout d-flex">
       <SideBar expanded={sidebarExpanded} toggleSidebar={toggleSidebar} />
       <div className="content-area flex-grow-1">
-        <Header />
+        <Header expanded={sidebarExpanded} toggleSidebar={toggleSidebar} />
         <Container fluid className="main-content p-3">
         <Outlet />
         </Container>

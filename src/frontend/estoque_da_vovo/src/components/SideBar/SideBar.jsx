@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Nav, Button } from 'react-bootstrap';
+import React from 'react';
+import { Nav} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartLine, faCubesStacked, faHandHoldingDollar, faBusinessTime, faClipboardList, faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 
@@ -9,7 +9,7 @@ import logoIcon from "../../assets/logo_lar_vovo_icon.png";
 
 import './SideBar.css'
 
-export default function SideBar({ expanded, toggleSidebar }) {
+export default function SideBar({ expanded}) {
   const location = useLocation();
 
   return (
@@ -18,9 +18,6 @@ export default function SideBar({ expanded, toggleSidebar }) {
       <img src={logo} className={!expanded && "d-none"}/> 
       <img src={logoIcon} className={expanded && "d-none"}/>
         <div className=''>
-          <Button variant="primary" onClick={toggleSidebar} className="rounded-circle ">
-            {expanded ? <FontAwesomeIcon icon={faAnglesLeft} /> : <FontAwesomeIcon icon={faAnglesRight} />}
-          </Button>
         </div>
       </div>
       <Nav className={`side-nav flex-column p-2 mt-4 collapsed ${expanded ? 'expanded' : 'collapsed'}`}>
