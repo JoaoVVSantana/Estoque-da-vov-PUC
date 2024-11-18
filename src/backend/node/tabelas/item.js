@@ -48,20 +48,41 @@ item.todosItensPertoDoVencimento = async function  () {
   for (const item of itens) {
      const diasParaVencimento = (new Date(item.validade) - new Date()) / (1000 * 60 * 60 * 24);
      
-    if (item.tipo=='medicamento' && diasParaVencimento < 30) {
+    if (item.tipo=='Medicamento' && diasParaVencimento < 30) {
       const alertaMedicamento = await alerta.criarAlerta(item,'Vencimento de medicamento',`O medicamento ${item.nome} vence em 30 dias, verificar no estoque. ` );
 
-    listaAlertas.add(alertaMedicamento);
+    listaAlertas.push(alertaMedicamento);
     }
-    else if (item.tipo=='Alimento Perecível' && diasParaVencimento < 10) {
+    else if (item.tipo=='Perecivel' && diasParaVencimento < 10) {
       const alertaPerecivel = await alerta.criarAlerta(item,'Vencimento de perecível',`O alimento perecível ${item.nome} vence em 10 dias, verificar no estoque. ` );
-      listaAlertas.add(alertaPerecivel);
+      listaAlertas.push(alertaPerecivel);
     }
-    else if (item.tipo=='Alimento não Perecível' && diasParaVencimento < 15) {
+    else if (item.tipo=='Não Perecivel' && diasParaVencimento < 15) {
       const alertaNPerecivel = await alerta.criarAlerta(item,'Vencimento de não perecível',`O alimento não perecível ${item.nome} vence em 15 dias, verificar no estoque. ` );
-      listaAlertas.add(alertaNPerecivel);
+      listaAlertas.push(alertaNPerecivel);
     }
+    else if (diasParaVencimento < 0) {
+      const alertaVencido = await alerta.criarAlerta(item,'A validade do item está vencida! ',` ${item.nome} de ID: ${item.id_item}, validade:${item.validade}  deve ser identificado e descartado imediatamente! ` );
+      listaAlertas.push(alertaVencido);
+    }
+
   }
+  return listaAlertas;
+};
+item.itensVencidos = async function  () { 
+
+  const itens = await item.findAll();
+  let itensVencidos = new Array();
+  for (const item of itens) {
+     const diasParaVencimento = (new Date(item.validade) - new Date()) / (1000 * 60 * 60 * 24);
+     
+    if (diasParaVencimento < 0) {
+
+      itensVencidos.push(item);
+    }
+   
+  }
+  return itensVencidos;
 };
 
 item.todosItensEmBaixaQuantidade = async function () {

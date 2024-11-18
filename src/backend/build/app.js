@@ -42,8 +42,7 @@ app.use(cors());
 //app.use('/api/auth', authRoutes);
 
 
-// ----------- V = Funcionando
-// ----------- X = Não Funcionando
+// TODAS QUE ESTÃO FUNCIONANDO ESTOU LISTADAS EM BAIXO DOS MÉTODOS
 
 app.use('/api/item', itemRoutes);
 // POST http://localhost:5000/api/item/itensPertoDoVencimento -> exibe uma lista de todos os itens que estão perto de vencer
@@ -69,7 +68,7 @@ app.use('/api/alteracoes',alteracaoRoutes);
 // GET http://localhost:5000/api/alteracoes/historicoDiaEspecifico -> recebe uma data no formato "YYYY/MM/DD" exibe alteracoes no dia
 
 app.use('/api/email',enviarEmail);
-// V /pedirDoacao -> recebe nome e email, constroi uma msg com os itens em falta
+// V POST http://localhost:5000/api/email/pedirDoacao -> recebe nome e email, constroi uma msg com os itens em falta
 
 //caso n encontre rota
 app.use((req, res) => res.status(404).json({ error: 'Rota não encontrada' }));

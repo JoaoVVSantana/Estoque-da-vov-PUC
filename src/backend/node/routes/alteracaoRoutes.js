@@ -57,4 +57,22 @@ router.get('/historico', async (req, res) => {
     }
 });
 
+/// Apagar uma Alteracao por id
+router.delete('/:id/apagarAlteracao', async (req, res) => {
+  const { id_alteracao} = req.params;
+  try {
+    const objeto = await alteracao.findByPk(id_alteracao);
+    const transaction = await database.transaction();
+
+    await objeto.destroy({ transaction });
+    await transaction.commit();
+
+    res.json({ message: 'Alteração apagada: ', alteracao: id_alteracao });
+  } catch (error) {
+    await transaction.rollback();
+    console.error('Erro ao apagar alteracao: ', error);
+    res.status(400).json({ error: error.message });
+  }
+});
+
   export default router;

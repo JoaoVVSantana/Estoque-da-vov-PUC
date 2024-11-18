@@ -110,4 +110,22 @@ router.get('/doadores', async (req, res) => {
     res.status(500).json({ error: 'Erro ao listar doadores ' });
   }
 });
+
+/// Apagar um Doador por id
+router.delete('/:id/apagarDoador', async (req, res) => {
+  const { id_doador} = req.params;
+  try {
+    const objeto = await doador.findByPk(id_doador);
+    const transaction = await database.transaction();
+
+    await objeto.destroy({ transaction });
+    await transaction.commit();
+
+    res.json({ message: 'Doador removido: ', objeto });
+  } catch (error) {
+    await transaction.rollback();
+    console.error('Erro ao apagar doador: ', error);
+    res.status(400).json({ error: error.message });
+  }
+});
 export default router;
