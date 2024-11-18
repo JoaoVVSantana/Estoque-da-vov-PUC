@@ -53,12 +53,12 @@ item.todosItensPertoDoVencimento = async function  () {
 
     listaAlertas.push(alertaMedicamento);
     }
-    else if (item.tipo=='Perecivel' && diasParaVencimento < 10) {
-      const alertaPerecivel = await alerta.criarAlerta(item,'Vencimento de perecível',`O alimento perecível ${item.nome} vence em 10 dias, verificar no estoque. ` );
+    else if (item.tipo=='Perecivel' && diasParaVencimento < 2) {
+      const alertaPerecivel = await alerta.criarAlerta(item,'Vencimento de perecível',`O alimento perecível ${item.nome} vence em 2 dias, verificar no estoque. ` );
       listaAlertas.push(alertaPerecivel);
     }
-    else if (item.tipo=='Não Perecivel' && diasParaVencimento < 15) {
-      const alertaNPerecivel = await alerta.criarAlerta(item,'Vencimento de não perecível',`O alimento não perecível ${item.nome} vence em 15 dias, verificar no estoque. ` );
+    else if (item.tipo=='Não Perecivel' && diasParaVencimento < 5) {
+      const alertaNPerecivel = await alerta.criarAlerta(item,'Vencimento de não perecível',`O alimento não perecível ${item.nome} vence em 5 dias, verificar no estoque. ` );
       listaAlertas.push(alertaNPerecivel);
     }
     else if (diasParaVencimento < 0) {
@@ -107,7 +107,7 @@ item.todosItensEmBaixaQuantidade = async function () {
   return itensUnicos;
 };
 
-// ATENÇÃO VERIFIQUE SE ESTA CORRETO A IMPLEMENTAÇÃO, MAS ESTA FUNCIONANDO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 // LISTA TODOS ITENS DO ESTOQUE
 item.buscarTodosItens = async function () {
   try {
@@ -118,7 +118,7 @@ item.buscarTodosItens = async function () {
   }
 };
 
-// ATENÇÃO VERIFIQUE SE ESTA CORRETO A IMPLEMENTAÇÃO, MAS ESTA FUNCIONANDO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 //ALTERA OS DADOS DE UM ITEM ESPECIFICO ATRAVÉS DE SEU ID
 item.atualizarItem = async function (id_item, novosDados) {
   try {

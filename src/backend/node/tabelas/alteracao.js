@@ -53,8 +53,6 @@ const alteracao = database.define('alteracao', {
 
 alteracao.criarInsercaoDeItem = async function (itemA, estoqueA,transaction) {
  
-    console.log('ID ESTOQUE',estoqueA.id_estoque);
-    console.log('ID HHHHHH',estoqueA.id_historico);
     try {
       // Cria a alteração no histórico
       await alteracao.create(
