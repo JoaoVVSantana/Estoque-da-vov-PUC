@@ -8,8 +8,8 @@ import BtnNotification from './../BtnNotification/BtnNotification';
 
 //TESTE DE NOTIFICAÇÕES
 const notifications = [
-    { time: '2 mins ago', message: 'Valida do "Feijão" proxima do vencimento 14/08' },
-    { time: '10 mins ago', message: '"Hidratante" em falta no estoque' },
+    { time: '2 mins ago', message: ' "Feijão" com validade do proxima do vencimento 22/11' },
+    { time: '10 mins ago', message: '"Leite" em falta no estoque' },
     { time: '1 hour ago', message: '"Arroz" em falta no estoque' },
 ];
 

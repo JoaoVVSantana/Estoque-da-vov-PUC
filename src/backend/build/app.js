@@ -17,9 +17,9 @@ database.authenticate()
   .finally(() => {
     console.log('Tentativa de conexão concluída.');
     // Continua a execução mesmo em caso de erro
-  });
+});
 
-//#region Importando rotas
+//Autenticação de rotas ainda não implementada >
 //import autenticarToken from '../backend/middlewares/autenticarToken.js';
 //import authRoutes from '../backend/node/routes/authRoutes.js';
 
@@ -29,7 +29,7 @@ import alteracaoRoutes from '../node/routes/alteracaoRoutes.js';
 import estoqueRoutes from '../node/routes/estoqueRoutes.js';
 import enviarEmail from '../node/routes/enviarEmail.js';
 
-//#endregion
+
 
 const PORT = process.env.PORT || 4000;
 const app = express();
