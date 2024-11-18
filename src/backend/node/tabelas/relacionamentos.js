@@ -1,7 +1,6 @@
 import {
     alerta,
     alteracao,
-    doacao,
     doador,
     estoque,
     gerente,
@@ -10,7 +9,7 @@ import {
   } from './../../packages.js';
 //
 item.belongsTo(estoque, { foreignKey: 'id_estoque', as: 'Estoque Principal' });
-item.belongsTo(doacao, { foreignKey: 'id_doacao', as: 'Item de Doacao' });
+item.belongsTo(doador, { foreignKey: 'id_doador', as: 'Responsavel Por Doar' });
 item.hasMany(alerta, { foreignKey: 'id_item', as: 'Alertas Criados' });
 //
 historico.hasMany(alteracao, { foreignKey: 'id_historico', as: 'Lista de Alteracoes' }); // Corrige a chave estrangeira
@@ -26,10 +25,10 @@ estoque.hasMany(alerta, { foreignKey: 'id_estoque', as: 'alertas' });
 estoque.hasOne(historico, {foreignKey:'id_estoque', as:'Historico de Alterações'});
 estoque.belongsTo(gerente, { foreignKey: 'id_gerente', as: 'Gerente' });
 //
-doador.hasMany(doacao, { foreignKey: 'id_doador', as: 'Doacoes Realizadas' });
+doador.hasMany(item, { foreignKey: 'id_doador', as: 'Quantidade de Itens Doados' });
 //
-doacao.belongsTo(doador, {primaryKey:'id_doador', as:'Responsavel'});
-doacao.hasMany(item, { foreignKey: 'id_doacao', as: 'Itens da doacao' });
+//doacao.belongsTo(doador, {primaryKey:'id_doador', as:'Responsavel'});
+//doacao.hasMany(item, { foreignKey: 'id_doacao', as: 'Itens da doacao' });
 //
 alteracao.belongsTo(historico, { foreignKey: 'id_historico', as: 'Historico de Alteracoes' });
 
@@ -39,7 +38,6 @@ alerta.belongsTo(item, { foreignKey: 'id_item', as: 'Alertas do item' });
 export {
     alerta,
     alteracao,
-    doacao,
     doador,
     estoque,
     gerente,

@@ -16,7 +16,7 @@ import {
         type:DataTypes.STRING,
         allowNull:true,
     },
-    doacoesFeitas:{ //FK
+    quantidadeItensDoados:{ 
         type:DataTypes.INTEGER,
         allowNull:true,
     },
@@ -24,6 +24,7 @@ import {
         type: DataTypes.STRING,
         allowNull:false,
     },
+    
 
 },
 {
@@ -35,13 +36,13 @@ timestamps: false,
 
 // #endregion
 
-doador.criarDoador = async function (nome,email) {
-const doadorNovo = await doador.create({
-  nome: nome,
-  email: email,
-  id_estoque:1,
-});
-return doadorNovo;
+doador.atualizarItensDoados = async function (doadorA) {
+    doadorA.quantidadeItensDoados+=1;
+    await doadorA.save();
+}
+doador.atualizarEmail = async function (doadorA, emailAtt) {
+    doadorA.email=emailAtt;
+    await doadorA.save();
 }
 
 export default  doador;

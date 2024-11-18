@@ -46,21 +46,27 @@ app.use(cors());
 // ----------- X = Não Funcionando
 
 app.use('/api/item', itemRoutes);
-/// V /itensPertoDoVencimento -> exibe uma lista de todos os itens que estão perto de vencer
+// POST http://localhost:5000/api/item/itensPertoDoVencimento -> exibe uma lista de todos os itens que estão perto de vencer
 
 app.use('/api/doacoes', doacaoRoutes);
-// V /registrarDoador -> recebe nome e email, cadastra no banco
+// POST http://localhost:5000/api/doacoes/registrarDoador -> recebe nome e email, cadastra no banco
+// POST http://localhost:5000/api/doacoes/registrarDoacao -> recebe nomeDoador, nomeItem, validade e tipo, cria doador (sem email) chama a outra API de inserir no estoque
+// GET http://localhost:5000/api/doacoes/todosItensDeDoacoes -> exibe todos os itens que possuem um doador/foram doados
+// GET http://localhost:5000/api/doacoes/doadores -> exibe todos doadores cadastrados
 
 app.use('/api/estoque', estoqueRoutes);
-// V /criarEstoque -> cria um estoque no banco
-// V /retirarItem -> recebe um id de item por param e deleta do banco
-// V /inserirItem -> recebe nome,validade,tipo no body. Cria e coloca no banco
-// V /itensFaltando -> exibe uma lista de itens que estão com quantidade 5<
+// POST http://localhost:5000/api/estoque/criarEstoque -> cria um estoque no banco
+// DELETE http://localhost:5000/api/estoque/retirarItem -> recebe um id de item por BODY e deleta do banco
+// DELETE http://localhost:5000/api/estoque/:id/retirar -> recebe um id de item por PARAM e deleta do banco
+// POST http://localhost:5000/api/estoque/inserirItem -> recebe nome,validade,tipo no body. Cria e coloca no banco
+// POST http://localhost:5000/api/estoque/itensFaltando -> exibe uma lista de itens que estão com quantidade 5<
 
 
 
 app.use('/api/alteracoes',alteracaoRoutes);
-// X //historico -> exibe o historico de todas as alteracoes
+// GET http://localhost:5000/api/alteracoes/historico -> exibe o historico de todas as alteracoes
+// GET http://localhost:5000/api/alteracoes/historicoMesAtual -> exibe as alteracoes feitas no mes em que é chamada
+// GET http://localhost:5000/api/alteracoes/historicoDiaEspecifico -> recebe uma data no formato "YYYY/MM/DD" exibe alteracoes no dia
 
 app.use('/api/email',enviarEmail);
 // V /pedirDoacao -> recebe nome e email, constroi uma msg com os itens em falta

@@ -142,7 +142,7 @@ estoque.itemFoiRetirado = async function (id_item, id_estoque, transaction) {
   }
 };
 
-estoque.inserirItem = async function (nome,validade,tipo, id_estoque) {
+estoque.inserirItem = async function (nome,validade,tipo, id_estoque, id_doador) {
   const transaction = await database.transaction();
 
   try {
@@ -159,6 +159,7 @@ estoque.inserirItem = async function (nome,validade,tipo, id_estoque) {
         validade,
         tipo,
         id_estoque,
+        id_doador,
       },
       { transaction }
     );
