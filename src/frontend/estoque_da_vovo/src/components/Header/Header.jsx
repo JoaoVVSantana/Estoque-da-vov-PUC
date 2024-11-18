@@ -3,8 +3,9 @@ import { Navbar, Nav, Dropdown, DropdownButton, NavDropdown, Container, Row, Col
 import './Header.css'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGear, faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import { faGear, faCircleUser,faAnglesLeft, faAnglesRight  } from "@fortawesome/free-solid-svg-icons";
 import BtnNotification from './../BtnNotification/BtnNotification';
+
 
 //TESTE DE NOTIFICAÇÕES
 const notifications = [
@@ -13,10 +14,15 @@ const notifications = [
     { time: '1 hour ago', message: '"Arroz" em falta no estoque' },
 ];
 
-export default function Header() {
+export default function Header({ expanded, toggleSidebar }) {
     return (
         // bg="dark" variant="dark"
         <Navbar expand="lg" className="header pe-4 ps-5">
+            <div className='area-btn'>
+            <Button variant="primary" onClick={toggleSidebar} className="rounded-circle ">
+                {expanded ? <FontAwesomeIcon icon={faAnglesLeft} /> : <FontAwesomeIcon icon={faAnglesRight} />}
+            </Button>
+            </div>
             <Navbar.Brand>Estoque da Vovó</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">

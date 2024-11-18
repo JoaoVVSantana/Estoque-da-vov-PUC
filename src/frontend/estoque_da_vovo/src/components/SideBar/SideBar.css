@@ -38,26 +38,7 @@
     top: 18px;
     left: 225px;
   }
-  .area-logo button{
-    transition: all 0.3s;
-    position: fixed;
-    top: 18px;
-    left: 65px;
-    z-index: 1000;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f0bbc6;
-    border: none;
-    color: white;
-    cursor: pointer;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
-  }
-  .area-logo button:hover{
-    background-color: #EF88A0;
-  }
+  
   
   .area-logo h4{
     font-size: 1.8rem;
