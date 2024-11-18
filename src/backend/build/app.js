@@ -17,9 +17,9 @@ database.authenticate()
   .finally(() => {
     console.log('Tentativa de conexão concluída.');
     // Continua a execução mesmo em caso de erro
-  });
+});
 
-//#region Importando rotas
+//Autenticação de rotas ainda não implementada >
 //import autenticarToken from '../backend/middlewares/autenticarToken.js';
 //import authRoutes from '../backend/node/routes/authRoutes.js';
 
@@ -29,7 +29,7 @@ import alteracaoRoutes from '../node/routes/alteracaoRoutes.js';
 import estoqueRoutes from '../node/routes/estoqueRoutes.js';
 import enviarEmail from '../node/routes/enviarEmail.js';
 
-//#endregion
+
 
 const PORT = process.env.PORT || 4000;
 const app = express();
@@ -59,7 +59,7 @@ app.use('/api/doacoes', doacaoRoutes);
 app.use('/api/estoque', estoqueRoutes);
 // POST http://localhost:5000/api/estoque/criarEstoque -> armazenamento -> cria um estoque no banco
 // DELETE http://localhost:5000/api/estoque/retirarItem -> id_item ->  por BODY e deleta do banco
-// DELETE http://localhost:5000/api/estoque/:id/retirar -> id_item ->  por PARAM e deleta do banco
+// DELETE http://localhost:5000/api/estoque/retirar/:id_item -> id_item ->  por PARAM e deleta do banco
 // POST http://localhost:5000/api/estoque/inserirItem -> nome, validade, tipo -> Cria e coloca no banco
 // POST http://localhost:5000/api/estoque/inserirItemDoacao -> nome, validade, tipo, id_doador  -> Cria e coloca no banco
 // GET http://localhost:5000/api/estoque/itensFaltando -> exibe uma lista de itens que estão com quantidade 5<
