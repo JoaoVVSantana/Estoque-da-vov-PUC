@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-import { dataDoador } from "../../data/constants.js";
 
 export default function Doadores() {
     const navigate = useNavigate();
@@ -31,7 +30,7 @@ export default function Doadores() {
             <BreadCrumbNav />
             <TitleContent title={"Doadores"}/>
             <Btn text={"Novo Doador"} icon={<FontAwesomeIcon icon={faPlus} />} onClick={handleClick} />
-            <TableComponent items={dataDoador} onRowClick={handleRowClick} onSelectionChange={handleSelectionChange} />
+            <TableComponent items={[]} onRowClick={handleRowClick} onSelectionChange={handleSelectionChange} />
         </>
     );
 }
