@@ -57,6 +57,25 @@ router.get('/historico', async (req, res) => {
     }
 });
 
+
+router.get('/relatorioDeConsumo', async (req, res) => { 
+  try {
+
+    const {dataInicio} = req.body; // De dia X
+    const {dataFim} = req.body; // Até dia X
+
+    const todasAlteracoes = await alteracao.findAll();
+
+    const historicoDoDia = todasAlteracoes.filter(alteracaoDia => {
+    const dataX = new Date(alteracaoDia.data_alteracao);
+    return   dataX.getUTCDate() > dataInicio.getUTCDate() && dataX.getUTCDate() < dataFim.getUTCDate();
+    });
+    res.json(historicoDoDia);
+  } catch (error) {
+    console.error('Erro ao gerar relatório de consumo:', error);
+    res.status(500).json({ error: 'Erro ao gerar relatório de consumo' });
+  }
+});
 /// Apagar uma Alteracao por id
 router.delete('/:id/apagarAlteracao', async (req, res) => {
   const { id_alteracao} = req.params;
