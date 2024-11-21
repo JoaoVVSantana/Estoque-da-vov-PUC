@@ -72,6 +72,7 @@ app.use('/api/alteracoes',alteracaoRoutes);
 // GET http://localhost:5000/api/alteracoes/historico -> exibe o historico de todas as alteracoes
 // GET http://localhost:5000/api/alteracoes/historicoMesAtual -> exibe as alteracoes feitas no mes em que é chamada
 // GET http://localhost:5000/api/alteracoes/historicoDiaEspecifico -> dateCalendario -> recebe uma data no formato "YYYY/MM/DD" exibe alteracoes no dia
+// GET http://localhost:5000/api/alteracoes/relatorioDeConsumo -> dataInicioRaw, dataFimRaw -> retorna as retiradas de um período de tempo específico.
 
 app.use('/api/email',enviarEmail);
 // GET http://localhost:5000/api/email/pedirDoacao -> nomeDoador, emailDoador -> constroi uma msg com os itens em falta

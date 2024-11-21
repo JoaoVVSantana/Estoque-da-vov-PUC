@@ -119,7 +119,7 @@ router.get('/listarItens', async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-// ATENÇÃO VERIFIQUE SE ESTA CORRETO A IMPLEMENTAÇÃO, MAS ESTA FUNCIONANDO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 //ALTERA OS DADOS DE UM ITEM ESPECIFICO ATRAVÉS DE SEU ID
 router.put('/atualizarItem/:id_item', async (req, res) => {
   const { id_item }  = req.params;
