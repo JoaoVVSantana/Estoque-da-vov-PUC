@@ -33,7 +33,6 @@ Os requisitos aqui apresentados correspondem às funcionalidades solicitadas pel
 
 * Histórico de Doações e Estoque: Manter o registro completo de doações e controle de estoque. 
 
-* Gerenciamento de Usuários: Criar perfis com diferentes níveis de acesso ao sistema (Cozinheiras, enfermeiras, administradores). 
 
 ## 2.3 Requisitos Funcionais
 
@@ -98,13 +97,13 @@ Os requisitos aqui apresentados correspondem às funcionalidades solicitadas pel
 |--- | --- | --- |
 | Persistência | ORM | Sequelize |
 | Front end | Figma  | React, JavaScript, HTML |
-| Back end | Biblioteca JS | Node, com o framework Next.JS |
+| Back end | Biblioteca JS | Node, com o framework Express |
 | Integração | Integração Contínua e Deploy Contínuo (CI/CD)  | GitHub  |
-| Teste de Software | Automação de Testes (Unitários, Integração e End-to-End)  | Jest e Cypress  |
+| Teste de Software | Automação de Testes (Unitários, Integração e End-to-End)  | Jest e  Thunderclient  |
 | Deploy | Orquestração de Contêineres | Docker |
 | API  |  Interface de Comunicação Entre Componentes | RESTful API|
 | Arquitetura  | Microserviços | RESTful|
-| Hospedagem  | Nuvem | Amazon RDS |
+| Hospedagem  | Nuvem | Render |
 | Banco de dados  | Relacional | PostgreSQL |
 | Tratamento de Exceção   | Tratamento de Erros Centralizado | Sentry |
 | Logs  | Logs estruturados | Winston |
