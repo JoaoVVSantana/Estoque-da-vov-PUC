@@ -22,6 +22,10 @@ import {
     },
     id_estoque:{
         type: DataTypes.STRING,
+        references:{
+            model: 'estoque',
+            key: 'id_estoque',
+        },
         allowNull:false,
     },
     

@@ -7,7 +7,12 @@ import database from '../../db/database.js';
 
 //É uma lista de cada item, como se fosse a coleção de itens do mesmo tipo
 //configurar na próxima sprint
-const loteDeItens = database.define('EstoqueItem', {
+const loteDeItens = database.define('loteDeItens', {
+  id_lote:{
+    type:DataTypes.INTEGER,
+    primaryKey:true,
+    autoIncrement:true
+  },
   id_estoque: {
     type: DataTypes.INTEGER,
     references: {
@@ -30,9 +35,9 @@ const loteDeItens = database.define('EstoqueItem', {
     defaultValue: 0,
   },
 }, {
-  tableName: 'estoque_itens',
+  tableName: 'lotesDeItens',
   timestamps: false,
 });
-loteDeItens.hasMany(item,{foreignkey:'id_item', as:'itens'});
-loteDeItens.belongsTo(estoque,{foreignkey:'id_etoque',as:'estoque'});
-module.exports = loteDeItens;
+
+
+export default loteDeItens;

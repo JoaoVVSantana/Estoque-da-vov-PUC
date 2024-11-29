@@ -23,10 +23,18 @@ const alerta = database.define('alerta', {
   },
   id_item: {
     type: DataTypes.INTEGER,
+    references:{
+      model: 'item',
+      key: 'id_item',
+    },
     allowNull: true,  
   },
   id_gerente: {
     type: DataTypes.INTEGER,
+    references:{
+      model: 'gerente',
+      key: 'id_gerente',
+    },
     defaultValue: 1,
   },
 }, {

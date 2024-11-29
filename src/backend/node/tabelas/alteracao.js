@@ -1,8 +1,5 @@
 import { 
   DataTypes,
-  estoque,
-  historico,
-  item
 } from './../../packages.js';
 import database from '../../db/database.js';
 const alteracao = database.define('alteracao', {
@@ -23,21 +20,36 @@ const alteracao = database.define('alteracao', {
     type: DataTypes.ENUM('entrada', 'saída'),
     allowNull: false,
   },
-  id_estoque: {
+  estoque: {
     type: DataTypes.INTEGER,
-    
+    references:{
+      model: 'estoque',
+      key: 'id_estoque',
+    },
     allowNull: false,
   },
-  id_historico: {
+  gerenteResponsavel: {
     type: DataTypes.INTEGER,
-    allowNull:false,
+    references:{
+      model: 'gerente',
+      key: 'id_gerente',
+    },
+    allowNull: false,
   },
-  id_item: {
+  itemAlterado: {
     type:DataTypes.INTEGER,
+    references:{
+      model: 'item',
+      key: 'id_item',
+    },
     allowNull:false,
   },
   id_gerente:{
     type:DataTypes.INTEGER,
+    references:{
+      model: 'gerente',
+      key: 'id_gerente',
+    },
     allowNull:false,
   }
 }, {

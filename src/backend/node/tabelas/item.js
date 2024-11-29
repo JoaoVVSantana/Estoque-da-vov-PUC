@@ -23,11 +23,18 @@ const item = database.define('item', {
   },
   id_estoque: {
     type: DataTypes.INTEGER,
-   
+    references:{
+      model: 'estoque',
+      key: 'id_estoque',
+    },
     allowNull: false,
   },
   id_doador: {
     type:DataTypes.INTEGER,
+    references:{
+      key:"id_doador",
+      model:'doadores'
+    },
     allowNull:true,
   },
 },

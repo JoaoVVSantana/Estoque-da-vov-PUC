@@ -1,7 +1,6 @@
 import {
   DataTypes,
   alteracao,
-  historico,
   alerta,
   item
 } from './../../packages.js';
@@ -16,11 +15,6 @@ const estoque = database.define('estoque', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  id_historico: {
-    type: DataTypes.INTEGER,
-
-    allowNull:true,
-  },
   quantidadeItens: {
     type: DataTypes.INTEGER,
     defaultValue: 0,
@@ -31,6 +25,10 @@ const estoque = database.define('estoque', {
   },
   id_gerente: { 
     type: DataTypes.INTEGER,
+    references:{
+      model:"gerente",
+      key:"id_gerente"
+    },
     allowNull: false,
   },
 
@@ -80,8 +78,6 @@ estoque.criarEstoqueNoBanco = async function (armazenamento) {
     armazenamento_disponivel:armazenamento,
     id_gerente:1,
   })
-  const novoHistorico = await historico.criarHistoricoNoBanco(novoEstoque.id_estoque);
-  novoEstoque.historico = novoHistorico.id_historico;
 
   
   return novoEstoque;
