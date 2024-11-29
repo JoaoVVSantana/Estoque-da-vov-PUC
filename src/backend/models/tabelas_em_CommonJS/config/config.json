@@ -1,0 +1,44 @@
+{
+  "development": {
+    "username": "lardavovo1",
+    "password": "7Th6l0Od3Vw3VxqfF3FvYw4nvsC0cedF",
+    "database": "lardavovo",
+    "host": "dpg-csq9h62j1k6c738f5010-a.oregon-postgres.render.com",
+    "dialect": "postgres",
+    "port": 5432,
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
+  },
+  "test": {
+    "username": "lardavovo1",
+    "password": "7Th6l0Od3Vw3VxqfF3FvYw4nvsC0cedF",
+    "database": "lardavovo",
+    "host": "dpg-csq9h62j1k6c738f5010-a.oregon-postgres.render.com",
+    "dialect": "postgres",
+    "port": 5432,
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
+  },
+  "production": {
+    "username": "lardavovo1",
+    "password": "7Th6l0Od3Vw3VxqfF3FvYw4nvsC0cedF",
+    "database": "lardavovo",
+    "host": "dpg-csq9h62j1k6c738f5010-a.oregon-postgres.render.com",
+    "dialect": "postgres",
+    "port": 5432,
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
+  }
+}
