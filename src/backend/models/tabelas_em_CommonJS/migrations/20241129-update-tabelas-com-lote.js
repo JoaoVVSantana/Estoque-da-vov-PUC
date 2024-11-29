@@ -1,7 +1,30 @@
 module.exports = {
     up: async (queryInterface, Sequelize) => {
+
+      // Tabela: gerente
+      await queryInterface.createTable('gerente', {
+        id_gerente: {
+          type: Sequelize.INTEGER,
+          primaryKey: true,
+          autoIncrement: true,
+        },
+        nome: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
+        email: {
+          type: Sequelize.STRING,
+          allowNull: false,
+          unique: true,
+        },
+        senha: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
+      });
+
       // Tabela: estoque
-      await queryInterface.createTable('estoques', {
+      await queryInterface.createTable('estoque', {
         id_estoque: {
           type: Sequelize.INTEGER,
           primaryKey: true,
@@ -22,7 +45,7 @@ module.exports = {
         id_gerente: {
           type: Sequelize.INTEGER,
           references: {
-            model: 'gerentes',
+            model: 'gerente',
             key: 'id_gerente',
           },
           allowNull: false,
@@ -31,27 +54,6 @@ module.exports = {
         },
       });
   
-      // Tabela: gerente
-      await queryInterface.createTable('gerentes', {
-        id_gerente: {
-          type: Sequelize.INTEGER,
-          primaryKey: true,
-          autoIncrement: true,
-        },
-        nome: {
-          type: Sequelize.STRING,
-          allowNull: false,
-        },
-        email: {
-          type: Sequelize.STRING,
-          allowNull: false,
-          unique: true,
-        },
-        senha: {
-          type: Sequelize.STRING,
-          allowNull: false,
-        },
-      });
   
       // Tabela: doador
       await queryInterface.createTable('doadores', {
@@ -75,7 +77,7 @@ module.exports = {
         id_estoque: {
           type: Sequelize.INTEGER,
           references: {
-            model: 'estoques',
+            model: 'estoque',
             key: 'id_estoque',
           },
           allowNull: false,
@@ -106,7 +108,7 @@ module.exports = {
         id_estoque: {
           type: Sequelize.INTEGER,
           references: {
-            model: 'estoques',
+            model: 'estoque',
             key: 'id_estoque',
           },
           allowNull: false,
@@ -157,7 +159,7 @@ module.exports = {
         id_gerente: {
           type: Sequelize.INTEGER,
           references: {
-            model: 'gerentes',
+            model: 'gerente',
             key: 'id_gerente',
           },
           defaultValue: 1,
@@ -188,7 +190,7 @@ module.exports = {
         id_estoque: {
           type: Sequelize.INTEGER,
           references: {
-            model: 'estoques',
+            model: 'estoque',
             key: 'id_estoque',
           },
           allowNull: false,
@@ -198,7 +200,7 @@ module.exports = {
         id_gerente: {
           type: Sequelize.INTEGER,
           references: {
-            model: 'gerentes',
+            model: 'gerente',
             key: 'id_gerente',
           },
           allowNull: false,
@@ -227,7 +229,7 @@ module.exports = {
         id_estoque: {
           type: Sequelize.INTEGER,
           references: {
-            model: 'estoques',
+            model: 'estoque',
             key: 'id_estoque',
           },
           allowNull: false,
@@ -259,8 +261,8 @@ module.exports = {
       await queryInterface.dropTable('alertas');
       await queryInterface.dropTable('itens');
       await queryInterface.dropTable('doadores');
-      await queryInterface.dropTable('gerentes');
-      await queryInterface.dropTable('estoques');
+      await queryInterface.dropTable('gerente');
+      await queryInterface.dropTable('estoque');
     },
   };
   

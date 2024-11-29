@@ -1,7 +1,6 @@
 import {
   DataTypes,
   alteracao,
-  alerta,
   item
 } from './../../packages.js';
 import database from '../../db/database.js';

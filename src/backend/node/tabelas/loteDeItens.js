@@ -1,7 +1,4 @@
-import{
-item,
-estoque,
-} from './relacionamentos.js';
+
 import { DataTypes } from 'sequelize';
 import database from '../../db/database.js';
 

@@ -1,5 +1,5 @@
-const { DataTypes } = require('../packages.js');
-const database = require('../db/database.js');
+const { DataTypes } = require('../../packages.js');
+const database = require('../../db/database.js');
 
 const item = database.define('item', {
   id_item: {
