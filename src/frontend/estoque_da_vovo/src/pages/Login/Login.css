@@ -1,0 +1,49 @@
+/* ---------- LOGIN ---------- */
+.sign-in__wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    background-color: var(--tertiary-color);
+  }
+  
+  /* Logo fora do card */
+  .logo-container {
+    margin-bottom: 30px;
+  }
+  
+  .logo {
+    width: 200px;
+    height: auto;
+  }
+  
+  /* Card do formulário de login */
+  .sign-in__card {
+    width: 100%;
+    max-width: 400px; /* Largura do card */
+    z-index: 1;
+  }
+  
+  h4 {
+    color: #333;
+  }
+  
+  /* Estilos do botão */
+  button {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .btn-entrar {
+    color: #fff !important;
+    background-color: var(--btn-background) !important;
+    border-color: var( --btn-secondary-color) !important;
+    transition: var( --btn-transition);
+  }
+
+  .btn-entrar:hover{
+    background-color: var( --btn-secondary-color)!important;
+  }
+  

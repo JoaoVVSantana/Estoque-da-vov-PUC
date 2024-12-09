@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-
 import App from "../App.jsx";
 import Dashboard from "../pages/Dashboard/Dashboard.jsx";
 import Doadores from "../pages/Doadores/Doadores.jsx";
@@ -10,11 +9,17 @@ import ErrorPage from "../pages/ErrorPage/ErrorPage.jsx";
 import NovoProduto from "../pages/NovoProduto/NovoProduto.jsx";
 import NovoDoador from "../pages/NovoDoador/NovoDoador.jsx";
 import Produto from "../pages/Produto/Produto.jsx";
+import Login from "../pages/Login/Login.jsx";
+import ProtectedRoute from "./ProtectedRoute.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: (
+      <ProtectedRoute>
+        <App />
+      </ProtectedRoute>
+    ),
     errorElement: <ErrorPage />,
     children: [
       {
@@ -27,7 +32,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/doadores/novo-doador",
-        element:  <NovoDoador />,
+        element: <NovoDoador />,
       },
       {
         path: "/estoque",
@@ -35,11 +40,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/estoque/novo-produto",
-        element:  <NovoProduto />,
+        element: <NovoProduto />,
       },
       {
         path: "/estoque/produto/:id",
-        element:  <Produto />,
+        element: <Produto />,
       },
       {
         path: "/historico",
@@ -50,6 +55,10 @@ const router = createBrowserRouter([
         element: <Relatorio />,
       },
     ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);
 

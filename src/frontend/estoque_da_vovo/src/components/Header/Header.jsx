@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear, faCircleUser,faAnglesLeft, faAnglesRight  } from "@fortawesome/free-solid-svg-icons";
 import BtnNotification from './../BtnNotification/BtnNotification';
 
+import { useAuth } from '../../context/AuthContext.jsx'; 
 
 //TESTE DE NOTIFICAÇÕES
 const notifications = [
@@ -15,6 +16,7 @@ const notifications = [
 ];
 
 export default function Header({ expanded, toggleSidebar }) {
+    const { logout } = useAuth();
     return (
         // bg="dark" variant="dark"
         <Navbar expand="lg" className="header pe-4 ps-5">
@@ -32,7 +34,7 @@ export default function Header({ expanded, toggleSidebar }) {
                     <DropdownButton variant='none' id="dropdown-basic-button" align={'end'} title={<FontAwesomeIcon icon={faCircleUser} />} >
                         <Dropdown.Item href="#/action-1">Sua Conta</Dropdown.Item>
                         <Dropdown.Divider />
-                        <Dropdown.Item href="#/action-3">Sair da Conta</Dropdown.Item>
+                        <Dropdown.Item onClick={logout}>Sair da Conta</Dropdown.Item>
                     </DropdownButton>
 
                 </Nav>
