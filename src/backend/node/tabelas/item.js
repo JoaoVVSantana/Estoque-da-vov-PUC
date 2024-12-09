@@ -1,6 +1,7 @@
 import {
   DataTypes,
   alerta,
+  loteDeItens,
 } from './../../packages.js';
 import database from '../../db/database.js';
 const item = database.define('item', {
@@ -17,18 +18,6 @@ const item = database.define('item', {
     type: DataTypes.DATE,
     allowNull: false,
   },
-  tipo: {
-    type: DataTypes.STRING, // Antigo ENUM, testar se dá pra fazer assim
-    allowNull: false,
-  },
-  id_estoque: {
-    type: DataTypes.INTEGER,
-    references:{
-      model: 'estoque',
-      key: 'id_estoque',
-    },
-    allowNull: false,
-  },
   id_doador: {
     type:DataTypes.INTEGER,
     references:{
@@ -37,6 +26,19 @@ const item = database.define('item', {
     },
     allowNull:true,
   },
+  id_lote: {
+    type:DataTypes.INTEGER,
+    references:{
+      key:"id_lote",
+      model:'loteDeItens'
+    },
+    allowNull:true,
+  },
+  tipo: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  }
+
 },
 {
   tableName: 'itens',
@@ -64,7 +66,7 @@ item.todosItensPertoDoVencimento = async function  () {
       const alertaPerecivel = await alerta.criarAlerta(item,'Vencimento de perecível',`O alimento perecível ${item.nome} vence em 2 dias, verificar no estoque. ` );
       listaAlertas.push(alertaPerecivel);
     }
-    else if (item.tipo=='Não Perecivel' && diasParaVencimento < 5) {
+    else if (item.tipo=='Nao Perecivel' && diasParaVencimento < 5) {
       const alertaNPerecivel = await alerta.criarAlerta(item,'Vencimento de não perecível',`O alimento não perecível ${item.nome} vence em 5 dias, verificar no estoque. ` );
       listaAlertas.push(alertaNPerecivel);
     }
@@ -91,7 +93,7 @@ item.itensVencidos = async function  () {
   }
   return itensVencidos;
 };
-
+// Alterar aqui para lote
 item.todosItensEmBaixaQuantidade = async function () {
   // Busca todos os itens
   const itens = await item.findAll();
@@ -115,17 +117,6 @@ item.todosItensEmBaixaQuantidade = async function () {
 };
 
 
-// LISTA TODOS ITENS DO ESTOQUE
-item.buscarTodosItens = async function () {
-  try {
-    const itens = await item.findAll(); // Busca todos os itens na tabela
-    return itens;
-  } catch (error) {
-    throw new Error('Erro ao buscar todos os itens: ' + error.message);
-  }
-};
-
-
 //ALTERA OS DADOS DE UM ITEM ESPECIFICO ATRAVÉS DE SEU ID
 item.atualizarItem = async function (id_item, novosDados) {
   try {
@@ -134,7 +125,7 @@ item.atualizarItem = async function (id_item, novosDados) {
     if (!itemA) {
       throw new Error(`Item com ID ${id_item} não encontrado.`);
     }
-    //Verifica se estão preenchidos
+   
     if (!novosDados.nome || !novosDados.validade || !novosDados.tipo) {
       throw new Error('Os campos nome, validade e tipo são obrigatórios.');
     }
@@ -149,18 +140,23 @@ item.atualizarItem = async function (id_item, novosDados) {
 };
 
 
-
+// Alterar aqui para lote
 item.verificaSeEstaEmBaixaQuantidade = async function (nomeDoItem)  {
   const itensVerificados = await this.contaQuantosItensExistemPeloNome(nomeDoItem); //Busca em todos os itens pelo nome
   
   return itensVerificados < 5;
   
 };
-
+// Alterar aqui para lote
 item.contaQuantosItensExistemPeloNome = async function  (nomeDoItem) {
   const totalDeItens = await item.count({ where: { nome: nomeDoItem } });
-
   return totalDeItens;
+};
+
+item.contaQuantosItensExistemPeloLote = async function  (itemA) {
+  const loteDoItem = await loteDeItens.findByPk(itemA.id_lote);
+  const quantidadeItensNoLote = await loteDoItem.count();
+  return quantidadeItensNoLote;
 };
 
 item.retornaTodosItensComAqueleNome = async function  (nomeDoItem) {
@@ -168,11 +164,9 @@ item.retornaTodosItensComAqueleNome = async function  (nomeDoItem) {
   return listaDeItens;
 };
 
-// ATENÇÃO VERIFIQUE SE ESTA CORRETO A IMPLEMENTAÇÃO, MAS ESTA FUNCIONANDO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// LISTA TODOS ITENS DO ESTOQUE
 item.buscarItensDoacao = async function () {
   try {
-    const itens = await item.buscarTodosItens(); // Busca todos os itens no bd
+    const itens = await item.findAll();
     const itensDoados = itens.filter(item => item.id_doador !== null);
     
     return itensDoados;
@@ -181,10 +175,6 @@ item.buscarItensDoacao = async function () {
   }
 };
 
-item.verificaSeExisteItem= async function (itemA) {
- 
-  return itemA ? true : false;
-};
 // #endregion
 
 export default  item;
