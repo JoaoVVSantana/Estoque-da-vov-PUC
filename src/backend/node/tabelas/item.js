@@ -78,6 +78,7 @@ item.todosItensPertoDoVencimento = async function  () {
   }
   return listaAlertas;
 };
+
 item.itensVencidos = async function  () { 
 
   const itens = await item.findAll();
@@ -93,6 +94,8 @@ item.itensVencidos = async function  () {
   }
   return itensVencidos;
 };
+
+/*
 // Alterar aqui para lote
 item.todosItensEmBaixaQuantidade = async function () {
   // Busca todos os itens
@@ -115,6 +118,7 @@ item.todosItensEmBaixaQuantidade = async function () {
 
   return itensUnicos;
 };
+*/
 
 
 //ALTERA OS DADOS DE UM ITEM ESPECIFICO ATRAVÉS DE SEU ID
@@ -139,7 +143,7 @@ item.atualizarItem = async function (id_item, novosDados) {
   }
 };
 
-
+/*
 // Alterar aqui para lote
 item.verificaSeEstaEmBaixaQuantidade = async function (nomeDoItem)  {
   const itensVerificados = await this.contaQuantosItensExistemPeloNome(nomeDoItem); //Busca em todos os itens pelo nome
@@ -147,17 +151,17 @@ item.verificaSeEstaEmBaixaQuantidade = async function (nomeDoItem)  {
   return itensVerificados < 5;
   
 };
+*/
+
+/*
 // Alterar aqui para lote
 item.contaQuantosItensExistemPeloNome = async function  (nomeDoItem) {
   const totalDeItens = await item.count({ where: { nome: nomeDoItem } });
   return totalDeItens;
 };
+*/
 
-item.contaQuantosItensExistemPeloLote = async function  (itemA) {
-  const loteDoItem = await loteDeItens.findByPk(itemA.id_lote);
-  const quantidadeItensNoLote = await loteDoItem.count();
-  return quantidadeItensNoLote;
-};
+
 
 item.retornaTodosItensComAqueleNome = async function  (nomeDoItem) {
   const listaDeItens = await item.findAll({where: {nome: nomeDoItem} });
@@ -174,6 +178,49 @@ item.buscarItensDoacao = async function () {
     throw new Error('Erro ao buscar os itens de doacao: ' + error.message);
   }
 };
+
+// #endregion
+
+
+// #region Lote de Itens
+
+
+// Verifica os itens em baixa
+item.todosItensEmBaixaQuantidade = async function () {
+  // Busca todos os itens
+  const itens = await item.findAll();
+  const itensEmBaixa = await Promise.all(
+    itens.map(async item => ({
+      estaEmBaixa: await this.verificaSeEstaEmBaixaQuantidade(item),
+    }))
+  );
+  const itensUnicos = [];
+  const nomesRepetidos = new Set(); //isso é pra n adicionar o mesmo item mais de uma vez
+
+  for (const item of itensEmBaixa) {
+    if (item.estaEmBaixa && !nomesRepetidos.has(item.nome)) {
+      itensUnicos.push(item);
+      nomesRepetidos.add(item.nome);
+    }
+  }
+
+  return itensUnicos;
+};
+
+// Verificar se o lote possui menos do que 5 itens
+item.verificaSeEstaEmBaixaQuantidade = async function (item)  {
+  const itensVerificados = await this.contaQuantosItensExistemPeloLote(item); //Busca em todos os lotes pelo nome
+  
+  return itensVerificados < 5;
+  
+};
+
+// Verifica quantos itens existem no respectivo lote
+item.contaQuantosItensExistemPeloLote = async function (itemA) {
+  const loteDoItem = await loteDeItens.findByPk(itemA.id_lote);
+  return loteDoItem.quantidade;
+};
+
 
 // #endregion
 
