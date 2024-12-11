@@ -1,35 +1,34 @@
+import express from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+
 dotenv.config();
-import express from 'express';
 const router = express.Router();
 
-//configurar na próxima sprint
-function gerarToken() {
-    
-    const payload = { id: process.env.SECRET_USER };
-    const options = { expiresIn: process.env.JWT_EXPIRATION,};
-    
-    const token =jwt.sign(payload, process.env.SECRET_KEY, options);
-
-    res.json({ token });
-    return token;
+// Função para gerar o token JWT
+function gerarToken(id) {
+  const payload = { id };
+  const options = { expiresIn: process.env.JWT_EXPIRATION };
+  return jwt.sign(payload, process.env.SECRET_KEY, options);
 }
 
-//configurar na próxima sprint
+// Rota de login simulada
 router.post('/api/login', async (req, res) => {
   const { id, senha } = req.body;
 
-  try {
-      // Gere o token após validar o login
+  // Simulação de verificação de login
+  if (id === process.env.SECRET_USER && senha === process.env.SECRET_PASS) {
+    try {
       const token = gerarToken(id);
-
-      // Envie o token ao cliente
-      res.json({ token });
-  } catch (error) {
-      console.error('Erro ao fazer login:', error);
-      res.status(500).json({ error: 'Erro interno do servidor' });
+      return res.status(200).json({ token });
+    } catch (error) {
+      console.error('Erro ao gerar token:', error);
+      return res.status(500).json({ error: 'Erro interno do servidor' });
+    }
   }
+
+  // Login inválido
+  return res.status(401).json({ error: 'Credenciais inválidas' });
 });
 
 export default router;

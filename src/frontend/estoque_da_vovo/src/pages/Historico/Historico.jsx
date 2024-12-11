@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { axiosInstanceEstoque } from "../../../services/axiosInstance.js";
+import { axiosInstanceEstoque } from "../../services/axiosInstance.js";
 import { useNavigate } from "react-router-dom";
 
 export default function FormDoador() {

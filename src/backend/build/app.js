@@ -1,5 +1,4 @@
 import 'module-alias/register.js';
-import cors from 'cors';
 import express from 'express';
 import dotenv from 'dotenv';
 
@@ -20,7 +19,8 @@ database.authenticate()
 });
 
 //Autenticação de rotas ainda não implementada >
-//import autenticarToken from '../backend/middlewares/autenticarToken.js';
+import auth from '.././middlewares/auth.js';
+import {corsConfig} from '.././middlewares/cors.js';
 //import authRoutes from '../backend/node/routes/authRoutes.js';
 
 import itemRoutes from '../node/routes/itemRoutes.js';
@@ -34,7 +34,8 @@ import enviarEmail from '../node/routes/enviarEmail.js';
 const PORT = process.env.PORT || 4000;
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(corsConfig);
+app.use(auth);
 
 //Por enquanto vamos usar o cors permitindo que qualquer host acesse a API, sem fazer autenticacao
 //api.use(cors({ origin: 'http://localhost:3000', credentials: true }));
