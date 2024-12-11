@@ -15,14 +15,6 @@ const loteDeItens = database.define('loteDeItens', {
     },
     primaryKey: true,
   },
-  id_item: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: 'itens',
-      key: 'id_item',
-    },
-    primaryKey: true,
-  },
   quantidade: {
     type: DataTypes.INTEGER,
     allowNull: false,

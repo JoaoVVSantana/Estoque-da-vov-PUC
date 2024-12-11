@@ -1,14 +1,14 @@
 import {
-  //autenticarToken,
   estoque,
   item
 } from './../../packages.js';
 import express from 'express';
+import autenticarToken from '../../middlewares/autenticarToken.js';
 import { loteDeItens } from '../tabelas/relacionamentos.js';
 const router = express.Router();
 
 //CRIAR ESTOQUE NO BANCO
-router.post('/criarEstoque', async (req, res) => {
+router.post('/criarEstoque', autenticarToken,async (req, res) => {
   const { armazenamento } = req.body;
   try {
     const criarEstoque = estoque.criarEstoqueNoBanco(armazenamento);
@@ -20,8 +20,25 @@ router.post('/criarEstoque', async (req, res) => {
   }
 });
 
+//CRIAR ESTOQUE NO BANCO
+router.post('/criarLote', autenticarToken,async (req, res) => {
+  const { nome } = req.body;
+  try {
+    const novoLote = loteDeItens.create({
+      id_estoque:1,
+      nome:nome,
+      quantidade:0
+    })
+
+    res.json({ message: 'Estoque Criado Com Sucesso, ID: ', estoque: criarEstoque.id_estoque });
+  } catch (error) {
+    console.error('Erro ao criar Estoque: ', error);
+    res.status(400).json({ error: error.message });
+  }
+});
+
 // RELATÓRIO DE ITENS EM FALTA NO ESTOQUE
-router.get('/itensFaltando', async (req, res) => {
+router.get('/itensFaltando', autenticarToken,async (req, res) => {
   const id_estoque = 1;
 
   try {
@@ -45,7 +62,7 @@ router.get('/itensFaltando', async (req, res) => {
 });
 
 // LISTA TODOS ITENS DO ESTOQUE
-router.get('/listarItens', async (req, res) => {
+router.get('/listarItens', autenticarToken,async (req, res) => {
   try {
     const todosItens = await item.buscarTodosItens();
     res.json({
@@ -59,7 +76,7 @@ router.get('/listarItens', async (req, res) => {
 });
 
 //ALTERA OS DADOS DE UM ITEM ESPECIFICO ATRAVÉS DE SEU ID
-router.put('/atualizarItem/:id_item', async (req, res) => {
+router.put('/atualizarItem/:id_item', autenticarToken,async (req, res) => {
   const { id_item }  = req.params;
 
   const novosDados = req.body;
@@ -78,7 +95,7 @@ router.put('/atualizarItem/:id_item', async (req, res) => {
 });
 
 // RETIRAR ITEM DO ESTOQUE POR BODY
-router.post('/retirarItem', async (req, res) => {
+router.post('/retirarItem', autenticarToken, async (req, res) => {
   const {id_lote, quantidade} = req.body; // Agora, 'quantidade' e 'id_lote' são obrigatórios
 
   // Verifica se os dados obrigatórios foram inseridos
@@ -98,7 +115,7 @@ router.post('/retirarItem', async (req, res) => {
 });
 
 // INSERIR ITEM NO ESTOQUE COM LOTE 
-router.post('/inserirItem', async (req, res) => {
+router.post('/inserirItem', autenticarToken, async (req, res) => {
   const { nome, validade, tipo, quantidade, id_lote,id_doador } = req.body;
   // Verifica se os dados obrigatórios foram inseridos
   if (!nome || !validade || !tipo || !quantidade || !id_lote) {

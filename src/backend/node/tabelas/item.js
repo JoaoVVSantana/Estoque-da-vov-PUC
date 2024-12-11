@@ -32,7 +32,7 @@ const item = database.define('item', {
       key:"id_lote",
       model:'loteDeItens'
     },
-    allowNull:true,
+    allowNull:false,
   },
   tipo: {
     type: DataTypes.STRING,

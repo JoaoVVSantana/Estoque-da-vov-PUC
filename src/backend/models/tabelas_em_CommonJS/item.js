@@ -19,11 +19,11 @@ const item = database.define('item', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  id_estoque: {
+  id_lote: {
     type: DataTypes.INTEGER,
     references: {
-      model: 'estoque',
-      key: 'id_estoque',
+      key:"id_lote",
+      model:'loteDeItens'
     },
     allowNull: false,
   },

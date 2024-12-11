@@ -2,14 +2,14 @@ import {
   //autenticarToken
   item,
 } from '../../packages.js';
-
+import autenticarToken from '../../middlewares/autenticarToken.js';
 import nodemailer from 'nodemailer';
 import express from 'express';
 import dotenv from 'dotenv';
 dotenv.config('../../.env');
 const router = express.Router();
 
-router.get('/pedirDoacao', async (req,res) => {
+router.get('/pedirDoacao',autenticarToken, async (req,res) => {
   const {nomeDoador, emailDoador} = req.body;
   
   try {

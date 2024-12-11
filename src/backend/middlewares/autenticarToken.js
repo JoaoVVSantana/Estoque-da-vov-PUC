@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
 
-export const autenticarToken = (req, res, next) => {
+const autenticarToken = (req, res, next) => {
   const token = req.headers['authorization'];
 
   if (!token) {
@@ -18,3 +18,4 @@ export const autenticarToken = (req, res, next) => {
   }
 };
 
+export default autenticarToken;

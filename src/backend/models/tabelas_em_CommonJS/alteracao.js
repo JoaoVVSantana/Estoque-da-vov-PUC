@@ -19,7 +19,7 @@ const alteracao = database.define('alteracao', {
     type: DataTypes.ENUM('entrada', 'saída'),
     allowNull: false,
   },
-  estoque: {
+  id_estoque: {
     type: DataTypes.INTEGER,
     references: {
       model: 'estoque',
@@ -42,15 +42,7 @@ const alteracao = database.define('alteracao', {
       key: 'id_item',
     },
     allowNull: false,
-  },
-  id_gerente: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: 'gerente',
-      key: 'id_gerente',
-    },
-    allowNull: false,
-  },
+  }
 }, {
   tableName: 'alteracoes',
   timestamps: false,

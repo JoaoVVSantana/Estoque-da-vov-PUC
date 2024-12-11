@@ -4,10 +4,11 @@ import {
     doador,
     estoque,
     gerente,
-    item,  
+    item,
+    loteDeItens  
   } from './../../packages.js';
 //
-item.belongsTo(estoque);
+item.belongsTo(loteDeItens);
 item.belongsTo(doador);
 item.hasMany(alerta, {foreignKey: 'id_item', as: 'Alertas Criados', onDelete:'NO ACTION', onUpdate:'CASCADE' });
 //
@@ -20,7 +21,6 @@ gerente.hasMany(alerta,{ foreignKey:"id_gerente", as:'Alertas Recebidos', onDele
 //
 estoque.hasMany(loteDeItens, { foreignKey: 'id_estoque', as: 'Itens no estoque', onDelete:'CASCADE', onUpdate:'CASCADE' });
 estoque.hasMany(doador, { foreignKey: 'id_estoque', as: 'Doadores do lar', onDelete:'CASCADE', onUpdate:'CASCADE' });
-estoque.hasMany(alerta, { foreignKey: 'id_estoque', as: 'Alertas do Estoque', onDelete:'CASCADE', onUpdate:'CASCADE' });
 estoque.hasMany(alteracao, {foreignKey:'id_estoque', as:'Alteracoes do Estoque', onDelete:'CASCADE', onUpdate:'CASCADE'});
 estoque.belongsTo(gerente);
 //

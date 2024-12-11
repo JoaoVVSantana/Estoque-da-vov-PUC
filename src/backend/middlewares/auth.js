@@ -11,7 +11,7 @@ function gerarToken(id) {
   return jwt.sign(payload, process.env.SECRET_KEY, options);
 }
 
-router.post('/api/login', async (req, res) => {
+router.post('/login', async (req, res) => {
   const { id, senha } = req.body;
   if (id === process.env.SECRET_USER && senha === process.env.SECRET_PASS) {
     try {

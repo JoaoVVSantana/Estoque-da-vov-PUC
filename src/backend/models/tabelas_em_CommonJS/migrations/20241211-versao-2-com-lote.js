@@ -1,6 +1,5 @@
-/*module.exports = {
+module.exports = {
     up: async (queryInterface, Sequelize) => {
-
       // Tabela: gerente
       await queryInterface.createTable('gerente', {
         id_gerente: {
@@ -20,9 +19,9 @@
         senha: {
           type: Sequelize.STRING,
           allowNull: false,
-        },
+        }
       });
-
+  
       // Tabela: estoque
       await queryInterface.createTable('estoque', {
         id_estoque: {
@@ -54,8 +53,7 @@
         },
       });
   
-  
-      // Tabela: doador
+      // Tabela: doadores
       await queryInterface.createTable('doadores', {
         id_doador: {
           type: Sequelize.INTEGER,
@@ -86,7 +84,7 @@
         },
       });
   
-      // Tabela: item
+      // Tabela: itens
       await queryInterface.createTable('itens', {
         id_item: {
           type: Sequelize.INTEGER,
@@ -127,7 +125,7 @@
         },
       });
   
-      // Tabela: alerta
+      // Tabela: alertas
       await queryInterface.createTable('alertas', {
         id_alerta: {
           type: Sequelize.INTEGER,
@@ -168,7 +166,7 @@
         },
       });
   
-      // Tabela: alteracao
+      // Tabela: alteracoes
       await queryInterface.createTable('alteracoes', {
         id_alteracao: {
           type: Sequelize.INTEGER,
@@ -236,16 +234,6 @@
           onDelete: 'CASCADE',
           onUpdate: 'CASCADE',
         },
-        id_item: {
-          type: Sequelize.INTEGER,
-          references: {
-            model: 'itens',
-            key: 'id_item',
-          },
-          allowNull: false,
-          onDelete: 'CASCADE',
-          onUpdate: 'CASCADE',
-        },
         quantidade: {
           type: Sequelize.INTEGER,
           allowNull: false,
@@ -255,14 +243,13 @@
     },
   
     down: async (queryInterface) => {
-      // Reverte todas as tabelas criadas na ordem inversa
       await queryInterface.dropTable('loteDeItens');
       await queryInterface.dropTable('alteracoes');
       await queryInterface.dropTable('alertas');
       await queryInterface.dropTable('itens');
       await queryInterface.dropTable('doadores');
-      await queryInterface.dropTable('gerente');
       await queryInterface.dropTable('estoque');
+      await queryInterface.dropTable('gerente');
     },
   };
-  */
+  
