@@ -1,7 +1,6 @@
-import {
-  DataTypes,
-} from './../../packages.js';
-import database from '../../db/database.js';
+const { DataTypes } = require('../../packages.js');
+const database = require('../../db/database.js');
+
 const gerente = database.define('gerente', {
   id_gerente: {
     type: DataTypes.INTEGER,
@@ -21,26 +20,20 @@ const gerente = database.define('gerente', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  id_estoque:{
-    type:DataTypes.INTEGER,
-    references:{
+  id_estoque: {
+    type: DataTypes.INTEGER,
+    references: {
       model: 'estoque',
       key: 'id_estoque',
     },
-    allowNull:false,
+    allowNull: false,
   },
-  alertas:{
-    type:DataTypes.INTEGER,
-    references:{
-      model: 'alerta',
-      key: 'id_alerta',
-    },
-    allowNull:false,
-  }
 }, {
   tableName: 'gerente',
   timestamps: false,
 });
+
+
 
 // #region relacionamentos
 
@@ -50,4 +43,5 @@ const gerente = database.define('gerente', {
 
 
 // #endregion
-export default gerente;
+
+module.exports = gerente;

@@ -1,7 +1,6 @@
 import {
   //autenticarToken,
   alteracao,
-  historico
 }from './../../packages.js';
 
 import express from 'express';

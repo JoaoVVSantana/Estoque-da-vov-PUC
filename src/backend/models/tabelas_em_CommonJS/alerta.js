@@ -1,7 +1,5 @@
-import {
-  DataTypes,
-} from './../../packages.js';
-import database from '../../db/database.js';
+const { DataTypes } = require('../../packages.js');
+const database = require('../../db/database.js');
 
 const alerta = database.define('alerta', {
   id_alerta: {
@@ -23,15 +21,15 @@ const alerta = database.define('alerta', {
   },
   id_item: {
     type: DataTypes.INTEGER,
-    references:{
+    references: {
       model: 'item',
       key: 'id_item',
     },
-    allowNull: true,  
+    allowNull: true,
   },
   id_gerente: {
     type: DataTypes.INTEGER,
-    references:{
+    references: {
       model: 'gerente',
       key: 'id_gerente',
     },
@@ -42,11 +40,6 @@ const alerta = database.define('alerta', {
   timestamps: false,
 });
 
-// #region relacionamentos
-
-// #endregion
-
-// #region Métodos
 alerta.criarAlerta = async function (itemAlertado, motivoAlertado, conteudoAlertado) {
   const novoAlerta = await alerta.create({
     conteudo: conteudoAlertado,
@@ -58,6 +51,5 @@ alerta.criarAlerta = async function (itemAlertado, motivoAlertado, conteudoAlert
   });
   return novoAlerta;
 };
-// #endregion
-export default alerta;
 
+module.exports = alerta;

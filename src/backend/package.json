@@ -37,8 +37,10 @@
   "devDependencies": {
     "jest": "^29.0.0",
     "nodemon": "^3.1.7",
+    "sequelize-auto-migrations": "^1.0.3",
     "sequelize-cli": "^6.6.2",
-    "supertest": "^6.3.0"
+    "supertest": "^6.3.0",
+    "ts-node": "^10.9.2"
   },
   "engines": {
     "node": ">=14.0.0"

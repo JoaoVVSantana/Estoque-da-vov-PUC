@@ -38,6 +38,7 @@ router.post('/registrarDoador', async (req, res) => {
   }
 });
 
+/*
 // REGISTRAR DOACAO (Mesmo que o doador nao seja cadastrado, pede o nome)
 router.post('/registrarDoacao', async (req, res) => { 
   const { nomeCompletoDoador, nomeItem, validade, tipo } = req.body; // Incluindo informações do item
@@ -83,6 +84,7 @@ router.post('/registrarDoacao', async (req, res) => {
     res.status(500).json({ error: 'Erro ao registrar doador ' });
   }
 });
+*/
 
 // LISTAR TODAS DOAÇÕES
 router.get('/todosItensDeDoacoes', async (req, res) => { 
@@ -128,4 +130,58 @@ router.delete('/:id/apagarDoador', async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
+
+
+// #region Lote de Itens
+
+// REGISTRAR DOACAO (Mesmo que o doador nao seja cadastrado, pede o nome)
+router.post('/registrarDoacao', async (req, res) => { 
+  const { nomeCompletoDoador, nomeItem, validade, tipo, quantidade, id_lote } = req.body; // Incluindo informações do item
+
+  // Validação de dados
+  if (!nomeCompletoDoador || !nomeItem || !validade || !tipo || !quantidade || !id_lote) {
+    return res.status(400).json({ error: 'Todos os campos são obrigatórios: nomeCompletoDoador, nomeItem, validade, tipo, quantidade e id do lote' });
+  }
+
+  try {
+    // Verifica se o doador já existe pelo nome
+    let doadorAtual = await doador.findOne({ where: { nome: nomeCompletoDoador } });
+
+    // Se não, cria o doador
+    if (!doadorAtual) {
+      doadorAtual = await doador.create({ nome: nomeCompletoDoador, email: null,id_estoque:1 });
+    }
+  
+
+    // Chama a API de inserir um item
+    const response = await axios.post('http://localhost:5000/api/estoque//inserirItemDoacao', {
+      nome: nomeItem,
+      validade,
+      tipo,
+      quantidade,
+      id_doador:doadorAtual.id_doador,
+      id_lote
+    });
+    
+    if (response.status === 200) {
+      
+      await doador.atualizarItensDoados(doadorAtual);
+      res.status(201).json({
+        message: 'Doação registrada com sucesso!',
+        doador: doadorAtual.nome,
+        item: response.data.item,
+      });
+      
+    } else {
+      throw new Error('Erro ao inserir o item no estoque.');
+    }
+    
+  } catch (error) {
+    console.error('Erro ao registrar doador: ', error);
+    res.status(500).json({ error: 'Erro ao registrar doador ' });
+  }
+});
+
+// #endregion
+
 export default router;

@@ -7,7 +7,7 @@ import alteracao from './node/tabelas/alteracao.js';
 import doador from './node/tabelas/doador.js';
 import estoque from './node/tabelas/estoque.js';
 import gerente from './node/tabelas/gerente.js';
-import historico from './node/tabelas/historico.js';
+import loteDeItens from './node/tabelas/loteDeItens.js';
 import item from './node/tabelas/item.js';
 
 export {
@@ -17,7 +17,7 @@ export {
     doador,
     estoque,
     gerente,
-    historico,
     item,
+    loteDeItens
   
   };

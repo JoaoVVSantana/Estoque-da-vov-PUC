@@ -1,0 +1,8 @@
+const path = require('path');
+
+module.exports = {
+  'config': path.resolve('./models/tabelas_em_CommonJS/config/config.json'),
+  'migrations-path': path.resolve('./models/tabelas_em_CommonJS/migrations'),
+  'models-path': path.resolve('./models/tabelas_em_CommonJS/models'),
+  'seeders-path': path.resolve('./models/tabelas_em_CommonJS/seeders'),
+};

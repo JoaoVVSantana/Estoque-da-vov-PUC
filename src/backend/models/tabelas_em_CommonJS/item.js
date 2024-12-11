@@ -1,9 +1,6 @@
-import {
-  DataTypes,
-  alerta,
-  loteDeItens,
-} from './../../packages.js';
-import database from '../../db/database.js';
+const { DataTypes } = require('../../packages.js');
+const database = require('../../db/database.js');
+
 const item = database.define('item', {
   id_item: {
     type: DataTypes.INTEGER,
@@ -18,32 +15,33 @@ const item = database.define('item', {
     type: DataTypes.DATE,
     allowNull: false,
   },
-  id_doador: {
-    type:DataTypes.INTEGER,
-    references:{
-      key:"id_doador",
-      model:'doadores'
-    },
-    allowNull:true,
-  },
-  id_lote: {
-    type:DataTypes.INTEGER,
-    references:{
-      key:"id_lote",
-      model:'loteDeItens'
-    },
-    allowNull:true,
-  },
   tipo: {
     type: DataTypes.STRING,
     allowNull: false,
-  }
-
-},
-{
+  },
+  id_estoque: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'estoque',
+      key: 'id_estoque',
+    },
+    allowNull: false,
+  },
+  id_doador: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'doadores',
+      key: 'id_doador',
+    },
+    allowNull: true,
+  },
+}, {
   tableName: 'itens',
   timestamps: false,
 });
+
+
+
 
 // #region relacionamentos
 
@@ -66,7 +64,7 @@ item.todosItensPertoDoVencimento = async function  () {
       const alertaPerecivel = await alerta.criarAlerta(item,'Vencimento de perecível',`O alimento perecível ${item.nome} vence em 2 dias, verificar no estoque. ` );
       listaAlertas.push(alertaPerecivel);
     }
-    else if (item.tipo=='Nao Perecivel' && diasParaVencimento < 5) {
+    else if (item.tipo=='Não Perecivel' && diasParaVencimento < 5) {
       const alertaNPerecivel = await alerta.criarAlerta(item,'Vencimento de não perecível',`O alimento não perecível ${item.nome} vence em 5 dias, verificar no estoque. ` );
       listaAlertas.push(alertaNPerecivel);
     }
@@ -78,7 +76,6 @@ item.todosItensPertoDoVencimento = async function  () {
   }
   return listaAlertas;
 };
-
 item.itensVencidos = async function  () { 
 
   const itens = await item.findAll();
@@ -95,8 +92,6 @@ item.itensVencidos = async function  () {
   return itensVencidos;
 };
 
-/*
-// Alterar aqui para lote
 item.todosItensEmBaixaQuantidade = async function () {
   // Busca todos os itens
   const itens = await item.findAll();
@@ -118,7 +113,17 @@ item.todosItensEmBaixaQuantidade = async function () {
 
   return itensUnicos;
 };
-*/
+
+
+// LISTA TODOS ITENS DO ESTOQUE
+item.buscarTodosItens = async function () {
+  try {
+    const itens = await item.findAll(); // Busca todos os itens na tabela
+    return itens;
+  } catch (error) {
+    throw new Error('Erro ao buscar todos os itens: ' + error.message);
+  }
+};
 
 
 //ALTERA OS DADOS DE UM ITEM ESPECIFICO ATRAVÉS DE SEU ID
@@ -129,7 +134,7 @@ item.atualizarItem = async function (id_item, novosDados) {
     if (!itemA) {
       throw new Error(`Item com ID ${id_item} não encontrado.`);
     }
-   
+    //Verifica se estão preenchidos
     if (!novosDados.nome || !novosDados.validade || !novosDados.tipo) {
       throw new Error('Os campos nome, validade e tipo são obrigatórios.');
     }
@@ -143,34 +148,31 @@ item.atualizarItem = async function (id_item, novosDados) {
   }
 };
 
-/*
-// Alterar aqui para lote
+
+
 item.verificaSeEstaEmBaixaQuantidade = async function (nomeDoItem)  {
   const itensVerificados = await this.contaQuantosItensExistemPeloNome(nomeDoItem); //Busca em todos os itens pelo nome
   
   return itensVerificados < 5;
   
 };
-*/
 
-/*
-// Alterar aqui para lote
 item.contaQuantosItensExistemPeloNome = async function  (nomeDoItem) {
   const totalDeItens = await item.count({ where: { nome: nomeDoItem } });
+
   return totalDeItens;
 };
-*/
-
-
 
 item.retornaTodosItensComAqueleNome = async function  (nomeDoItem) {
   const listaDeItens = await item.findAll({where: {nome: nomeDoItem} });
   return listaDeItens;
 };
 
+// ATENÇÃO VERIFIQUE SE ESTA CORRETO A IMPLEMENTAÇÃO, MAS ESTA FUNCIONANDO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// LISTA TODOS ITENS DO ESTOQUE
 item.buscarItensDoacao = async function () {
   try {
-    const itens = await item.findAll();
+    const itens = await item.buscarTodosItens(); // Busca todos os itens no bd
     const itensDoados = itens.filter(item => item.id_doador !== null);
     
     return itensDoados;
@@ -179,49 +181,10 @@ item.buscarItensDoacao = async function () {
   }
 };
 
+item.verificaSeExisteItem= async function (itemA) {
+ 
+  return itemA ? true : false;
+};
 // #endregion
 
-
-// #region Lote de Itens
-
-
-// Verifica os itens em baixa
-item.todosItensEmBaixaQuantidade = async function () {
-  // Busca todos os itens
-  const itens = await item.findAll();
-  const itensEmBaixa = await Promise.all(
-    itens.map(async item => ({
-      estaEmBaixa: await this.verificaSeEstaEmBaixaQuantidade(item),
-    }))
-  );
-  const itensUnicos = [];
-  const nomesRepetidos = new Set(); //isso é pra n adicionar o mesmo item mais de uma vez
-
-  for (const item of itensEmBaixa) {
-    if (item.estaEmBaixa && !nomesRepetidos.has(item.nome)) {
-      itensUnicos.push(item);
-      nomesRepetidos.add(item.nome);
-    }
-  }
-
-  return itensUnicos;
-};
-
-// Verificar se o lote possui menos do que 5 itens
-item.verificaSeEstaEmBaixaQuantidade = async function (item)  {
-  const itensVerificados = await this.contaQuantosItensExistemPeloLote(item); //Busca em todos os lotes pelo nome
-  
-  return itensVerificados < 5;
-  
-};
-
-// Verifica quantos itens existem no respectivo lote
-item.contaQuantosItensExistemPeloLote = async function (itemA) {
-  const loteDoItem = await loteDeItens.findByPk(itemA.id_lote);
-  return loteDoItem.quantidade;
-};
-
-
-// #endregion
-
-export default  item;
+module.exports = item;
