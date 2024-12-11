@@ -5,18 +5,14 @@ import dotenv from 'dotenv';
 dotenv.config();
 const router = express.Router();
 
-// Função para gerar o token JWT
 function gerarToken(id) {
   const payload = { id };
   const options = { expiresIn: process.env.JWT_EXPIRATION };
   return jwt.sign(payload, process.env.SECRET_KEY, options);
 }
 
-// Rota de login simulada
 router.post('/api/login', async (req, res) => {
   const { id, senha } = req.body;
-
-  // Simulação de verificação de login
   if (id === process.env.SECRET_USER && senha === process.env.SECRET_PASS) {
     try {
       const token = gerarToken(id);

@@ -2,8 +2,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
 
-//configurar na próxima sprint
-const autenticarToken = function(req, res, next) {
+export const autenticarToken = (req, res, next) => {
   const token = req.headers['authorization'];
 
   if (!token) {
@@ -11,14 +10,11 @@ const autenticarToken = function(req, res, next) {
   }
 
   try {
-    const payload = jwt.verify(token.split(' ')[1], process.env.SECRET_KEY); 
-    req.userId = payload.id;
-    next();
-  } catch (error) {
-    res.status(401).json({ error: 'Token inválido ou expirado' });
+    const decoded = jwt.verify(token.split(' ')[1], process.env.SECRET_KEY);
+    req.user = decoded;
+    next(); 
+  } catch (err) {
+    return res.status(403).json({ error: 'Token inválido ou expirado' });
   }
-}
+};
 
-
-
-export default autenticarToken;
