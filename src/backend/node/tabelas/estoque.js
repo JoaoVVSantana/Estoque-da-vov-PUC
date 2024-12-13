@@ -4,6 +4,7 @@ import {
   item,
   loteDeItens
 } from './../../packages.js';
+
 import database from '../../db/database.js';
 
 const estoque = database.define('estoque', {

@@ -1,42 +1,38 @@
-import {
-    alerta,
-    alteracao,
-    doador,
-    estoque,
-    gerente,
-    item,
-    loteDeItens  
-  } from './../../packages.js';
-//
-item.belongsTo(loteDeItens);
-item.belongsTo(doador);
-item.hasMany(alerta, {foreignKey: 'id_item', as: 'Alertas Criados', onDelete:'NO ACTION', onUpdate:'CASCADE' });
-//
-loteDeItens.hasMany(item, {foreignKey:'id_lote', as :'Itens do Lote', onDelete:'RESTRICT', onUpdate:'CASCADE'});
-loteDeItens.belongsTo(estoque);
-//
-gerente.hasOne(estoque, { foreignKey: 'id_gerente', as: 'Estoque Principal', onDelete:'CASCADE', onUpdate:'CASCADE' });
-gerente.hasMany(alteracao, { foreignKey: 'id_gerente', as: 'Alteracoes Feitas', onDelete:'CASCADE', onUpdate:'CASCADE' });
-gerente.hasMany(alerta,{ foreignKey:"id_gerente", as:'Alertas Recebidos', onDelete:'CASCADE', onUpdate:'CASCADE'});
-//
-estoque.hasMany(loteDeItens, { foreignKey: 'id_estoque', as: 'Itens no estoque', onDelete:'CASCADE', onUpdate:'CASCADE' });
-estoque.hasMany(doador, { foreignKey: 'id_estoque', as: 'Doadores do lar', onDelete:'CASCADE', onUpdate:'CASCADE' });
-estoque.hasMany(alteracao, {foreignKey:'id_estoque', as:'Alteracoes do Estoque', onDelete:'CASCADE', onUpdate:'CASCADE'});
-estoque.belongsTo(gerente);
-//
-doador.hasMany(item, { foreignKey: 'id_doador', as: 'Quantidade de Itens Doados', onDelete:'SET NULL', onUpdate:'CASCADE' });
-//
-alteracao.belongsTo(estoque);
-//
-alerta.belongsTo(item);
+import gerente from './gerente.js';
+import estoque from './estoque.js';
+import alerta from './alerta.js';
+import alteracao from './alteracao.js';
+import doador from './doador.js';
+import item from './item.js';
+import loteDeItens from './loteDeItens.js';
+
+gerente.hasOne(estoque, { foreignKey: 'id_gerente', as: 'Estoque Principal', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+gerente.hasMany(alteracao, { foreignKey: 'id_gerente', as: 'Alteracoes Feitas', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+gerente.hasMany(alerta, { foreignKey: 'id_gerente', as: 'Alertas Recebidos', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
 
 
-export {
-    alerta,
-    alteracao,
-    doador,
-    estoque,
-    gerente,
-    loteDeItens,
-    item,
-}
+estoque.hasMany(doador, { foreignKey: 'id_estoque', as: 'Doadores do lar', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+estoque.hasMany(alteracao, { foreignKey: 'id_estoque', as: 'Alteracoes do Estoque', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+estoque.hasMany(loteDeItens, { foreignKey: 'id_estoque', as: 'Lotes de Itens', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+loteDeItens.hasMany(item, { foreignKey: 'id_lote', as: 'Itens do Lote', onDelete: 'RESTRICT', onUpdate: 'CASCADE' });
+loteDeItens.belongsTo(estoque, { foreignKey: 'id_estoque'});
+
+doador.hasMany(item, { foreignKey: 'id_doador', as: 'Quantidade de Itens Doados', onDelete: 'SET NULL', onUpdate: 'CASCADE' });
+
+estoque.belongsTo(gerente, { foreignKey: 'id_gerente'});
+alteracao.belongsTo(estoque, { foreignKey: 'id_estoque'});
+item.belongsTo(loteDeItens, { foreignKey: 'id_lote'});
+item.belongsTo(doador, { foreignKey: 'id_doador'});
+alerta.belongsTo(item, { foreignKey: 'id_item'});
+
+
+
+export{
+  gerente,
+  alerta,
+  alteracao,
+  doador,
+  estoque,
+  loteDeItens,
+  item,
+};

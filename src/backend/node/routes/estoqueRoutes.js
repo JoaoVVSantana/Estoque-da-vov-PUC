@@ -21,7 +21,7 @@ router.post('/criarEstoque', autenticarToken,async (req, res) => {
 });
 
 //CRIAR ESTOQUE NO BANCO
-router.post('/criarLote', autenticarToken,async (req, res) => {
+router.post('/criarLote',async (req, res) => {
   const { nome } = req.body;
   try {
     const novoLote = loteDeItens.create({
@@ -30,7 +30,7 @@ router.post('/criarLote', autenticarToken,async (req, res) => {
       quantidade:0
     })
 
-    res.json({ message: 'Estoque Criado Com Sucesso, ID: ', estoque: criarEstoque.id_estoque });
+    res.json({ message: 'Lote Criado Com Sucesso, ', novoLote });
   } catch (error) {
     console.error('Erro ao criar Estoque: ', error);
     res.status(400).json({ error: error.message });

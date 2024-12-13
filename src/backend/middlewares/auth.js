@@ -13,7 +13,7 @@ function gerarToken(id) {
 
 router.post('/login', async (req, res) => {
   const { id, senha } = req.body;
-  if (id === process.env.SECRET_USER && senha === process.env.SECRET_PASS) {
+  if (id === process.env.SECRET_USER && senha === process.env.SECRET_KEY) {
     try {
       const token = gerarToken(id);
       return res.status(200).json({ token });

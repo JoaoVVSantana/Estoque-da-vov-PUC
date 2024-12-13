@@ -71,13 +71,10 @@ export default function Estoque() {
             <Btn text="Novo Produto" icon={<FontAwesomeIcon icon={faPlus} />} onClick={handleClickNewProduct} />
             <TableToolbar />
             <Tabs defaultActiveKey="geral" id="table-tabs" className="mb-3">
-                <Tab eventKey="geral" title="Geral">
+                <Tab eventKey="geral" title="Todos">
                     <TableComponent rowIds={idsProdutos} items={produtos} onRowClick={handleRowClick} onSelectionChange={handleSelectionChange} />
                 </Tab>
-                <Tab eventKey="medicamentos" title="Medicamentos">
-                    <TableComponent rowIds={idsProdutos} items={produtos} onRowClick={handleRowClick} onSelectionChange={handleSelectionChange} />
-                </Tab>
-                <Tab eventKey="Doações" title="Doações">
+                <Tab eventKey="Doações" title="Doados">
                     <TableComponent rowIds={idsProdutos} items={produtos} onRowClick={handleRowClick} onSelectionChange={handleSelectionChange} />
                 </Tab>
             </Tabs>

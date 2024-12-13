@@ -1,10 +1,8 @@
 
 import { DataTypes } from 'sequelize';
 import database from '../../db/database.js';
-import {estoque,item} from './relacionamentos.js';
+import {estoque,item} from '../../packages.js';
 
-//É uma lista de cada item, como se fosse a coleção de itens do mesmo tipo
-//configurar na próxima sprint
 const loteDeItens = database.define('loteDeItens', {
   id_lote:{
     type:DataTypes.INTEGER,
@@ -17,12 +15,11 @@ const loteDeItens = database.define('loteDeItens', {
       model: 'estoque',
       key: 'id_estoque',
     },
-    primaryKey: true,
+    allowNull:false
   },
   nome:{
     type: DataTypes.STRING,
     allowNull: false,
-    
   },
   quantidade: {
     type: DataTypes.INTEGER,
