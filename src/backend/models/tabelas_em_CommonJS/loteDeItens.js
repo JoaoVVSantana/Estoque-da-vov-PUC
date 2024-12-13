@@ -20,6 +20,10 @@ const loteDeItens = database.define('loteDeItens', {
     allowNull: false,
     defaultValue: 0,
   },
+  nome:{
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 }, {
   tableName: 'lotesDeItens',
   timestamps: false,

@@ -58,16 +58,16 @@ item.todosItensPertoDoVencimento = async function  () {
      const diasParaVencimento = (new Date(item.validade) - new Date()) / (1000 * 60 * 60 * 24);
      
     if (item.tipo=='Medicamento' && diasParaVencimento < 30) {
-      const alertaMedicamento = await alerta.criarAlerta(item,'Vencimento de medicamento',`O medicamento ${item.nome} vence em 30 dias, verificar no estoque. ` );
+      const alertaMedicamento = await alerta.criarAlerta(item,'Vencimento de medicamento',`O medicamento ${item.nome} vence em: ${item.validade.toDate()} ` );
 
     listaAlertas.push(alertaMedicamento);
     }
     else if (item.tipo=='Perecivel' && diasParaVencimento < 2) {
-      const alertaPerecivel = await alerta.criarAlerta(item,'Vencimento de perecível',`O alimento perecível ${item.nome} vence em 2 dias, verificar no estoque. ` );
+      const alertaPerecivel = await alerta.criarAlerta(item,'Vencimento de perecível',`O alimento perecível ${item.nome} vence em: ${item.validade.toDate()} ` );
       listaAlertas.push(alertaPerecivel);
     }
     else if (item.tipo=='Nao Perecivel' && diasParaVencimento < 5) {
-      const alertaNPerecivel = await alerta.criarAlerta(item,'Vencimento de não perecível',`O alimento não perecível ${item.nome} vence em 5 dias, verificar no estoque. ` );
+      const alertaNPerecivel = await alerta.criarAlerta(item,'Vencimento de não perecível',`O alimento não perecível ${item.nome} vence em: ${item.validade.toDate()} ` );
       listaAlertas.push(alertaNPerecivel);
     }
     else if (diasParaVencimento < 0) {

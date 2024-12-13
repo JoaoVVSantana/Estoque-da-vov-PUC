@@ -6,7 +6,7 @@ import express from 'express';
 const router = express.Router();
 
 //HISTORICO DE ALTERACOES
-router.get('/historico', autenticarToken, async (req, res) => { 
+router.get('/historico',  async (req, res) => { 
     try {
       const historicoCompleto = await alteracao.findAll();
   
@@ -18,7 +18,7 @@ router.get('/historico', autenticarToken, async (req, res) => {
     }
 });
 
-  router.get('/historicoMesAtual',autenticarToken, async (req, res) => { 
+  router.get('/historicoMesAtual', async (req, res) => { 
     try {
       const mesAtual = new Date().getMonth(); // Índice do mês atual (0 = Janeiro)
       const anoAtual = new Date().getFullYear(); // Ano atual
@@ -36,7 +36,7 @@ router.get('/historico', autenticarToken, async (req, res) => {
     }
   });
 
-  router.get('/historicoDiaEspecifico', autenticarToken,async (req, res) => { 
+  router.get('/historicoDiaEspecifico', async (req, res) => { 
     try {
       const {dateCalendario} = req.body;
 
@@ -56,7 +56,7 @@ router.get('/historico', autenticarToken, async (req, res) => {
 });
 
 
-router.get('/relatorioDeConsumo', autenticarToken,async (req, res) => { 
+router.get('/relatorioDeConsumo', async (req, res) => { 
   try {
 
     const { dataInicioRaw,dataFimRaw } = req.body;
@@ -85,7 +85,7 @@ router.get('/relatorioDeConsumo', autenticarToken,async (req, res) => {
   }
 });
 /// Apagar uma Alteracao por id
-router.delete('/:id/apagarAlteracao', autenticarToken,async (req, res) => {
+router.delete('/:id/apagarAlteracao', async (req, res) => {
   const { id_alteracao} = req.params;
   try {
     const objeto = await alteracao.findByPk(id_alteracao);

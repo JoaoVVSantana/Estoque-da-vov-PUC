@@ -8,7 +8,7 @@ import express from 'express';
 const router = express.Router();
 
 // REGISTRAR NOVO DOADOR (com Email)
-router.post('/registrarDoador', autenticarToken,async (req, res) => { 
+router.post('/registrarDoador', async (req, res) => { 
   const { nomeCompletoDoador,emailDoador } = req.body;
   
   // Validar se os dados fazem sentido 
@@ -39,7 +39,7 @@ router.post('/registrarDoador', autenticarToken,async (req, res) => {
 });
 
 // LISTAR TODOS ITENS DE DOAÇÕES
-router.get('/todosItensDeDoacoes', autenticarToken,async (req, res) => { 
+router.get('/todosItensDeDoacoes', async (req, res) => { 
   try {
     const itens = await item.buscarItensDoacao();
     console.log(itens);
@@ -54,7 +54,7 @@ router.get('/todosItensDeDoacoes', autenticarToken,async (req, res) => {
 });
 
 // LISTAR TODOS DOADORES
-router.get('/doadores', autenticarToken,async (req, res) => { 
+router.get('/doadores', async (req, res) => { 
   try {
     const doadores = await doador.findAll();
     res.status(200).json(doadores);
@@ -65,7 +65,7 @@ router.get('/doadores', autenticarToken,async (req, res) => {
 });
 
 /// Apagar um Doador por id
-router.delete('/:id/apagarDoador', autenticarToken,async (req, res) => {
+router.delete('/:id/apagarDoador', async (req, res) => {
   const { id_doador} = req.params;
   try {
     const objeto = await doador.findByPk(id_doador);
@@ -83,7 +83,7 @@ router.delete('/:id/apagarDoador', autenticarToken,async (req, res) => {
 });
 
 // REGISTRAR DOACAO (Mesmo que o doador nao seja cadastrado, pede o nome)
-router.post('/registrarDoacao', autenticarToken,async (req, res) => { 
+router.post('/registrarDoacao', async (req, res) => { 
   const { nomeCompletoDoador, nomeItem, validade, tipo, quantidade, id_lote } = req.body; // Incluindo informações do item
 
   // Validação de dados

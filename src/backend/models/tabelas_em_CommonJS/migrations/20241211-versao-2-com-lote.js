@@ -1,5 +1,7 @@
 module.exports = {
+  
   up: async (queryInterface, Sequelize) => {
+    const { DataTypes } = Sequelize;
     // Tabela: estoque (deve vir antes de gerente e outras dependências)
     await queryInterface.createTable('estoque', {
       id_estoque: {
@@ -47,6 +49,7 @@ module.exports = {
           model: 'estoque',
           key: 'id_estoque',
         },
+        defaultValue: 1,
         allowNull: true,
       },
     });
@@ -63,16 +66,21 @@ module.exports = {
         references: {
           model: 'estoque',
           key: 'id_estoque',
+          
         },
         allowNull: false,
+        defaultValue: 1,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       },
       quantidade: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         defaultValue: 0,
       },
+      nome:{
+          type: DataTypes.STRING,
+          allowNull: false,
+        }
     });
 
     // Tabela: doadores
@@ -99,6 +107,7 @@ module.exports = {
         references: {
           model: 'estoque',
           key: 'id_estoque',
+          defaultValue: 1,
         },
         allowNull: false,
         onDelete: 'CASCADE',

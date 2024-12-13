@@ -9,7 +9,7 @@ import dotenv from 'dotenv';
 dotenv.config('../../.env');
 const router = express.Router();
 
-router.get('/pedirDoacao',autenticarToken, async (req,res) => {
+router.get('/pedirDoacao', async (req,res) => {
   const {nomeDoador, emailDoador} = req.body;
   
   try {
