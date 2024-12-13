@@ -4,7 +4,7 @@ import {
   loteDeItens,
 } from './../../packages.js';
 import database from '../../db/database.js';
-import Op from 'sequelize';
+import formatarData from '../utils/formatarData.js';
 const item = database.define('item', {
   id_item: {
     type: DataTypes.INTEGER,
@@ -51,57 +51,55 @@ const item = database.define('item', {
 // #endregion
 
 // #region Métodos
-item.todosItensPertoDoVencimento = async function  () { 
+item.todosItensPertoDoVencimento = async function () {
+  try {
+    const itens = await item.findAll();
 
-  const itens = await item.findAll({
-    where: {
-      [Op.or]: [
-        { validade: { [Op.lte]: new Date(new Date().setDate(new Date().getDate() + 30)) } },
-        { validade: { [Op.lte]: new Date(new Date().setDate(new Date().getDate() + 2)) } },
-        { validade: { [Op.lte]: new Date(new Date().setDate(new Date().getDate() + 5)) } },
-      ],
-    },
-  });
-  let listaAlertas = new Array();
-  for (const item of itens) {
-     const diasParaVencimento = (new Date(item.validade) - new Date()) / (1000 * 60 * 60 * 24);
-     
-    if (item.tipo=='Medicamento' && diasParaVencimento < 30) {
-      const alertaMedicamento = await alerta.criarAlerta(item,'Vencimento de medicamento',`O medicamento ${item.nome} vence em: ${item.validade.toDate()} ` );
+    const listaAlertas = await Promise.all(
+      itens.map(async (item) => {   
+        const diasParaVencimento = Math.floor(
+          (new Date(item.validade) - new Date()) / (1000 * 60 * 60 * 24)
+        );
 
-    listaAlertas.push(alertaMedicamento);
-    }
-    else if (item.tipo=='Perecivel' && diasParaVencimento < 5) {
-      const alertaPerecivel = await alerta.criarAlerta(item,'Vencimento de perecível',`O alimento perecível ${item.nome} vence em: ${item.validade.toDate()} ` );
-      listaAlertas.push(alertaPerecivel);
-    }
-    else if (item.tipo=='Nao Perecivel' && diasParaVencimento < 10) {
-      const alertaNPerecivel = await alerta.criarAlerta(item,'Vencimento de não perecível',`O alimento não perecível ${item.nome} vence em: ${item.validade.toDate()} ` );
-      listaAlertas.push(alertaNPerecivel);
-    }
-    else if (diasParaVencimento < 0) {
-      const alertaVencido = await alerta.criarAlerta(item,'A validade do item está vencida! ',` ${item.nome} de ID: ${item.id_item}, validade:${item.validade}  deve ser identificado e descartado imediatamente! ` );
-      listaAlertas.push(alertaVencido);
-    }
+        if (diasParaVencimento < 5) {
+          const dataFormatada = await formatarData(item.validade);
+          return await alerta.criarAlerta(
+            item,
+            "Alerta de vencimento",
+            `O item ${item.nome} vence em: ${dataFormatada}`
+          );
+        }
+      })
+    );
 
+    return listaAlertas.filter(Boolean); // Remove alertas inválidos
+  } catch (error) {
+    console.error("Erro ao criar Alertas:", error.message);
+    throw new Error("Erro ao processar alertas.");
   }
-  return listaAlertas;
 };
 
 item.itensVencidos = async function  () { 
 
-  const itens = await item.findAll();
-  let itensVencidos = new Array();
-  for (const item of itens) {
-     const diasParaVencimento = (new Date(item.validade) - new Date()) / (1000 * 60 * 60 * 24);
-     
-    if (diasParaVencimento < 0) {
+  const todosItens = await item.findAll();
+    const listaVencidos = await Promise.all(
+      todosItens.map(async (item) => {   
+        const diasParaVencimento = Math.floor(
+          (new Date(item.validade) - new Date()) / (1000 * 60 * 60 * 24)
+        );
+        if (diasParaVencimento <= 0 ) {
+          const dataFormatada = await formatarData(item.validade); // no utils
+          return await alerta.criarAlerta(
+            item,
+            "Alerta de vencimento",
+            `O item ${item.nome} VENCEU em: ${dataFormatada}, DEVE SER DESCARTADO! `
+          );
+        }
+      })
+    );
 
-      itensVencidos.push(item);
-    }
-   
-  }
-  return itensVencidos;
+    return listaVencidos.filter(Boolean); // > remover alertas invalidos
+  
 };
 
 /*
@@ -229,7 +227,6 @@ item.contaQuantosItensExistemPeloLote = async function (itemA) {
   const loteDoItem = await loteDeItens.findByPk(itemA.id_lote);
   return loteDoItem.quantidade;
 };
-
 
 // #endregion
 

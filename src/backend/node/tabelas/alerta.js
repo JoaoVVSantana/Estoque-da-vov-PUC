@@ -57,7 +57,6 @@ alerta.criarAlerta = async function (itemAlertado, motivoAlertado, conteudoAlert
     id_estoque: 1,
     id_gerente: 1,
   });
-  console.log('Alerta Criado:', novoAlerta);
   return novoAlerta;
 };
 // #endregion

@@ -48,10 +48,10 @@ router.get('/itensVencidos', async (req, res) => {
     if (!estoqueEncontrado) {
       return res.status(404).json({ error: 'Estoque não encontrado' });
     }
-    const itensVencidos= await item.itensVencidos();
-    if(itensVencidos==null)
+    const alertasItensVencidos= await item.itensVencidos();
+    if(alertasItensVencidos.length === 0)
     {
-      res.json({
+      res.status(200).json({
         message: 'Nenhum item vencido no estoque',
       });
     }
@@ -59,10 +59,11 @@ router.get('/itensVencidos', async (req, res) => {
     {
       res.status(200).json({
         message: 'Estes itens estão vencidos, identefique e descarte-os imediatamente!: ',
-        itensVencidos: itensVencidos.map(item => ({
-          id_item:item.id_item,
-          nome:item.nome,
-          validade: item.validade,
+        alertas: alertasItensVencidos.map(alerta => ({
+          conteudo: alerta.conteudo,
+          motivo: alerta.motivo,
+          dataCriacao: alerta.data_criacao, 
+          itemId: alerta.id_item,   
         }))
       });
     }      
@@ -134,4 +135,5 @@ router.get('/lotesVazios', async (req, res) => {
     res.status(500).json({ error: 'Erro ao criar Alertas' });
   }
 });
+
 export default router;
