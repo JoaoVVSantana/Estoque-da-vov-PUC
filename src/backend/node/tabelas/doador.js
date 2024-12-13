@@ -18,7 +18,7 @@ import {
     },
     quantidadeItensDoados:{ 
         type:DataTypes.INTEGER,
-        allowNull:true,
+        defaultValue:0,
     },
     id_estoque:{
         type: DataTypes.STRING,
@@ -40,8 +40,9 @@ timestamps: false,
 
 // #endregion
 
-doador.atualizarItensDoados = async function (doadorA) {
-    doadorA.quantidadeItensDoados+=1;
+doador.atualizarItensDoados = async function (doadorA, quantidade) {
+    const doacoesAnteriores = parseInt(doadorA.quantidadeItensDoados) || 0;
+    doadorA.quantidadeItensDoados = doacoesAnteriores + parseInt(quantidade);
     await doadorA.save();
 }
 doador.atualizarEmail = async function (doadorA, emailAtt) {

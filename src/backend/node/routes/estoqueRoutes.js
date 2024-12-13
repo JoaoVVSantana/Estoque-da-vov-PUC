@@ -4,6 +4,7 @@ import {
 } from './../../packages.js';
 import express from 'express';
 import autenticarToken from '../../middlewares/autenticarToken.js';
+import database from '../../db/database.js';
 import { loteDeItens } from '../tabelas/relacionamentos.js';
 const router = express.Router();
 
@@ -64,7 +65,7 @@ router.get('/itensFaltando', async (req, res) => {
 // LISTA TODOS ITENS DO ESTOQUE
 router.get('/listarItens', async (req, res) => {
   try {
-    const todosItens = await item.buscarTodosItens();
+    const todosItens = await item.findAll();
     res.json({
       message: 'Lista de todos os itens no estoque',
       itens: todosItens,
@@ -96,21 +97,24 @@ router.put('/atualizarItem/:id_item', async (req, res) => {
 
 // RETIRAR ITEM DO ESTOQUE POR BODY
 router.post('/retirarItem',  async (req, res) => {
-  const {id_lote, quantidade} = req.body; // Agora, 'quantidade' e 'id_lote' são obrigatórios
+  const {id_item} = req.body;
 
   // Verifica se os dados obrigatórios foram inseridos
-  if (!id_item || !quantidade) {
-    return res.status(400).json({ error: 'Os campos id_item e quantidade são obrigatórios.' });
+  if (!id_item ) {
+    return res.status(400).json({ error: 'O campo id_item é obrigatório.' });
   }
 
+  const transaction = await database.transaction();
   try {
-    // Chama a função para retirar o item do lote
-    await loteDeItens.retirarItens(id_lote,quantidade); // Passa o ID do estoque (1) e a quantidade
 
-    res.json({ message: 'Retirada realizada com sucesso', item: id_item, quantidade });
+    await loteDeItens.retirarItem(id_item,transaction); 
+
+    transaction.commit();
+    res.json({ message: 'Retirada realizada com sucesso', item: id_item});
   } catch (error) {
     console.error('Erro ao processar a retirada:', error);
     res.status(400).json({ error: error.message });
+    await transaction.rollback();
   }
 });
 
@@ -121,19 +125,29 @@ router.post('/inserirItem',  async (req, res) => {
   if (!nome || !validade || !tipo || !quantidade || !id_lote) {
     return res.status(400).json({ error: 'Todos os campos são obrigatórios: nome, validade, tipo, quantidade, id_lote' });
   }
+  const transaction = await database.transaction();
   try {
-    // Chama a função para inserir o item no lote
-    const itensAdicionados = await loteDeItens.adicionarItens(nome,validade,tipo, id_doador, id_lote,quantidade)
 
+    
+    if(quantidade>1){
+      await loteDeItens.adicionarVariosItens(nome,validade,tipo, id_doador, id_lote,quantidade, transaction)
+    }
+    else if (quantidade==1){
+      await loteDeItens.adicionarUmItem(nome,validade,tipo, id_doador, id_lote, transaction)
+    }
+    else return res.status(400).json({ error: 'Quantidade inválida' });
+
+    await transaction.commit();
     // Retorna uma resposta de sucesso
     res.json({
       message: 'Adicionado no estoque: ',
-      quantidade: itensAdicionados.count(),
-      nome: item.nome
+      quantidade: quantidade,
+      nome: nome
     });
   } catch (error) {
     console.error('Erro ao inserir o item no estoque: ', error);
     res.status(400).json({ error: error.message });
+    await transaction.rollback();
   }
 });
 

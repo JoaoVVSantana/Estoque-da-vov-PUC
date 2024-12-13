@@ -104,13 +104,13 @@ router.post('/registrarDoacao', async (req, res) => {
       nome: nomeItem,
       validade,
       tipo,
-      quantidade,
+      quantidade:parseInt(quantidade),
       id_doador:doadorAtual.id_doador,
       id_lote
     });
     
     if (response.status === 200) {
-      await doador.atualizarItensDoados(doadorAtual);
+      await doador.atualizarItensDoados(doadorAtual, quantidade);
       res.status(201).json({
         message: 'Doação registrada com sucesso!',
         doador: doadorAtual.nome,

@@ -19,7 +19,7 @@ const alerta = database.define('alerta', {
     allowNull: false,
   },
   data_criacao: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     defaultValue: DataTypes.NOW,
   },
   id_item: {
@@ -57,6 +57,7 @@ alerta.criarAlerta = async function (itemAlertado, motivoAlertado, conteudoAlert
     id_estoque: 1,
     id_gerente: 1,
   });
+  console.log('Alerta Criado:', novoAlerta);
   return novoAlerta;
 };
 // #endregion

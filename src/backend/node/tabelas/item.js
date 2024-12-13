@@ -4,6 +4,7 @@ import {
   loteDeItens,
 } from './../../packages.js';
 import database from '../../db/database.js';
+import Op from 'sequelize';
 const item = database.define('item', {
   id_item: {
     type: DataTypes.INTEGER,
@@ -15,7 +16,7 @@ const item = database.define('item', {
     allowNull: false,
   },
   validade: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: false,
   },
   id_doador: {
@@ -52,7 +53,15 @@ const item = database.define('item', {
 // #region Métodos
 item.todosItensPertoDoVencimento = async function  () { 
 
-  const itens = await item.findAll();
+  const itens = await item.findAll({
+    where: {
+      [Op.or]: [
+        { validade: { [Op.lte]: new Date(new Date().setDate(new Date().getDate() + 30)) } },
+        { validade: { [Op.lte]: new Date(new Date().setDate(new Date().getDate() + 2)) } },
+        { validade: { [Op.lte]: new Date(new Date().setDate(new Date().getDate() + 5)) } },
+      ],
+    },
+  });
   let listaAlertas = new Array();
   for (const item of itens) {
      const diasParaVencimento = (new Date(item.validade) - new Date()) / (1000 * 60 * 60 * 24);
@@ -62,11 +71,11 @@ item.todosItensPertoDoVencimento = async function  () {
 
     listaAlertas.push(alertaMedicamento);
     }
-    else if (item.tipo=='Perecivel' && diasParaVencimento < 2) {
+    else if (item.tipo=='Perecivel' && diasParaVencimento < 5) {
       const alertaPerecivel = await alerta.criarAlerta(item,'Vencimento de perecível',`O alimento perecível ${item.nome} vence em: ${item.validade.toDate()} ` );
       listaAlertas.push(alertaPerecivel);
     }
-    else if (item.tipo=='Nao Perecivel' && diasParaVencimento < 5) {
+    else if (item.tipo=='Nao Perecivel' && diasParaVencimento < 10) {
       const alertaNPerecivel = await alerta.criarAlerta(item,'Vencimento de não perecível',`O alimento não perecível ${item.nome} vence em: ${item.validade.toDate()} ` );
       listaAlertas.push(alertaNPerecivel);
     }

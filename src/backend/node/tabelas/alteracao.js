@@ -1,5 +1,6 @@
 import { 
   DataTypes,
+  item
 } from './../../packages.js';
 import database from '../../db/database.js';
 const alteracao = database.define('alteracao', {
@@ -17,7 +18,7 @@ const alteracao = database.define('alteracao', {
     defaultValue: DataTypes.NOW,
   },
   tipo: {
-    type: DataTypes.ENUM('entrada', 'saída'),
+    type: DataTypes.STRING,
     allowNull: false,
   },
   id_estoque: {
@@ -28,7 +29,7 @@ const alteracao = database.define('alteracao', {
     },
     allowNull: false,
   },
-  gerenteResponsavel: {
+  id_gerente: {
     type: DataTypes.INTEGER,
     references:{
       model: 'gerente',
@@ -36,7 +37,7 @@ const alteracao = database.define('alteracao', {
     },
     allowNull: false,
   },
-  itemAlterado: {
+  id_item: {
     type:DataTypes.INTEGER,
     references:{
       model: 'item',
@@ -105,18 +106,17 @@ alteracao.criarRetiradaDeItem = async function (itemA, estoqueA,transaction) {
 // #endregion
 
 // #region Lista de Itens
-alteracao.criarInsercaoDeItem = async function (itemA, estoqueA, quantidade, transaction) {
+alteracao.criarInsercaoDeItem = async function (itemA, transaction) {
  
   try {
     // Cria a alteração no histórico
     await alteracao.create(
       {
-        descricao: `Inserção de ${quantidade} ${itemA.nome}`,
+        descricao: `Inserção: ${itemA.nome}`,
         data_alteracao: new Date(),
         tipo: 'entrada',
-        id_estoque:estoqueA.id_estoque,
+        id_estoque:1,
         id_item:itemA.id_item,
-        id_historico:estoqueA.id_historico,
         id_gerente:1,
       },
       { transaction }
@@ -128,18 +128,17 @@ alteracao.criarInsercaoDeItem = async function (itemA, estoqueA, quantidade, tra
 }
 
 
-alteracao.criarRetiradaDeItem = async function (itemA, estoqueA, quantidade, transaction) {
+alteracao.criarRetiradaDeItem = async function (itemA, transaction) {
   
   try {
     // Cria a alteração no histórico
     await alteracao.create(
       {
-        descricao: `Retirada de ${quantidade} ${itemA.nome}`,
+        descricao: `Retirada de ${1} ${itemA.nome}`,
         data_alteracao: new Date(),
         tipo: 'saída',
-        id_estoque:estoqueA.id_estoque,
-        id_item:itemA.id_item,
-        id_historico:estoqueA.id_historico,
+        id_estoque:1,
+        id_item: itemA.id_item,
         id_gerente:1,
       },
       { transaction }

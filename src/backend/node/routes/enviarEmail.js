@@ -1,6 +1,7 @@
 import {
   //autenticarToken
-  item,
+  loteDeItens,
+  doador
 } from '../../packages.js';
 import autenticarToken from '../../middlewares/autenticarToken.js';
 import nodemailer from 'nodemailer';
@@ -10,11 +11,12 @@ dotenv.config('../../.env');
 const router = express.Router();
 
 router.get('/pedirDoacao', async (req,res) => {
-  const {nomeDoador, emailDoador} = req.body;
-  
+  const {id_doador} = req.body;
+  const doadorA = await doador.findByPk(id_doador);
+  if(doadorA.email==null) res.status(500).json({ error: 'Este doador não possui email registrado' });
   try {
-    await enviarEmail(emailDoador,nomeDoador);
-    res.status(201).json({ error: 'Email enviado para: ',emailDoador });
+    await enviarEmail(doadorA.email,doadorA.nome);
+    res.status(201).json({ status: 'Email enviado para: ',doadorA });
   } catch (error) {
     console.error('Erro ao enviar Email', error);
     res.status(500).json({ error: 'Erro ao enviar email' });
@@ -24,13 +26,14 @@ router.get('/pedirDoacao', async (req,res) => {
 async function criaTextoDeDoacao(nomeDoador) 
 {
   let mensagem = `Prezado doador ${nomeDoador}, esperamos que esteja bem! \n`;
-  mensagem+= `Nós do lar da Vovó estamos precisando de sua ajuda mais uma vez. Caso tenha interesse em contribuir novamente com a nossa instituição, estes são os itens que mais estão em falta: \n`;
+  mensagem+= `Nós do Lar da Vovó estamos precisando de sua ajuda mais uma vez. Caso tenha interesse em contribuir novamente com a nossa instituição, estes são os itens que mais fazem falta: \n`;
 
-  const itensEmBaixa = await item.todosItensEmBaixaQuantidade();
-  itensEmBaixa.forEach((item) => {
-    mensagem+=`-- ${item.nome} --\n`;
+  const lotes = await loteDeItens.emBaixaQuantidade();
+  
+  lotes.forEach((lote) => {
+    mensagem+=`-- ${lote.nome} --\n`;
   });
-  mensagem+=`Obrigado! `;
+  mensagem+=`Agradecemos imensamente por sua conbribuição e preocupação com nossas idosas! `;
   return mensagem;
 
 }
@@ -40,23 +43,24 @@ const assunto ='O Lar da Vovó precisa da sua ajuda!';
 const mensagem = await criaTextoDeDoacao(nomeDoador);
 
   try {
-    console.log('SMTP_SERVER:', process.env.SMTP_SERVER);
+    console.log('SMTP_SERVER:', process.env.SMTP_HOST);
     console.log('SMTP_PORT:', process.env.SMTP_PORT);
     console.log('EMAIL_USER:', process.env.EMAIL_USER);
-    console.log('EMAIL_SENHA:', process.env.EMAIL_SENHA);
+    console.log('EMAIL_SENHA:', process.env.EMAIL_PASSWORD);
 
     // Configuração do transporte SMTP
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_SERVER,
+      host: process.env.SMTP_HOST,
       port: process.env.SMTP_PORT || 587,
       secure: false, // Use TLS explícito
       auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_SENHA,
+        pass: process.env.EMAIL_PASSWORD,
       },
     });
 
     const isConnected = await transporter.verify();
+    if(!isConnected) return console.error('Erro ao enviar e-mail:', error);
     console.log('Conexão SMTP bem-sucedida:', isConnected);
     console.log('Tipo do transporter:', typeof transporter);
 
