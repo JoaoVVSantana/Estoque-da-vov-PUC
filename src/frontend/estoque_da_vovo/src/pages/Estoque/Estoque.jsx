@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 
 import Btn from '../../components/Btn/Btn.jsx';
 import TableToolbar from '../../components/TableToolbar/TableToolbar.jsx';
@@ -6,79 +7,186 @@ import TableComponent from './../../components/TableComponent/TableComponent.jsx
 import TitleContent from './../../components/TitleContent/TitleContent';
 import BreadCrumbNav from './../../components/BreadCrumbNav/BreadCrumbNav';
 
-import { Tabs, Tab } from 'react-bootstrap';
+import { Tabs, Tab, Form, FormControl, Alert } from 'react-bootstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-
-import { useNavigate } from "react-router-dom";
+import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import { axiosInstanceEstoque } from '../../services/axiosInstance.js';
 import useAxios from '../../hooks/useAxios.js';
 import Loading from '../../components/Loading/Loadings.jsx';
-import { renameKey } from '../../utils/renameKey.js';
-import { formatDate } from '../../utils/formatDate.js';
 
 export default function Estoque() {
-    const [produtosData, error, loading, axiosFetch] = useAxios();
+    const navigate = useNavigate(); // Usando o hook useNavigate
+    const [lotesData, error, loading, axiosFetch] = useAxios();
+    const [createResponse, createError, createLoading, axiosPost] = useAxios(); // Para o POST
+    const [deleteResponse, deleteError, deleteLoading, axiosDelete] = useAxios(); // Para o DELETE
+    const [novoLote, setNovoLote] = useState(""); // Estado para o nome do novo lote
+    const [selectedLotes, setSelectedLotes] = useState([]); // Estado para os lotes selecionados
+
+    const [alertMessage, setAlertMessage] = useState(""); // Mensagem do alerta
+    const [alertVariant, setAlertVariant] = useState(""); // Tipo do alerta (success, danger)
 
     useEffect(() => {
+        // Carregar os lotes na inicialização
         axiosFetch({
             axiosInstance: axiosInstanceEstoque,
             method: 'GET',
-            url: 'estoque/listarItens'
-        });    
-    }, [])
-    
-    /** 
-    const [produtosData, loading] = useAxios({
-        axiosInstance: axiosInstanceEstoque,
-        method: 'GET',
-        url: 'estoque/listarItens'
-    })
-*/
-    //falta map do doador
-    const produtos = produtosData?.itens?.map(({ id_item, id_estoque, ...rest }) => {
-        rest = renameKey(rest, "id_doacao", "doador");
-        rest.validade = formatDate(rest.validade);
-        return rest;
-    })
-    const idsProdutos = produtosData?.itens?.map((item) => item.id_item);
+            url: 'estoque/lotes'
+        });
+    }, []);
 
-    const navigate = useNavigate();
+    // Função para criar um novo lote
+    const handleCreateLote = async () => {
+        if (!novoLote.trim()) {
+            setAlertMessage("O nome do lote não pode estar vazio!");
+            setAlertVariant("warning");
+            return;
+        }
 
-    function handleClickNewProduct() {
-        navigate("/estoque/novo-produto");
+        await axiosPost({
+            axiosInstance: axiosInstanceEstoque,
+            method: 'POST',
+            url: 'estoque/criarLote',
+            data: { nome: novoLote }
+        });
+
+        // Após o POST, verifica se deu certo e faz um novo GET
+        if (!createError) {
+            setAlertMessage("Lote criado com sucesso!");
+            setAlertVariant("success");
+            setNovoLote(""); // Limpa o input
+
+            axiosFetch({
+                axiosInstance: axiosInstanceEstoque,
+                method: 'GET',
+                url: 'estoque/lotes'
+            });
+        } else {
+            setAlertMessage("Erro ao criar lote. Tente novamente.");
+            setAlertVariant("danger");
+            console.error(createError);
+        }
+
+        // Apaga o alerta após alguns segundos
+        setTimeout(() => {
+            setAlertMessage("");
+        }, 5000);
     };
 
-    function handleRowClick(itemId) {
-        console.log("ID clicado:", itemId);
-        alert(`ID do item clicado: ${itemId}`);
-    }
+    // Função para excluir os lotes selecionados
+    const handleDeleteLotes = async () => {
+        if (selectedLotes.length === 0) {
+            setAlertMessage("Nenhum lote selecionado!");
+            setAlertVariant("warning");
+            return;
+        }
 
+        try {
+            for (const loteId of selectedLotes) {
+                await axiosDelete({
+                    axiosInstance: axiosInstanceEstoque,
+                    method: 'DELETE',
+                    url: `estoque/lote/${loteId}`,
+                });
+            }
+
+            setAlertMessage("Lotes excluídos com sucesso!");
+            setAlertVariant("success");
+
+            // Recarrega os lotes após a exclusão
+            axiosFetch({
+                axiosInstance: axiosInstanceEstoque,
+                method: 'GET',
+                url: 'estoque/lotes'
+            });
+
+            // Limpa a seleção
+            setSelectedLotes([]);
+        } catch (err) {
+            setAlertMessage("Erro ao excluir lotes. Tente novamente.");
+            setAlertVariant("danger");
+            console.error(deleteError);
+        }
+
+        // Apaga o alerta após alguns segundos
+        setTimeout(() => {
+            setAlertMessage("");
+        }, 5000);
+    };
+
+    // Mapeando os dados dos lotes
+    const lotes = lotesData?.lotes?.map(({ id_lote, id_estoque, nome, quantidade }) => ({
+        nome: nome,
+        quantidade: quantidade
+    }));
+
+    const idsLotes = lotesData?.lotes?.map((lote) => lote.id_lote);
+
+    // Função para lidar com a seleção de lotes
     function handleSelectionChange(selectedIds) {
         console.log("IDs selecionados:", selectedIds);
+        setSelectedLotes(selectedIds); // Atualiza os lotes selecionados
+    }
+
+    // Função para redirecionar para a página do produto
+    function handleRowClick(loteId) {
+        navigate(`/estoque/produto/${loteId}`); // Redireciona para a página de produto com o id do lote
     }
 
     if (loading) {
-        return <Loading />
+        return <Loading />;
     }
 
     return (
         <>
             <BreadCrumbNav />
-            <TitleContent title={"Estoque de Produtos"} />
-            <Btn text="Novo Produto" icon={<FontAwesomeIcon icon={faPlus} />} onClick={handleClickNewProduct} />
+            <TitleContent title={"Estoque de Lotes"} />
+
+            {/* Botão, Input e Alerta */}
+            <div className='d-flex align-items-center mb-3'>
+                <Btn
+                    text={createLoading ? "Criando..." : "Novo Lote"}
+                    icon={<FontAwesomeIcon icon={faPlus} />}
+                    onClick={handleCreateLote}
+                    disabled={createLoading}
+                />
+                <Form className="d-flex w-25">
+                    <FormControl
+                        type="text"
+                        placeholder="Digite o nome do lote"
+                        className="ms-2 me-2 mb-4"
+                        aria-label="Nome do lote"
+                        value={novoLote}
+                        onChange={(e) => setNovoLote(e.target.value)}
+                    />
+                </Form>
+            </div>
+
+            {/* Exibe o Alerta */}
+            {alertMessage && (
+                <Alert variant={alertVariant} className="w-50">
+                    {alertMessage}
+                </Alert>
+            )}
+
             <TableToolbar />
-            <Tabs defaultActiveKey="geral" id="table-tabs" className="mb-3">
-                <Tab eventKey="geral" title="Todos">
-                    <TableComponent rowIds={idsProdutos} items={produtos} onRowClick={handleRowClick} onSelectionChange={handleSelectionChange} />
-                </Tab>
-                <Tab eventKey="Doações" title="Doados">
-                    <TableComponent rowIds={idsProdutos} items={produtos} onRowClick={handleRowClick} onSelectionChange={handleSelectionChange} />
+            <Tabs defaultActiveKey="todos" id="table-tabs" className="mb-3">
+                <Tab eventKey="todos" title="Todos">
+                    {/* Botão de Exclusão */}
+                    <Btn
+                        text={deleteLoading ? "Excluindo aguarde..." : "Excluir Lotes Selecionados"}
+                        icon={<FontAwesomeIcon icon={faTrash} />}
+                        onClick={handleDeleteLotes}
+                    />
+                    <TableComponent
+                        rowIds={idsLotes}
+                        items={lotes}
+                        onSelectionChange={handleSelectionChange}
+                        onRowClick={handleRowClick} // Alterado aqui para lidar com o clique na linha
+                    />
                 </Tab>
             </Tabs>
-
         </>
     );
 }

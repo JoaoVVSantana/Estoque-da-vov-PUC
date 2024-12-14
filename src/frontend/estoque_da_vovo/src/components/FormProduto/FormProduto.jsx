@@ -16,12 +16,18 @@ export default function FormProduto({ isNew = false, onSubmitForm }) {
     const [formData, setFormData] = useState({
         nome: '',
         categoria: 'Higiene',
-        validade: ''
+        validade: '',
+        quantidade: 0,
+        doador: '',
     });
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        const { name, value, type } = e.target;
+        
+        setFormData({
+            ...formData,
+            [name]: type === 'number' ? Number(value) : value, // Converte para número apenas se o tipo for 'number'
+        });
     };
 
     const handleFormSubmit = () => {
@@ -40,6 +46,15 @@ export default function FormProduto({ isNew = false, onSubmitForm }) {
                         onChange={handleInputChange}
                     />
                 </Form.Group>
+                <Form.Group as={Col} xl="6" className='mb-4'>
+                    <Form.Label>Nome do Doador (Caso Tiver)</Form.Label>
+                    <Form.Control
+                        name="doador"
+                        placeholder='"Anderson Silva"'
+                        value={formData.doador}
+                        onChange={handleInputChange}
+                    />
+                </Form.Group>
 
 
 
@@ -55,9 +70,13 @@ export default function FormProduto({ isNew = false, onSubmitForm }) {
                             onChange={handleInputChange}
                         >
                             <option>Higiene</option>
-                            <option>Alimentos</option>
+                            <option>Alimentos Perecível</option>
+                            <option>Alimentos Não Perecível</option>
                             <option>Limpeza</option>
                             <option>Medicamentos</option>
+                            <option>Conforto</option>
+                            <option>Roupas</option>
+                            <option>Lazer</option>
                             <option>Outros</option>
                         </Form.Select>
                     </InputGroup>
@@ -73,12 +92,17 @@ export default function FormProduto({ isNew = false, onSubmitForm }) {
             </Row>
             */}
             <Row >
-                {/*
+
                 <Form.Group as={Col} md="6" lg="3" xl="3" className='mb-4'>
                     <Form.Label>Quantidade</Form.Label>
-                    <Form.Control placeholder='"28"' type='number' />
+                    <Form.Control
+                        name='quantidade'
+                        placeholder='"28"'
+                        type='number'
+                        value={formData.quantidade}
+                        onChange={handleInputChange} />
                 </Form.Group>
-
+                {/*
                 <Form.Group as={Col} md="6" lg="3" xl="3" className='mb-4'>
                     <Form.Label>Gasto Diário</Form.Label>
                     <Form.Control placeholder='"5"'  type='number'/>

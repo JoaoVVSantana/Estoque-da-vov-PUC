@@ -99,24 +99,59 @@ router.put('/atualizarItem/:id_item', async (req, res) => {
 router.post('/retirarItem', async (req, res) => {
   const { id_item } = req.body;
 
-  // Verifica se os dados obrigatórios foram inseridos
   if (!id_item) {
     return res.status(400).json({ error: 'O campo id_item é obrigatório.' });
   }
 
   const transaction = await database.transaction();
+
   try {
+    // Busca o item a ser excluído para obter o id_lote associado
+    const itemASerExcluido = await item.findOne({
+      where: { id_item },
+      transaction
+    });
 
-    await loteDeItens.retirarItem(id_item, transaction);
+    if (!itemASerExcluido) {
+      await transaction.rollback();
+      return res.status(404).json({ error: 'Item não encontrado.' });
+    }
 
-    transaction.commit();
-    res.json({ message: 'Retirada realizada com sucesso', item: id_item });
+    const id_lote = itemASerExcluido.id_lote;
+
+    // Exclui registros relacionados na tabela "alertas"
+    await database.query(
+      `DELETE FROM alertas WHERE id_item = :id_item`,
+      {
+        replacements: { id_item },
+        type: database.QueryTypes.DELETE,
+        transaction
+      }
+    );
+
+    // Exclui o item da tabela "itens"
+    await item.destroy({
+      where: { id_item },
+      transaction
+    });
+
+    // Atualiza a quantidade no lote (decrementa 1)
+    await loteDeItens.decrement('quantidade', {
+      by: 1,
+      where: { id_lote },
+      transaction
+    });
+
+    await transaction.commit();
+    res.json({ message: 'Item retirado com sucesso e quantidade do lote atualizada.', item: id_item });
   } catch (error) {
     console.error('Erro ao processar a retirada:', error);
-    res.status(400).json({ error: error.message });
     await transaction.rollback();
+    res.status(500).json({ error: 'Erro ao processar a retirada do item.' });
   }
 });
+
+
 
 // INSERIR ITEM NO ESTOQUE COM LOTE 
 router.post('/inserirItem', async (req, res) => {
@@ -237,6 +272,51 @@ router.get('/lotes/:id_lote/itens', async (req, res) => {
   }
 });
 
+// EXCLUIR UM LOTE PELO ID E SEUS ITENS ASSOCIADOS, EXCLUINDO AS REFERÊNCIAS NA TABELA "alertas"
+router.delete('/lote/:id', async (req, res) => {
+  const { id } = req.params;
+
+  const transaction = await database.transaction(); // Inicia uma transação
+
+  try {
+    // Verifica se o lote existe
+    const lote = await loteDeItens.findByPk(id);
+    if (!lote) {
+      return res.status(404).json({ message: 'Lote não encontrado.' });
+    }
+
+    // Exclui as referências dos itens na tabela "alertas"
+    await database.query(
+      `DELETE FROM alertas WHERE id_item IN (SELECT id_item FROM itens WHERE id_lote = ?)`,
+      {
+        replacements: [id],
+        type: database.QueryTypes.DELETE,
+        transaction,
+      }
+    );
+
+    // Exclui os itens associados ao lote
+    await item.destroy({
+      where: { id_lote: id },
+      transaction,
+    });
+
+    // Exclui o lote
+    await loteDeItens.destroy({
+      where: { id_lote: id },
+      transaction,
+    });
+
+    // Comita a transação
+    await transaction.commit();
+
+    res.status(200).json({ message: 'Lote e itens associados excluídos com sucesso!' });
+  } catch (error) {
+    console.error('Erro ao excluir o lote e itens associados:', error);
+    await transaction.rollback(); // Em caso de erro, desfaz a transação
+    res.status(500).json({ error: 'Erro ao excluir o lote e itens associados.' });
+  }
+});
 
 
 

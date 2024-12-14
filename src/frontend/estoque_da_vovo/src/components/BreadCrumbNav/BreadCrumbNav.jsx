@@ -24,7 +24,7 @@ export default function BreadCrumbNav() {
                         {treatment(value)}
                     </Breadcrumb.Item>
                 ) : (
-                    <Breadcrumb.Item linkAs={Link} linkProps={{ to }} key={to}>
+                    <Breadcrumb.Item  key={to}>
                         {treatment(value)}
                     </Breadcrumb.Item>
                 );

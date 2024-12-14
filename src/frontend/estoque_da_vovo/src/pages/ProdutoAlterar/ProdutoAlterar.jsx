@@ -1,3 +1,4 @@
+import { useParams } from 'react-router-dom';
 import FormProduto from '../../components/FormProduto/FormProduto.jsx';
 import TitleContent from '../../components/TitleContent/TitleContent.jsx';
 import useAxios from '../../hooks/useAxios.js';
@@ -5,13 +6,11 @@ import { axiosInstanceEstoque } from '../../services/axiosInstance.js';
 import BreadCrumbNav from './../../components/BreadCrumbNav/BreadCrumbNav';
 import Alert from 'react-bootstrap/Alert';
 
-import { useParams, useNavigate } from 'react-router-dom';
+export default function ProdutoAlterar() {
+    const {id} = useParams;
 
-export default function NovoProduto() {
-    const { idLote } = useParams();
-    console.log("id "+idLote);
     const [responseData, error, loading, axiosFetch] = useAxios();
-    console.log("load:", loading);
+
     const handleFormSubmit = (data) => {
         console.log("data:", data);
         axiosFetch({
@@ -22,19 +21,16 @@ export default function NovoProduto() {
                 nome: data.nome,
                 validade: data.validade,
                 tipo: data.categoria,
-                quantidade: data.quantidade,
-                id_lote: idLote,
             },
         });
     }
     console.log("RES:", responseData, error);
 
-
     return (
         <>
             <BreadCrumbNav />
             <TitleContent title={"Criando Novo Produto"} />
-            <FormProduto onSubmitForm={handleFormSubmit} isNew />
+            <FormProduto onSubmitForm={handleFormSubmit}/>
             <div className='pt-3 pb-3'>
                 {!loading && !error && responseData.message && <Alert variant={"success"}>Produto inserido com sucesso</Alert>}
                 {loading && <Alert variant={"primary"}>Carregando...</Alert>}

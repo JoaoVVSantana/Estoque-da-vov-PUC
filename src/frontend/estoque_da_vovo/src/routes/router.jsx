@@ -39,7 +39,7 @@ const router = createBrowserRouter([
         element: <Estoque />,
       },
       {
-        path: "/estoque/novo-produto",
+        path: "/estoque/novo-produto/:idLote",
         element: <NovoProduto />,
       },
       {
