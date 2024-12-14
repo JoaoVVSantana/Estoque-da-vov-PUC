@@ -72,6 +72,8 @@ app.use('/api/estoque', estoqueRoutes);
 // GET http://localhost:5000/api/estoque/listarItens -> exibe todos itens do estoque
 // PUT http://localhost:5000/api/estoque//atualizarItem/:id_item -> id_item - novosDados -> atualiza um item por id recebido no param
 // % POST http://localhost:5000/api/estoque/criarLote -> nome -> Cria o lote e o id é autoincrement
+// GET http://localhost:5000/api/estoque/lote/22 pega um lote especifico pelo id
+// GET http://localhost:5000/api/estoque/lotes retorna lista com todos os lotes
 
 
 // %% app.use('/api/alteracoes', autenticarToken,alteracaoRoutes);
