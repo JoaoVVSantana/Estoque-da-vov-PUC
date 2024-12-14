@@ -19,7 +19,7 @@ database.authenticate()
 
 //Autenticação de rotas ainda não implementada >
 // %% import auth from '.././middlewares/auth.js';
-// %% import {corsConfig} from '.././middlewares/cors.js';
+import {corsConfig} from '.././middlewares/cors.js';
 
 // import autenticarToken from '.././middlewares/autenticarToken.js';
 
@@ -34,7 +34,7 @@ import enviarEmail from '../node/routes/enviarEmail.js';
 const PORT = process.env.PORT || 4000;
 const app = express();
 app.use(express.json());
-// %% app.use(corsConfig);
+app.use(corsConfig);
 
 
 //Por enquanto vamos usar o cors permitindo que qualquer host acesse a API, sem fazer autenticacao
