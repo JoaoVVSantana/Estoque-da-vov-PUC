@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 import Btn from '../../components/Btn/Btn.jsx';
 import TableToolbar from '../../components/TableToolbar/TableToolbar.jsx';
@@ -171,14 +171,14 @@ export default function Estoque() {
             )}
 
             <TableToolbar />
+            {/* Botão de Exclusão */}
+            <Btn
+                text={deleteLoading ? "Excluindo aguarde..." : "Excluir Lotes Selecionados"}
+                icon={<FontAwesomeIcon icon={faTrash} />}
+                onClick={handleDeleteLotes}
+            />
             <Tabs defaultActiveKey="todos" id="table-tabs" className="mb-3">
                 <Tab eventKey="todos" title="Todos">
-                    {/* Botão de Exclusão */}
-                    <Btn
-                        text={deleteLoading ? "Excluindo aguarde..." : "Excluir Lotes Selecionados"}
-                        icon={<FontAwesomeIcon icon={faTrash} />}
-                        onClick={handleDeleteLotes}
-                    />
                     <TableComponent
                         rowIds={idsLotes}
                         items={lotes}

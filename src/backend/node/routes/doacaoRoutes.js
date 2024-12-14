@@ -100,7 +100,7 @@ router.post('/registrarDoacao', async (req, res) => {
       doadorAtual = await doador.create({ nome: nomeCompletoDoador, email: null,id_estoque:1 });
     }
     // Chama a API de inserir um item
-    const response = await axios.post('http://localhost:5000/api/estoque//inserirItem', {
+    const response = await axios.post('http://localhost:5000/api/estoque/inserirItem', {
       nome: nomeItem,
       validade,
       tipo,

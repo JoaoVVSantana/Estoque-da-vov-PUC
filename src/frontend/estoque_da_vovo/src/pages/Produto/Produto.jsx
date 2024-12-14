@@ -13,12 +13,24 @@ import { Tabs, Tab, Alert } from 'react-bootstrap';
 import Loading from '../../components/Loading/Loadings.jsx';
 
 export default function Produto() {
-    const { id } = useParams(); // Obtém o id do lote da URL
-    const navigate = useNavigate(); // Hook para navegação
-    const [alertMessage, setAlertMessage] = useState(""); // Para exibir alertas
-    const [alertVariant, setAlertVariant] = useState(""); // Tipo do alerta (success, danger)
-    const [selectedItens, setSelectedItens] = useState([]); // Itens selecionados na tabela
-    const [itens, error, loading, axiosFetch] = useAxios(); // Hook personalizado para requisições
+    const { id } = useParams();
+    const navigate = useNavigate();
+
+    const [alertMessage, setAlertMessage] = useState("");
+    const [alertVariant, setAlertVariant] = useState("");
+    const [selectedItens, setSelectedItens] = useState([]);
+    const [itens, error, loading, axiosFetch] = useAxios();
+    const [doadores, setDoadores] = useState([]); // Estado para lista de doadores
+
+    // Função para buscar os doadores
+    const fetchDoadores = async () => {
+        try {
+            const response = await axiosInstanceEstoque.get('doacoes/doadores');
+            setDoadores(response.data);
+        } catch (error) {
+            console.error("Erro ao buscar doadores:", error);
+        }
+    };
 
     // Busca os itens do lote ao montar o componente ou quando o ID muda
     useEffect(() => {
@@ -37,6 +49,7 @@ export default function Produto() {
         };
 
         if (id) {
+            fetchDoadores(); // Carrega os doadores
             fetchItens();
         }
     }, [id]);
@@ -61,9 +74,8 @@ export default function Produto() {
 
             setAlertMessage("Itens retirados com sucesso!");
             setAlertVariant("success");
-            setSelectedItens([]); // Limpa a seleção
+            setSelectedItens([]);
 
-            // Recarrega os itens
             await axiosFetch({
                 axiosInstance: axiosInstanceEstoque,
                 method: 'GET',
@@ -75,68 +87,73 @@ export default function Produto() {
             console.error(err);
         }
 
-        setTimeout(() => setAlertMessage(""), 5000); // Limpa o alerta após 5 segundos
+        setTimeout(() => setAlertMessage(""), 5000);
     };
 
     // Redireciona para a página de Novo Produto
     const handleNewProduct = () => {
-        navigate(`/estoque/novo-produto/${id}`); // Redireciona com o id do lote
+        navigate(`/estoque/novo-produto/${id}`);
     };
 
-    // Manipula os dados dos itens para exibir na tabela
-    const processedItens = itens?.itens?.map((item) => ({
-        id_item: item.id_item,
-        nome: item.nome,
-        validade: item.validade,
-        tipo: item.tipo,
-        id_doador: item.id_doador
-    }));
+    // Relaciona os itens com os nomes dos doadores
+    const processedItens = itens?.itens?.map((item) => {
+        const doador = doadores.find((d) => d.id_doador === item.id_doador);
+        return {
+            id_item: item.id_item,
+            nome: item.nome,
+            validade: item.validade,
+            tipo: item.tipo,
+            doador_nome: doador ? doador.nome : "Sem Doador", // Relaciona o nome
+        };
+    });
+
+    // Filtra os itens que possuem doador
+    const itensComDoador = processedItens?.filter((item) => item.doador_nome !== "Sem Doador");
 
     return (
         <>
             <BreadCrumbNav />
             <TitleContent title={"Produto"} />
 
-            {/* Exibe Alerta */}
             {alertMessage && (
                 <Alert variant={alertVariant} className="w-50">
                     {alertMessage}
                 </Alert>
             )}
 
-            {/* Botão Novo Produto */}
             <Btn
                 text="Novo Produto"
                 icon={<FontAwesomeIcon icon={faPlus} />}
-                onClick={handleNewProduct} // Chama a função de redirecionamento
+                onClick={handleNewProduct}
                 disabled={false}
             />
 
             <TableToolbar />
-
-            {/* Tabs para exibir os itens */}
-            <Tabs defaultActiveKey="todos" id="table-tabs" className="mb-3">
-                <Tab eventKey="todos" title="Todos">
-                    {/* Botão de Exclusão */}
-                    <Btn
+            <Btn
                         text="Excluir Itens Selecionados"
                         icon={<FontAwesomeIcon icon={faTrash} />}
-                        onClick={handleDeleteItens} // Chama a função de exclusão
+                        onClick={handleDeleteItens}
                     />
-
-                    {/* Tabela de Itens */}
+            <Tabs defaultActiveKey="todos" id="table-tabs" className="mb-3">
+                <Tab eventKey="todos" title="Todos">
                     <TableComponent
                         rowIds={processedItens?.map((item) => item.id_item)}
                         items={processedItens}
-                        onSelectionChange={(selectedIds) =>
-                            setSelectedItens(selectedIds)
-                        }
+                        onSelectionChange={(selectedIds) => setSelectedItens(selectedIds)}
                         onRowClick={(id) => console.log("Item clicado", id)}
+                    />
+                </Tab>
+
+                <Tab eventKey="doacoes" title="Doações">
+                    <TableComponent
+                        rowIds={itensComDoador?.map((item) => item.id_item)}
+                        items={itensComDoador}
+                        onSelectionChange={(selectedIds) => setSelectedItens(selectedIds)}
+                        onRowClick={(id) => console.log("Item com doador clicado", id)}
                     />
                 </Tab>
             </Tabs>
 
-            {/* Loading enquanto carrega os dados */}
             {loading && <Loading />}
         </>
     );
