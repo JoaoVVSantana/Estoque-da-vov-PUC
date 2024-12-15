@@ -5,16 +5,17 @@ import {
 import axios from 'axios';
 import autenticarToken from '../../middlewares/autenticarToken.js';
 import express from 'express';
+import database from '../../db/database.js';
 const router = express.Router();
 
 // REGISTRAR NOVO DOADOR (com Email)
 router.post('/registrarDoador', async (req, res) => { 
   const { nomeCompletoDoador,emailDoador } = req.body;
   
-  // Validar se os dados fazem sentido 
-  if (!emailDoador) {
+  // Validar se os dados fazem sentido / OBS??? Pela logica do projeto era para ser opcional, além do registrar doação criar doador sem email
+  /*if (!emailDoador) {
     return res.status(400).json({ error: 'É necessário inserir um email' });
-  }
+  }*/
   try {
     // Verifica se o doador já existe pelo nome
     let doadorAtual = await doador.findOne({ where: { nome: nomeCompletoDoador } });
@@ -64,11 +65,11 @@ router.get('/doadores', async (req, res) => {
   }
 });
 
-/// Apagar um Doador por id
+/// Apagar um Doador por id  // obs: corrigido bug
 router.delete('/:id/apagarDoador', async (req, res) => {
-  const { id_doador} = req.params;
+  const {id} = req.params;
   try {
-    const objeto = await doador.findByPk(id_doador);
+    const objeto = await doador.findByPk(id);
     const transaction = await database.transaction();
 
     await objeto.destroy({ transaction });
