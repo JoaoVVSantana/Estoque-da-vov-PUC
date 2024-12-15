@@ -173,6 +173,7 @@ export default function Estoque() {
             <TableToolbar />
             {/* Botão de Exclusão */}
             <Btn
+            variant={"danger"}
                 text={deleteLoading ? "Excluindo aguarde..." : "Excluir Lotes Selecionados"}
                 icon={<FontAwesomeIcon icon={faTrash} />}
                 onClick={handleDeleteLotes}

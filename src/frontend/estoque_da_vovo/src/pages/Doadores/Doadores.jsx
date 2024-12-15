@@ -123,6 +123,7 @@ export default function Doadores() {
 
             {/* Botão de Exclusão */}
             <Btn
+            variant={"danger"}
                 text={deleteLoading ? "Excluindo aguarde..." : "Excluir Doadores Selecionados"}
                 icon={<FontAwesomeIcon icon={faTrash} />}
                 onClick={handleDeleteSelected}

@@ -113,7 +113,7 @@ export default function Produto() {
     return (
         <>
             <BreadCrumbNav />
-            <TitleContent title={"Produto"} />
+            <TitleContent title={"Produtos de um Lote Específico"} />
 
             {alertMessage && (
                 <Alert variant={alertVariant} className="w-50">
@@ -130,6 +130,7 @@ export default function Produto() {
 
             <TableToolbar />
             <Btn
+                        variant={"danger"}
                         text="Excluir Itens Selecionados"
                         icon={<FontAwesomeIcon icon={faTrash} />}
                         onClick={handleDeleteItens}
