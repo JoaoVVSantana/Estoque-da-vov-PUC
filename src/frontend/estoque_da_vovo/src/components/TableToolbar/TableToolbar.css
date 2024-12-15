@@ -16,3 +16,34 @@
     }
 
 }
+.form-bar {
+    width: 100%; /* Largura padrão para dispositivos pequenos */
+}
+
+/* Para dispositivos pequenos (sm) */
+@media (min-width: 576px) {
+    .form-bar {
+        width: 75%; /* Largura para dispositivos pequenos */
+    }
+}
+
+/* Para dispositivos médios (md) */
+@media (min-width: 768px) {
+    .form-bar {
+        width: 50%; /* Largura para dispositivos médios */
+    }
+}
+
+/* Para dispositivos grandes (lg) */
+@media (min-width: 992px) {
+    .form-bar {
+        width: 40%; /* Largura para dispositivos grandes */
+    }
+}
+
+/* Para dispositivos extra grandes (xl) */
+@media (min-width: 1200px) {
+    .form-bar {
+        width: 40%; /* Largura para dispositivos extra grandes */
+    }
+}

@@ -27,6 +27,9 @@ export default function Estoque() {
     const [alertMessage, setAlertMessage] = useState(""); // Mensagem do alerta
     const [alertVariant, setAlertVariant] = useState(""); // Tipo do alerta (success, danger)
 
+    const [filteredLotes, setFilteredLotes] = useState([]);
+    const [sortDirection, setSortDirection] = useState('asc'); // Estado para controlar a ordenação
+
     useEffect(() => {
         // Carregar os lotes na inicialização
         axiosFetch({
@@ -117,6 +120,7 @@ export default function Estoque() {
 
     // Mapeando os dados dos lotes
     const lotes = lotesData?.lotes?.map(({ id_lote, id_estoque, nome, quantidade }) => ({
+        id: id_lote,
         nome: nome,
         quantidade: quantidade
     }));
@@ -133,6 +137,35 @@ export default function Estoque() {
     function handleRowClick(loteId) {
         navigate(`/estoque/produto/${loteId}`); // Redireciona para a página de produto com o id do lote
     }
+
+
+    // Filtra a lista baseada na busca
+    const handleSearchChange = (searchValue) => {
+        const search = searchValue.toLowerCase();
+        const filtered = (lotes || []).filter((lote) => {
+            const nome = lote.nome?.toLowerCase() || "";
+
+            return (
+                nome.includes(search)
+            );
+        });
+        setFilteredLotes(filtered);
+    };
+
+    // Ordena a lista baseada no nome
+    const handleSortClick = () => {
+        const sorted = [...(filteredLotes.length > 0 ? filteredLotes : lotes)].sort((a, b) => {
+            if (sortDirection === "asc") {
+                return a.nome.localeCompare(b.nome);
+            } else {
+                return b.nome.localeCompare(a.nome);
+            }
+        });
+
+        setFilteredLotes(sorted);
+        setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    };
+
 
     if (loading) {
         return <Loading />;
@@ -169,25 +202,24 @@ export default function Estoque() {
                     {alertMessage}
                 </Alert>
             )}
-
-            <TableToolbar />
+            <TableToolbar
+                onSearchChange={handleSearchChange}
+                onSortClick={handleSortClick}
+            />
             {/* Botão de Exclusão */}
             <Btn
-            variant={"danger"}
+                variant={"danger"}
                 text={deleteLoading ? "Excluindo aguarde..." : "Excluir Lotes Selecionados"}
                 icon={<FontAwesomeIcon icon={faTrash} />}
                 onClick={handleDeleteLotes}
             />
-            <Tabs defaultActiveKey="todos" id="table-tabs" className="mb-3">
-                <Tab eventKey="todos" title="Todos">
-                    <TableComponent
-                        rowIds={idsLotes}
-                        items={lotes}
-                        onSelectionChange={handleSelectionChange}
-                        onRowClick={handleRowClick} // Alterado aqui para lidar com o clique na linha
-                    />
-                </Tab>
-            </Tabs>
+
+            <TableComponent
+                rowIds={(filteredLotes.length > 0 ? filteredLotes : lotes)?.map((lote) => lote.id)}
+                items={filteredLotes.length > 0 ? filteredLotes : lotes}
+                onSelectionChange={handleSelectionChange}
+                onRowClick={handleRowClick} // Alterado aqui para lidar com o clique na linha
+            />
         </>
     );
 }
