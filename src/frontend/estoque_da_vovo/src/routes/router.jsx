@@ -11,6 +11,7 @@ import NovoDoador from "../pages/NovoDoador/NovoDoador.jsx";
 import Produto from "../pages/Produto/Produto.jsx";
 import Login from "../pages/Login/Login.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
+import AlterarDoador from "../pages/AlterarDoador/AlterarDoador.jsx";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/doadores/novo-doador",
         element: <NovoDoador />,
+      },
+      {
+        path: "/doadores/alterar-doador/:id",
+        element: <AlterarDoador />,
       },
       {
         path: "/estoque",

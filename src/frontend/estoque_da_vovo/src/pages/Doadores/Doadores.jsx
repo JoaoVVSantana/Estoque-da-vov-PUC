@@ -14,11 +14,14 @@ import { axiosInstanceEstoque } from "../../services/axiosInstance.js";
 import useAxios from "../../hooks/useAxios.js";
 import Loading from "../../components/Loading/Loadings.jsx";
 
+import Alert from "react-bootstrap/Alert"; // Importação do Alert
+
 export default function Doadores() {
     const navigate = useNavigate();
     const [doadores, error, loading, axiosFetch] = useAxios(); // Hook useAxios
     const [selectedDoadores, setSelectedDoadores] = useState([]); // IDs selecionados
     const [deleteLoading, setDeleteLoading] = useState(false); // Estado para controlar o loading da exclusão
+    const [alertInfo, setAlertInfo] = useState(null); // Estado para controlar mensagens de alerta
 
     // Requisição GET para buscar lista de doadores
     useEffect(() => {
@@ -36,6 +39,10 @@ export default function Doadores() {
 
         fetchDoadores();
     }, []);
+
+    const handleRowClick = (dataId) => {
+        navigate(`/doadores/alterar-doador/${dataId}`);
+    };
 
     // Redireciona para a página de cadastro de novo doador
     const handleClick = () => {
@@ -59,7 +66,7 @@ export default function Doadores() {
     // Função para excluir os doadores selecionados
     const handleDeleteSelected = async () => {
         if (selectedDoadores.length === 0) {
-            alert("Selecione ao menos um doador para excluir.");
+            setAlertInfo({ variant: "warning", message: "Selecione ao menos um doador para excluir." });
             return;
         }
 
@@ -83,10 +90,10 @@ export default function Doadores() {
                 url: "doacoes/doadores",
             });
 
-            alert("Doadores excluídos com sucesso.");
+            setAlertInfo({ variant: "success", message: "Doadores excluídos com sucesso." });
         } catch (err) {
             console.error("Erro ao excluir doador:", err);
-            alert("Erro ao excluir doadores.");
+            setAlertInfo({ variant: "danger", message: "Erro ao excluir doadores. Tente novamente." });
         } finally {
             setDeleteLoading(false); // Fim do loading
         }
@@ -96,6 +103,13 @@ export default function Doadores() {
         <>
             <BreadCrumbNav />
             <TitleContent title={"Doadores"} />
+
+            {/* Área de Alertas */}
+            {alertInfo && (
+                <Alert variant={alertInfo.variant} onClose={() => setAlertInfo(null)} dismissible>
+                    {alertInfo.message}
+                </Alert>
+            )}
 
             {/* Botão Novo Doador */}
             <Btn
@@ -123,6 +137,7 @@ export default function Doadores() {
                     rowIds={processedDoadores?.map((doador) => doador.id)}
                     items={processedDoadores}
                     onSelectionChange={handleSelectionChange}
+                    onRowClick={handleRowClick}
                 />
             )}
         </>

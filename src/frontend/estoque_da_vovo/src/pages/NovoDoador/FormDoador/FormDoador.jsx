@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
@@ -7,11 +7,21 @@ import Btn from '../../../components/Btn/Btn.jsx';
 
 import './FormDoador.css';
 
-export default function FormDoador({ isNew = false, onSubmitForm }) {
+export default function FormDoador({ isNew = false, onSubmitForm, initialData = {} }) {
     const [formData, setFormData] = useState({
         nome: '',
         email: '',
     });
+
+    // Preencher o formulário com os dados iniciais recebidos
+    useEffect(() => {
+        if (initialData) {
+            setFormData({
+                nome: initialData.nome || '',
+                email: initialData.email || '',
+            });
+        }
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -59,14 +69,9 @@ export default function FormDoador({ isNew = false, onSubmitForm }) {
                             onClick={handleFormSubmit}
                         />
                     ) : (
-                        <>
-                            <div className='p-2'>
-                                <Btn text={"Deletar"} size={"lg"} />
-                            </div>
-                            <div className='p-2'>
-                                <Btn text={"Atualizar"} size={"lg"} onClick={handleFormSubmit} />
-                            </div>
-                        </>
+                        <div className='p-2'>
+                            <Btn text={"Atualizar"} size={"lg"} onClick={handleFormSubmit} />
+                        </div>
                     )}
                 </div>
             </Row>

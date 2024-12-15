@@ -128,6 +128,67 @@ router.post('/registrarDoacao', async (req, res) => {
   }
 });
 
+// ATUALIZAR NOME OU EMAIL DO DOADOR
+router.put('/:id/atualizarDoador', async (req, res) => {
+  const { id } = req.params; // ID do doador na rota
+  const { nome, email } = req.body; // Novos valores no corpo da requisição
+
+  try {
+    // Valida se ao menos um campo foi passado
+    if (!nome && !email) {
+      return res.status(400).json({ error: 'Informe pelo menos o nome ou o e-mail para atualizar.' });
+    }
+
+    // Busca o doador pelo ID
+    const doadorAtual = await doador.findByPk(id);
+
+    if (!doadorAtual) {
+      return res.status(404).json({ error: 'Doador não encontrado.' });
+    }
+
+    // Atualiza os dados apenas se foram informados
+    if (nome) doadorAtual.nome = nome;
+    if (email) doadorAtual.email = email;
+
+    // Salva as alterações no banco de dados
+    await doadorAtual.save();
+
+    res.status(200).json({
+      message: 'Doador atualizado com sucesso.',
+      doador: doadorAtual,
+    });
+  } catch (error) {
+    console.error('Erro ao atualizar doador: ', error);
+    res.status(500).json({ error: 'Erro ao atualizar doador.' });
+  }
+});
+
+// PEGAR DOADOR ESPECÍFICO PELO ID
+router.get('/:id/doador', async (req, res) => {
+  const { id } = req.params; // ID do doador passado na URL
+
+  try {
+    // Busca o doador pelo ID no banco de dados
+    const doadorAtual = await doador.findByPk(id);
+
+    // Verifica se o doador foi encontrado
+    if (!doadorAtual) {
+      return res.status(404).json({ error: 'Doador não encontrado.' });
+    }
+
+    // Retorna as informações do doador encontrado
+    res.status(200).json({
+      message: 'Doador encontrado com sucesso.',
+      doador: doadorAtual,
+    });
+  } catch (error) {
+    console.error('Erro ao buscar doador:', error);
+    res.status(500).json({ error: 'Erro ao buscar informações do doador.' });
+  }
+});
+
+
+
 // #endregion
 
 export default router;

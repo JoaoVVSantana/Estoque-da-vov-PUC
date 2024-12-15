@@ -60,6 +60,8 @@ app.use('/api/doacoes',doacaoRoutes);
 // GET http://localhost:5000/api/doacoes/todosItensDeDoacoes -> exibe todos os itens que possuem um doador/foram doados
 // GET http://localhost:5000/api/doacoes/doadores -> exibe todos doadores cadastrados
 // DELETE http://localhost:5000/api/doacoes/:id/apagarDoador -> id_doador -> remove da base
+// PUT http://localhost:5000/api/doacoes/:id/atualizarDoador pega id do doador e ATUALIZAR NOME OU EMAIL DO DOADOR
+// GET http://localhost:5000/api/doacoes/:id/doador  PEGAR DOADOR ESPECÍFICO PELO ID
 
 // %% app.use('/api/estoque', autenticarToken, estoqueRoutes);
 app.use('/api/estoque', estoqueRoutes);
