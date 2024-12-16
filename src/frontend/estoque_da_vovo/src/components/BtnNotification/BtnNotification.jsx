@@ -12,11 +12,13 @@ export default function BtnNotification() {
     // Estados para notificações
     const [lotesPoucosItens, setLotesPoucosItens] = useState([]);
     const [itensPertoVencimento, setItensPertoVencimento] = useState([]);
+    const [itensVencidos, setItensVencidos] = useState([]);
     const [alertMessage, setAlertMessage] = useState('');
 
     // Hook useAxios
     const [responseLotes, errorLotes, loadingLotes, axiosFetchLotes] = useAxios();
     const [responseVencimento, errorVencimento, loadingVencimento, axiosFetchVencimento] = useAxios();
+    const [responseVencidos, errorVencidos, loadingVencidos, axiosFetchVencidos] = useAxios();
 
     // Função para buscar notificações na montagem do componente
     const fetchNotificacoes = async () => {
@@ -31,6 +33,12 @@ export default function BtnNotification() {
                 axiosInstance: axiosInstanceEstoque,
                 method: 'GET',
                 url: '/item/itensPertoDoVencimento',
+            });
+
+            await axiosFetchVencidos({
+                axiosInstance: axiosInstanceEstoque,
+                method: 'GET',
+                url: '/item/itensVencidos',
             });
         } catch (err) {
             setAlertMessage('Erro ao carregar notificações.');
@@ -50,11 +58,14 @@ export default function BtnNotification() {
         if (responseVencimento?.alertas) {
             setItensPertoVencimento(responseVencimento.alertas);
         }
+        if (responseVencidos?.alertas) {
+            setItensVencidos(responseVencidos.alertas);
+        }
 
-        if (errorLotes || errorVencimento) {
+        if (errorLotes || errorVencimento || errorVencidos) {
             setAlertMessage('Erro ao carregar notificações.');
         }
-    }, [responseLotes, responseVencimento, errorLotes, errorVencimento]);
+    }, [responseLotes, responseVencimento, responseVencidos, errorLotes, errorVencimento, errorVencidos]);
 
     return (
         <>
@@ -70,7 +81,7 @@ export default function BtnNotification() {
                     bg="danger"
                     className='notification-badge'
                 >
-                    {lotesPoucosItens.length + itensPertoVencimento.length || 0}
+                    {lotesPoucosItens.length + itensPertoVencimento.length + itensVencidos.length || 0}
                 </Badge>
             </Button>
 
@@ -92,7 +103,7 @@ export default function BtnNotification() {
                     {alertMessage && <Alert variant="danger">{alertMessage}</Alert>}
 
                     {/* Carregando */}
-                    {(loadingLotes || loadingVencimento) && (
+                    {(loadingLotes || loadingVencimento || loadingVencidos) && (
                         <div className="text-center">
                             <Spinner animation="border" role="status" />
                             <p>Carregando notificações...</p>
@@ -100,14 +111,14 @@ export default function BtnNotification() {
                     )}
 
                     {/* Conteúdo das Notificações */}
-                    {!loadingLotes && !loadingVencimento && (
+                    {!loadingLotes && !loadingVencimento && !loadingVencidos && (
                         <>
-                            <h5>Lotes com Poucos produtos</h5>
+                            <h5>Lotes com Poucos Produtos</h5>
                             {lotesPoucosItens.length > 0 ? (
-                                <ListGroup  className="mb-3">
+                                <ListGroup className="mb-3">
                                     {lotesPoucosItens.map((lote, index) => (
-                                        <ListGroup.Item variant={(index%2 == 0)? "secondary" : "" } key={index} >
-                                        <b>{lote.nome} - Quantidade: {lote.quantidade}</b>
+                                        <ListGroup.Item variant={(index % 2 === 0) ? "secondary" : ""} key={index}>
+                                            <b>{lote.nome} - Quantidade: {lote.quantidade}</b>
                                         </ListGroup.Item>
                                     ))}
                                 </ListGroup>
@@ -117,9 +128,9 @@ export default function BtnNotification() {
 
                             <h5>Produtos Perto do Vencimento</h5>
                             {itensPertoVencimento.length > 0 ? (
-                                <ListGroup  className='mb-3'>
+                                <ListGroup className='mb-3'>
                                     {itensPertoVencimento.map((item, index) => (
-                                        <ListGroup.Item variant={(index%2 == 0)? "secondary" : "" } key={index} className='d-flex'>
+                                        <ListGroup.Item variant={(index % 2 === 0) ? "secondary" : ""} key={index} className='d-flex'>
                                             <b>{item.conteudo}</b>
                                             <div className='ms-2'><Badge bg="primary" pill>Item ID: {item.itemId}</Badge></div>
                                         </ListGroup.Item>
@@ -127,6 +138,20 @@ export default function BtnNotification() {
                                 </ListGroup>
                             ) : (
                                 <p>Nenhum produto perto do vencimento.</p>
+                            )}
+
+                            <h5>Produtos Vencidos</h5>
+                            {itensVencidos.length > 0 ? (
+                                <ListGroup>
+                                    {itensVencidos.map((item, index) => (
+                                        <ListGroup.Item variant={(index % 2 === 0) ? "secondary" : ""} key={index}  className='d-flex'>
+                                            <b>{item.conteudo}</b>
+                                            <div className='ms-2'><Badge bg="danger" pill>Item ID: {item.itemId}</Badge></div>
+                                        </ListGroup.Item>
+                                    ))}
+                                </ListGroup>
+                            ) : (
+                                <p>Nenhum produto vencido.</p>
                             )}
                         </>
                     )}
