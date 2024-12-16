@@ -1,6 +1,7 @@
 import 'module-alias/register.js';
 import express from 'express';
 import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
 dotenv.config();
 
 import database from '../db/database.js';
@@ -87,11 +88,19 @@ app.use('/alteracoes', alteracaoRoutes);
 // GET http://localhost:5000/api/alteracoes/historicoDiaEspecifico -> dateCalendario -> recebe uma data no formato "YYYY/MM/DD" exibe alteracoes no dia
 // GET http://localhost:5000/api/alteracoes/relatorioDeConsumo -> dataInicioRaw, dataFimRaw -> retorna as retiradas de um período de tempo específico.
 
+// Configuração de arquivos estáticos
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, '../../frontend/dist')));
 
+// Qualquer rota não encontrada retorna o frontend
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'));
+});
+
+// Iniciar o servidor
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
+});
 //caso n encontre rota
 app.use((req, res) => res.status(404).json({ error: 'Rota não encontrada' }));
-
-//inicio do server
-app.listen(PORT, () => {
-  console.log(`Servidor rodando em :${PORT}`);
-});
