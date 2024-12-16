@@ -9,7 +9,7 @@
     "dev": "nodemon ./build/app.js",
     "sync-db": "node ../backend/db/databaseSync.js",
     "test": "jest",
-    "build": "node ./build/app.js"
+    "build": "echo 'Nenhum build necessário' && exit 0"
   },
   "keywords": [
     "estoque",
