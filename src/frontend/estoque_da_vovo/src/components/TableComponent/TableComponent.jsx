@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Table } from 'react-bootstrap';
 import './TableComponent.css';
 
-export default function TableComponent({ items, rowIds, onRowClick, onSelectionChange }) {
+export default function TableComponent({ items, rowIds, onRowClick, onSelectionChange, noSelect }) {
   const [selectedIds, setSelectedIds] = useState([]);
 
   if (!items || items.length === 0) {
@@ -27,22 +27,24 @@ export default function TableComponent({ items, rowIds, onRowClick, onSelectionC
       <Table striped bordered hover responsive>
         <thead>
           <tr>
-            <th>
-              <input
-                type="checkbox"
-                onChange={(e) => {
-                  const isChecked = e.target.checked;
-                  if (isChecked) {
-                    setSelectedIds(rowIds);
-                    onSelectionChange(rowIds);
-                  } else {
-                    setSelectedIds([]);
-                    onSelectionChange([]);
-                  }
-                }}
-                checked={selectedIds.length === rowIds.length && rowIds.length > 0}
-              />
-            </th>
+            {!noSelect && ( // Renderiza a coluna de seleção apenas se noSelect for false
+              <th>
+                <input
+                  type="checkbox"
+                  onChange={(e) => {
+                    const isChecked = e.target.checked;
+                    if (isChecked) {
+                      setSelectedIds(rowIds);
+                      onSelectionChange(rowIds);
+                    } else {
+                      setSelectedIds([]);
+                      onSelectionChange([]);
+                    }
+                  }}
+                  checked={selectedIds.length === rowIds.length && rowIds.length > 0}
+                />
+              </th>
+            )}
             {headers.map((header, index) => (
               <th key={index}>{header.charAt(0).toUpperCase() + header.slice(1)}</th>
             ))}
@@ -55,18 +57,20 @@ export default function TableComponent({ items, rowIds, onRowClick, onSelectionC
               onClick={() => onRowClick(rowIds[index])} // Retorna o ID ao clicar na linha
               style={{ cursor: 'pointer' }}
             >
-              <td
-                onClick={(e) => e.stopPropagation()} // Impede o clique no checkbox de acionar o clique na linha
-              >
-                <input
-                  type="checkbox"
-                  checked={selectedIds.includes(rowIds[index])}
-                  onChange={(e) => {
-                    e.stopPropagation(); // Impede o clique no checkbox de acionar o clique na linha
-                    toggleSelection(rowIds[index]);
-                  }}
-                />
-              </td>
+              {!noSelect && ( // Renderiza a célula do checkbox apenas se noSelect for false
+                <td
+                  onClick={(e) => e.stopPropagation()} // Impede o clique no checkbox de acionar o clique na linha
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.includes(rowIds[index])}
+                    onChange={(e) => {
+                      e.stopPropagation(); // Impede o clique no checkbox de acionar o clique na linha
+                      toggleSelection(rowIds[index]);
+                    }}
+                  />
+                </td>
+              )}
               {headers.map((header, colIndex) => (
                 <td key={colIndex}>{item[header]}</td>
               ))}

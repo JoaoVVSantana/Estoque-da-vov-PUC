@@ -39,12 +39,12 @@ export default function SideBar({ expanded}) {
             {expanded && <span className="ms-3">Doações</span>}
           </Nav.Link>
         </Nav.Item>
-        <Nav.Item className="mb-3">
+       {/* <Nav.Item className="mb-3">
           <Nav.Link as={Link} to={'/relatorio'} className={location.pathname.includes('/relatorio') ? 'navbar-link active' : ''}>
             <FontAwesomeIcon icon={faClipboardList} />
             {expanded && <span className="ms-3">Relatórios</span>}
           </Nav.Link>
-        </Nav.Item>
+        </Nav.Item>*/}
         <Nav.Item className="mb-3">
           <Nav.Link as={Link} to={'/historico'} className={location.pathname.includes('/historico') ? 'navbar-link active' : ''}>
             <FontAwesomeIcon icon={faBusinessTime} />
