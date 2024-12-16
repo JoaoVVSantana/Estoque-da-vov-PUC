@@ -25,5 +25,10 @@
     "concurrently": "^9.1.0"
   },
   "dependencies": {
+    
+  },
+  "engines": {
+    "node": ">=16",
+    "npm": ">=7"
   }
 }

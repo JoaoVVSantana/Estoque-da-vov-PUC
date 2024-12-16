@@ -1,5 +1,5 @@
 {
-  "name": "estoque_da_vovo",
+  "name": "frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -18,7 +18,6 @@
     "apexcharts": "^4.0.0",
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
-    "estoque_da_vovo": "file:",
     "js-cookie": "^3.0.5",
     "react": "^18.3.1",
     "react-apexcharts": "^1.7.0",
