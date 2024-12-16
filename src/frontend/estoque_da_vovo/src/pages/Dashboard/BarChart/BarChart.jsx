@@ -1,44 +1,30 @@
 import React from 'react';
-import ApexCharts from 'react-apexcharts';
+import Chart from 'react-apexcharts';
 
-const BarChart = () => {
-    const barChartOptions = {
-        chart: {
-            type: 'bar',
-            height: 350
-        },
-        plotOptions: {
-            bar: {
-                horizontal: false,
-                columnWidth: '55%',
-                endingShape: 'rounded'
-            }
-        },
-        dataLabels: {
-            enabled: false
-        },
-        xaxis: {
-            categories: ['Alimentos', 'Medicamentos', 'Produtos de Higiene', 'Produtos de Limpeza'],
-        },
-        colors: ['#906ec0', '#17a2b8', '#ffc107', '#dc3545'],
+export default function BarChart({ itensGeral }) {
+    // Processa os dados recebidos por props para agrupar por tipo
+    const itensPorCategoria = itensGeral.reduce((acc, item) => {
+        acc[item.tipo] = (acc[item.tipo] || 0) + 1;
+        return acc;
+    }, {});
+
+    const categories = Object.keys(itensPorCategoria);
+    const data = Object.values(itensPorCategoria);
+
+    const chartOptions = {
+        chart: { type: 'bar' },
+        title: { text: 'Quantidade de Produtos por Categoria' },
+        xaxis: { categories },
+        plotOptions: { bar: { horizontal: false } },
+        colors: ['#906ec0'],
     };
 
-    const barChartSeries = [{
-        name: 'Quantidade',
-        data: [150, 80, 40, 20] // Valores fictícios para exemplo
-    }];
-
     return (
-        <div className="chart-container">
-            <h4>Quantidade de Itens por Categoria</h4>
-            <ApexCharts
-                options={barChartOptions}
-                series={barChartSeries}
-                type="bar"
-                height={350}
-            />
-        </div>
+        <Chart
+            options={chartOptions}
+            series={[{ name: 'Produtos', data }]}
+            type="bar"
+            height={350}
+        />
     );
-};
-
-export default BarChart;
+}
