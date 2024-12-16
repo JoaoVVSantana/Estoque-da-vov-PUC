@@ -1,0 +1,15 @@
+.notification-badge{
+    position: absolute !important;
+    top: -15px !important;
+    right: -15px !important;
+    font-size: 0.7rem !important;
+}
+
+.m-header{
+    color: #fff;
+    background-color: var(--secondary-color-2);
+}
+
+.m-body{
+    background-color: var(--tertiary-color);
+}

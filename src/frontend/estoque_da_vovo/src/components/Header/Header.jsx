@@ -8,12 +8,7 @@ import BtnNotification from './../BtnNotification/BtnNotification';
 
 import { useAuth } from '../../context/AuthContext.jsx';
 
-//TESTE DE NOTIFICAÇÕES
-const notifications = [
-    { time: '2 mins ago', message: ' "Feijão" com validade do proxima do vencimento 22/11' },
-    { time: '10 mins ago', message: '"Leite" em falta no estoque' },
-    { time: '1 hour ago', message: '"Arroz" em falta no estoque' },
-];
+
 
 export default function Header({ expanded, toggleSidebar }) {
     const { logout } = useAuth();
@@ -29,8 +24,8 @@ export default function Header({ expanded, toggleSidebar }) {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ms-auto">
-                    <Nav.Link><BtnNotification notifications={notifications} /></Nav.Link>
-                    <Nav.Link><FontAwesomeIcon icon={faGear} /></Nav.Link>
+                    <Nav.Link><BtnNotification/></Nav.Link>
+                    {/*<Nav.Link><FontAwesomeIcon icon={faGear} /></Nav.Link>*/}
                     <DropdownButton variant='none' id="dropdown-basic-button" align={'end'} title={<FontAwesomeIcon icon={faCircleUser} />} >
                         {//<Dropdown.Item href="#/action-1">Sua Conta</Dropdown.Item>
                             //
