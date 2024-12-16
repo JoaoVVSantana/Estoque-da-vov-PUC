@@ -9,7 +9,7 @@
     "dev": "nodemon ./build/app.js",
     "sync-db": "node ../backend/db/databaseSync.js",
     "test": "jest",
-    "build": "tsc"
+    "build": "node ./build/app.js"
   },
   "keywords": [
     "estoque",
