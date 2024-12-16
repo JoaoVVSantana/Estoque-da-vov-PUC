@@ -1,6 +1,7 @@
 import {
   estoque,
-  item
+  item,
+  alteracao
 } from './../../packages.js';
 import express from 'express';
 import autenticarToken from '../../middlewares/autenticarToken.js';
@@ -128,7 +129,7 @@ router.post('/retirarItem', async (req, res) => {
         transaction
       }
     );
-
+    await alteracao.criarRetiradaDeItem(itemASerExcluido, transaction); 
     // Exclui o item da tabela "itens"
     await item.destroy({
       where: { id_item },

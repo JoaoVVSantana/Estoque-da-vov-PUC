@@ -8,13 +8,13 @@ import express from 'express';
 import database from '../../db/database.js';
 const router = express.Router();
 
-// REGISTRAR NOVO DOADOR (com Email)
+// REGISTRAR NOVO DOADOR (com contato)
 router.post('/registrarDoador', async (req, res) => { 
-  const { nomeCompletoDoador,emailDoador } = req.body;
+  const { nomeCompletoDoador,contatoDoador } = req.body;
   
-  // Validar se os dados fazem sentido / OBS??? Pela logica do projeto era para ser opcional, além do registrar doação criar doador sem email
-  /*if (!emailDoador) {
-    return res.status(400).json({ error: 'É necessário inserir um email' });
+  // Validar se os dados fazem sentido / OBS??? Pela logica do projeto era para ser opcional, além do registrar doação criar doador sem contato
+  /*if (!contatoDoador) {
+    return res.status(400).json({ error: 'É necessário inserir um contato' });
   }*/
   try {
     // Verifica se o doador já existe pelo nome
@@ -22,14 +22,14 @@ router.post('/registrarDoador', async (req, res) => {
 
     // Se nao, cria
     if (!doadorAtual) {
-      doadorAtual= doador.create({nome:nomeCompletoDoador, email:emailDoador, id_estoque:1});
+      doadorAtual= doador.create({nome:nomeCompletoDoador, contato:contatoDoador, id_estoque:1});
       res.status(201).json({ message: 'Doador registrado com sucesso', doadorAtual:nomeCompletoDoador });
     }
     else{
-      if(doadorAtual && doadorAtual.emailDoador == null)
+      if(doadorAtual && doadorAtual.contatoDoador == null)
       {
-        await doador.atualizarEmail(doadorAtual,emailDoador);
-        return res.status(400).json({ error: 'O doador já está cadastrado, email atualizado' });
+        await doador.atualizarContato(doadorAtual,contatoDoador);
+        return res.status(400).json({ error: 'O doador já está cadastrado, contato atualizado' });
       }
        return res.status(400).json({ error: 'O doador já está cadastrado' });
     }
@@ -97,7 +97,7 @@ router.post('/registrarDoacao', async (req, res) => {
 
     // Se não, cria o doador
     if (!doadorAtual) {
-      doadorAtual = await doador.create({ nome: nomeCompletoDoador, email: null,id_estoque:1 });
+      doadorAtual = await doador.create({ nome: nomeCompletoDoador, contato: null,id_estoque:1 });
     }
     // Chama a API de inserir um item
     const response = await axios.post('http://localhost:5000/api/estoque/inserirItem', {
@@ -127,15 +127,15 @@ router.post('/registrarDoacao', async (req, res) => {
   }
 });
 
-// ATUALIZAR NOME OU EMAIL DO DOADOR
+// ATUALIZAR NOME OU contato DO DOADOR
 router.put('/:id/atualizarDoador', async (req, res) => {
   const { id } = req.params; // ID do doador na rota
-  const { nome, email } = req.body; // Novos valores no corpo da requisição
+  const { nome, contato } = req.body; // Novos valores no corpo da requisição
 
   try {
     // Valida se ao menos um campo foi passado
-    if (!nome && !email) {
-      return res.status(400).json({ error: 'Informe pelo menos o nome ou o e-mail para atualizar.' });
+    if (!nome && !contato) {
+      return res.status(400).json({ error: 'Informe pelo menos o nome ou o contato para atualizar.' });
     }
 
     // Busca o doador pelo ID
@@ -147,7 +147,7 @@ router.put('/:id/atualizarDoador', async (req, res) => {
 
     // Atualiza os dados apenas se foram informados
     if (nome) doadorAtual.nome = nome;
-    if (email) doadorAtual.email = email;
+    if (contato) doadorAtual.contato = contato;
 
     // Salva as alterações no banco de dados
     await doadorAtual.save();

@@ -37,7 +37,7 @@ export default function NovoDoador() {
                 url: "/doacoes/registrarDoador",
                 data: {
                     nomeCompletoDoador: formData.nome,
-                    emailDoador: formData.email,
+                    contatoDoador: formData.contato,
                 },
             });
         } catch (err) {

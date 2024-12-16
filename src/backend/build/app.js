@@ -27,7 +27,7 @@ import itemRoutes from '../node/routes/itemRoutes.js';
 import doacaoRoutes from '../node/routes/doacaoRoutes.js';
 import alteracaoRoutes from '../node/routes/alteracaoRoutes.js';
 import estoqueRoutes from '../node/routes/estoqueRoutes.js';
-import enviarEmail from '../node/routes/enviarEmail.js';
+
 
 
 
@@ -37,7 +37,7 @@ app.use(express.json());
 app.use(corsConfig);
 
 
-//Por enquanto vamos usar o cors permitindo que qualquer host acesse a API, sem fazer autenticacao
+//Por enquanto vamos usar o cors permitindo que qualquer host acesse a API
 //api.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 //app.use('/api/login',auth)
 // %% app.use('/api/auth', auth);
@@ -87,9 +87,6 @@ app.use('/api/alteracoes', alteracaoRoutes);
 // GET http://localhost:5000/api/alteracoes/historicoDiaEspecifico -> dateCalendario -> recebe uma data no formato "YYYY/MM/DD" exibe alteracoes no dia
 // GET http://localhost:5000/api/alteracoes/relatorioDeConsumo -> dataInicioRaw, dataFimRaw -> retorna as retiradas de um período de tempo específico.
 
-// %% app.use('/api/email', autenticarToken,enviarEmail);
-app.use('/api/email',enviarEmail);
-// GET http://localhost:5000/api/email/pedirDoacao -> nomeDoador, emailDoador -> constroi uma msg com os itens em falta
 
 //caso n encontre rota
 app.use((req, res) => res.status(404).json({ error: 'Rota não encontrada' }));

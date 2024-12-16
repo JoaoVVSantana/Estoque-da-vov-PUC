@@ -48,7 +48,7 @@ export default function Doadores() {
         ? doadores.map((doador) => ({
             id: doador.id_doador,
             nome: doador.nome,
-            email: doador.email,
+            contato: doador.contato,
             quantidadeItensDoados: doador.quantidadeItensDoados,
         }))
         : [];
@@ -58,11 +58,11 @@ export default function Doadores() {
         const search = searchValue.toLowerCase();
         const filtered = (processedDoadores || []).filter((doador) => {
             const nome = doador.nome?.toLowerCase() || "";
-            const email = doador.email?.toLowerCase() || "";
+            const contato = doador.contato?.toLowerCase() || "";
 
             return (
                 nome.includes(search) ||
-                email.includes(search)
+                contato.includes(search)
             );
         });
         setFilteredDoadores(filtered);

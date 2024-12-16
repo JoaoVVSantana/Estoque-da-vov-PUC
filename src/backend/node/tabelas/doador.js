@@ -12,7 +12,7 @@ import {
         type: DataTypes.STRING,
         allowNull:false,
     },
-    email:{
+    contato:{
         type:DataTypes.STRING,
         allowNull:true,
     },
@@ -45,8 +45,8 @@ doador.atualizarItensDoados = async function (doadorA, quantidade) {
     doadorA.quantidadeItensDoados = doacoesAnteriores + parseInt(quantidade);
     await doadorA.save();
 }
-doador.atualizarEmail = async function (doadorA, emailAtt) {
-    doadorA.email=emailAtt;
+doador.atualizarContato = async function (doadorA, contatoAtt) {
+    doadorA.contato=contatoAtt;
     await doadorA.save();
 }
 

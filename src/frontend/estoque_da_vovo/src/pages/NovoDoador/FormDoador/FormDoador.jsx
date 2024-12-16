@@ -10,7 +10,7 @@ import './FormDoador.css';
 export default function FormDoador({ isNew = false, onSubmitForm, initialData = {} }) {
     const [formData, setFormData] = useState({
         nome: '',
-        email: '',
+        contato: '',
     });
 
     // Preencher o formulário com os dados iniciais recebidos
@@ -18,7 +18,7 @@ export default function FormDoador({ isNew = false, onSubmitForm, initialData = 
         if (initialData) {
             setFormData({
                 nome: initialData.nome || '',
-                email: initialData.email || '',
+                contato: initialData.contato || '',
             });
         }
     }, []);
@@ -49,12 +49,12 @@ export default function FormDoador({ isNew = false, onSubmitForm, initialData = 
                 </Form.Group>
 
                 <Form.Group as={Col} xl="6" className='mb-4'>
-                    <Form.Label>Email</Form.Label>
+                    <Form.Label>Contato</Form.Label>
                     <Form.Control
-                        name="email"
-                        placeholder='"marcos@email.com"'
-                        type='email'
-                        value={formData.email}
+                        name="contato"
+                        placeholder='"marcos@contato.com"'
+                        type='contato'
+                        value={formData.contato}
                         onChange={handleInputChange}
                     />
                 </Form.Group>

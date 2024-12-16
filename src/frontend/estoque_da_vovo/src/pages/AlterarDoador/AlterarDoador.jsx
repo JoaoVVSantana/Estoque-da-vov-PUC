@@ -56,7 +56,7 @@ export default function AlterarDoador() {
                 url: `/doacoes/${id}/atualizarDoador`,
                 data: {
                     nome: formData.nome,
-                    email: formData.email,
+                    contato: formData.contato,
                 },
             });
 
@@ -105,7 +105,7 @@ export default function AlterarDoador() {
                     isNew={false} 
                     initialData={{
                         nome: doador.nome,       // Dados carregados do backend
-                        email: doador.email,
+                        contato: doador.contato,
                     }}
                     onSubmitForm={handleFormSubmit}
                 />
