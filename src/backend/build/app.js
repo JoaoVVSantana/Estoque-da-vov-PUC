@@ -48,13 +48,13 @@ app.use(corsConfig);
 // TODAS QUE ESTÃO FUNCIONANDO ESTOU LISTADAS EM BAIXO DOS MÉTODOS
 
 // %% app.use('/api/item', autenticarToken, itemRoutes);
-app.use('/api/item', itemRoutes);
+app.use('/item', itemRoutes);
 // GET http://localhost:5000/api/item/itensPertoDoVencimento -> exibe uma lista de todos os itens que estão perto de vencer
 // GET http://localhost:5000/api/item/itensVencidos -> exibe uma lista de todos os itens que estão vencidos
 
 
 // %% app.use('/api/doacoes',  autenticarToken,doacaoRoutes);
-app.use('/api/doacoes',doacaoRoutes);
+app.use('/doacoes',doacaoRoutes);
 // POST http://localhost:5000/api/doacoes/registrarDoador -> nomeCompletoDoador, emailDoador -> cadastra no banco
 // POST http://localhost:5000/api/doacoes/registrarDoacao -> nomeCompletoDoador, nomeItem, validade, tipo -> cria doador (sem email) chama a outra API de inserir no estoque
 // GET http://localhost:5000/api/doacoes/todosItensDeDoacoes -> exibe todos os itens que possuem um doador/foram doados
@@ -64,7 +64,7 @@ app.use('/api/doacoes',doacaoRoutes);
 // GET http://localhost:5000/api/doacoes/:id/doador  PEGAR DOADOR ESPECÍFICO PELO ID
 
 // %% app.use('/api/estoque', autenticarToken, estoqueRoutes);
-app.use('/api/estoque', estoqueRoutes);
+app.use('/estoque', estoqueRoutes);
 // POST http://localhost:5000/api/estoque/criarEstoque -> armazenamento -> cria um estoque no banco
 // DELETE http://localhost:5000/api/estoque/retirarItem -> id_item ->  por BODY e deleta do banco
 // DELETE http://localhost:5000/api/estoque/retirar/:id_item -> id_item ->  por PARAM e deleta do banco
@@ -81,7 +81,7 @@ app.use('/api/estoque', estoqueRoutes);
 
 
 // %% app.use('/api/alteracoes', autenticarToken,alteracaoRoutes);
-app.use('/api/alteracoes', alteracaoRoutes);
+app.use('/alteracoes', alteracaoRoutes);
 // GET http://localhost:5000/api/alteracoes/historico -> exibe o historico de todas as alteracoes
 // GET http://localhost:5000/api/alteracoes/historicoMesAtual -> exibe as alteracoes feitas no mes em que é chamada
 // GET http://localhost:5000/api/alteracoes/historicoDiaEspecifico -> dateCalendario -> recebe uma data no formato "YYYY/MM/DD" exibe alteracoes no dia
