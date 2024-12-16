@@ -102,7 +102,7 @@ export default function BtnNotification() {
                     {/* Conteúdo das Notificações */}
                     {!loadingLotes && !loadingVencimento && (
                         <>
-                            <h5>Lotes com Poucos Itens</h5>
+                            <h5>Lotes com Poucos produtos</h5>
                             {lotesPoucosItens.length > 0 ? (
                                 <ListGroup  className="mb-3">
                                     {lotesPoucosItens.map((lote, index) => (
@@ -112,10 +112,10 @@ export default function BtnNotification() {
                                     ))}
                                 </ListGroup>
                             ) : (
-                                <p>Nenhum lote com poucos itens.</p>
+                                <p>Nenhum lote com poucos produtos.</p>
                             )}
 
-                            <h5>Itens Perto do Vencimento</h5>
+                            <h5>Produtos Perto do Vencimento</h5>
                             {itensPertoVencimento.length > 0 ? (
                                 <ListGroup  className='mb-3'>
                                     {itensPertoVencimento.map((item, index) => (
@@ -126,7 +126,7 @@ export default function BtnNotification() {
                                     ))}
                                 </ListGroup>
                             ) : (
-                                <p>Nenhum item perto do vencimento.</p>
+                                <p>Nenhum produto perto do vencimento.</p>
                             )}
                         </>
                     )}
