@@ -43,7 +43,6 @@ router.post('/registrarDoador', async (req, res) => {
 router.get('/todosItensDeDoacoes', async (req, res) => { 
   try {
     const itens = await item.buscarItensDoacao();
-    console.log(itens);
     res.status(200).json({
       message: 'Itens que foram doados: ',
       itens,
