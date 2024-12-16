@@ -22,10 +22,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "concurrently": "^9.1.0"
-  },
   "dependencies": {
+    "concurrently": "^9.1.0",
     "src": "file:"
   },
   "engines": {
