@@ -21,7 +21,8 @@ O projeto tem como objetivo auxiliar a administração do lar de idosos Asilo No
 
 ## Instruções de utilização
 
-https://estoque-da-vovo-puc.onrender.com/
+# https://estoque-da-vovo-puc.onrender.com/
+
 A gerente vai utilizar credenciais para realizar login. Então, é possível selecionar as páginas de Dashboard, Estoque, Doações ou Histórico.
 Em "Dashboard" o usuário pode visualizar indicadores "KPI" do estoque.
 Em "Estoque", o usuário pode selecionar ou criar um lote de itens. Após selecionar um, é possível inserir itens nesse lote, informando nome, categoria, validade, quantidade a inserir e o nome de quem doou o item (caso tenha sido doado). Além disso, é possível remover itens específicos do estoque. 
