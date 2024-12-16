@@ -42,8 +42,10 @@ loteDeItens.adicionarUmItem = async function(nome,validade,tipo, id_doador, id_l
       await alteracao.criarInsercaoDeItem(novoItem, transaction);
 
       const quantidade=1;
-      await loteDeItens.atualizarLote(loteA, quantidade, transaction)
+      await loteDeItens.atualizarLoteInserir(loteA, quantidade, transaction);
+
       
+
       return novoItem;
 
   } catch (error) {
@@ -56,7 +58,7 @@ loteDeItens.criarItem = async function (nome,validade,tipo, id_doador, id_lote, 
 
   try {
     
-    const estoqueA = await estoque.findByPk(1);
+    const estoqueA = await loteDeItens.findByPk(1, { transaction });
 
     const novoItem = await item.create(
       {
@@ -69,7 +71,8 @@ loteDeItens.criarItem = async function (nome,validade,tipo, id_doador, id_lote, 
       },
       { transaction }
     );
-    await estoque.itemFoiInserido(estoqueA, transaction);
+    const quantidade =1; 
+    await estoque.itemFoiInserido(estoqueA,quantidade, transaction);
 
     return novoItem;
   } catch (error) {
@@ -77,7 +80,7 @@ loteDeItens.criarItem = async function (nome,validade,tipo, id_doador, id_lote, 
   }
 };
 
-loteDeItens.adicionarVariosItens = async function(nome,validade,tipo, id_doador, id_lote,quantidade, transaction)
+loteDeItens.adicionarVariosItens = async function(nome,validade,tipo, id_doador, id_lote, quantidade, transaction)
 { 
   try {
  
@@ -114,9 +117,6 @@ loteDeItens.adicionarVariosItens = async function(nome,validade,tipo, id_doador,
   }
   
 }
-
-
-
 
 loteDeItens.retirarItem = async function(id_item,transaction)
 {
@@ -161,13 +161,13 @@ loteDeItens.atualizarLoteInserir = async function (loteA, quantidadeN, transacti
   try {
     const quantidadeAnterior = parseInt(loteA.quantidade);
    
-    loteA.quantidade = quantidadeAnterior + quantidadeN;
+    loteA.quantidade = quantidadeAnterior + parseInt(quantidadeN);
     
     await loteA.save({ transaction });
   } catch (error) {
     throw error;
   }
-}
+};
 loteDeItens.atualizarLoteRetirar = async function (loteA, transaction) {
   try {
     const quantidadeAnterior = parseInt(loteA.quantidade);
@@ -178,7 +178,7 @@ loteDeItens.atualizarLoteRetirar = async function (loteA, transaction) {
   } catch (error) {
     throw error;
   }
-}
+};
 
 loteDeItens.emBaixaQuantidade = async function () {
   
@@ -188,7 +188,7 @@ loteDeItens.emBaixaQuantidade = async function () {
     },
     order: [['quantidade', 'ASC']]
   });
-}
+};
 
 loteDeItens.semItens = async function () {
   
@@ -198,7 +198,7 @@ loteDeItens.semItens = async function () {
     },
     order: [['id_lote', 'ASC']]
   });
-}
+};
 
 export default loteDeItens;
 

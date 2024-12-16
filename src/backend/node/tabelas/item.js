@@ -58,10 +58,10 @@ item.todosItensPertoDoVencimento = async function () {
     const listaAlertas = await Promise.all(
       itens.map(async (item) => {   
         const diasParaVencimento = Math.floor(
-          (new Date(item.validade) - new Date()) / (1000 * 60 * 60 * 24)
+          (new Date(item.validade).setHours(23, 59, 59, 999) - new Date()) / (1000 * 60 * 60 * 24)
         );
 
-        if (diasParaVencimento < 5) {
+        if (diasParaVencimento < 5 && diasParaVencimento > 0) {
           const dataFormatada = await formatarData(item.validade);
           return await alerta.criarAlerta(
             item,
@@ -85,7 +85,7 @@ item.itensVencidos = async function  () {
     const listaVencidos = await Promise.all(
       todosItens.map(async (item) => {   
         const diasParaVencimento = Math.floor(
-          (new Date(item.validade) - new Date()) / (1000 * 60 * 60 * 24)
+          (new Date(item.validade).setHours(23, 59, 59, 999) - new Date()) / (1000 * 60 * 60 * 24)
         );
         if (diasParaVencimento <= 0 ) {
           const dataFormatada = await formatarData(item.validade); // no utils

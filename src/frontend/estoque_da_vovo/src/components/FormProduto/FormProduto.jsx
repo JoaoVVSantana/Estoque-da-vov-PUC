@@ -47,7 +47,7 @@ export default function FormProduto({ isNew = false, onSubmitForm }) {
                     />
                 </Form.Group>
                 <Form.Group as={Col} xl="6" className='mb-4'>
-                    <Form.Label>Nome do Doador (Caso Tiver)</Form.Label>
+                    <Form.Label>Nome do Doador (Opcional)</Form.Label>
                     <Form.Control
                         name="doador"
                         placeholder='"Anderson Silva"'
@@ -70,8 +70,8 @@ export default function FormProduto({ isNew = false, onSubmitForm }) {
                             onChange={handleInputChange}
                         >
                             <option>Higiene</option>
-                            <option>Alimentos Perecível</option>
-                            <option>Alimentos Não Perecível</option>
+                            <option>Alimentos: Perecível</option>
+                            <option>Alimentos: Não Perecível</option>
                             <option>Limpeza</option>
                             <option>Medicamentos</option>
                             <option>Conforto</option>

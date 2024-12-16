@@ -13,7 +13,7 @@ export default function BarChart({ itensGeral }) {
 
     const chartOptions = {
         chart: { type: 'bar' },
-        title: { text: 'Quantidade de Produtos por Categoria' },
+        title: { text: 'Quantidade de Produtos (por Categoria)' },
         xaxis: { categories },
         plotOptions: { bar: { horizontal: false } },
         colors: ['#906ec0'],

@@ -174,7 +174,7 @@ export default function Estoque() {
     return (
         <>
             <BreadCrumbNav />
-            <TitleContent title={"Estoque de Lotes"} />
+            <TitleContent title={"Lotes do Estoque"} />
 
             {/* Botão, Input e Alerta */}
             <div className='d-flex align-items-center mb-3'>

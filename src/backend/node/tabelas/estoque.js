@@ -67,11 +67,13 @@ estoque.criarEstoqueNoBanco = async function (armazenamento) {
 
 estoque.itemFoiRetirado = async function (estoqueA, transaction) {
   
-  // Atualiza o armazenamento disponível e a quantidade de itens
   try {
   
-    estoqueA.armazenamento_disponivel -= 1;
-    estoqueA.quantidadeItens -= 1;
+    const quantidadeAnteriorArmazenamento = parseInt(estoqueA.armazenamento_disponivel);
+    const quantidadeAnteriorItens = parseInt(estoqueA.quantidadeItens);
+   
+    estoqueA.armazenamento_disponivel = quantidadeAnteriorArmazenamento + 1;
+    estoqueA.quantidadeItens = quantidadeAnteriorItens - 1;
     await estoqueA.save({ transaction });
   
   } catch (error) {
@@ -82,9 +84,12 @@ estoque.itemFoiRetirado = async function (estoqueA, transaction) {
 
 estoque.itemFoiInserido = async function (estoqueA, quantidade, transaction) {
   try {
+    const quantidadeAnteriorArmazenamento = parseInt(estoqueA.armazenamento_disponivel);
+    const quantidadeAnteriorItens = parseInt(estoqueA.quantidadeItens);
+   
+    estoqueA.armazenamento_disponivel = quantidadeAnteriorArmazenamento - parseInt(quantidade);
+    estoqueA.quantidadeItens = quantidadeAnteriorItens + parseInt(quantidade);
     
-    estoqueA.armazenamento_disponivel -= 1; 
-    estoqueA.quantidadeItens += parseInt(quantidade);
 
     await estoqueA.save({ transaction });
   } catch (error) {

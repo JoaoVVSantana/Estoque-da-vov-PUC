@@ -14,7 +14,7 @@ export default function PieChart({ doadores }) {
 
     const chartOptions = {
         chart: { type: 'pie' },
-        title: { text: 'Proporção de Itens Doados por Doador' },
+        title: { text: 'Proporção de Itens já Doados (por cada Doador)' },
         labels,
     };
 

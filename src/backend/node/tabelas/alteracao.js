@@ -57,52 +57,6 @@ const alteracao = database.define('alteracao', {
 
 // #region Métodos
 
-/*
-alteracao.criarInsercaoDeItem = async function (itemA, estoqueA, transaction) {
- 
-    try {
-      // Cria a alteração no histórico
-      await alteracao.create(
-        {
-          descricao: `Inserção do item ${itemA.nome}`,
-          data_alteracao: new Date(),
-          tipo: 'entrada',
-          id_estoque:estoqueA.id_estoque,
-          id_item:itemA.id_item,
-          id_historico:estoqueA.id_historico,
-          id_gerente:1,
-        },
-        { transaction }
-      );
-    } catch (error) {
-      throw new Error('Erro ao registrar a alteração: ' + error.message);
-    };
-  
-}
-*/
-/*
-alteracao.criarRetiradaDeItem = async function (itemA, estoqueA,transaction) {
-  
-  try {
-    // Cria a alteração no histórico
-    await alteracao.create(
-      {
-        descricao: `Retirada do item ${itemA.nome}`,
-        data_alteracao: new Date(),
-        tipo: 'saída',
-        id_estoque:estoqueA.id_estoque,
-        id_item:itemA.id_item,
-        id_historico:estoqueA.id_historico,
-        id_gerente:1,
-      },
-      { transaction }
-    );
-  } catch (error) {
-    throw new Error('Erro ao registrar a alteração: ' + error.message);
-  };
-  
-}
-*/
 // #endregion
 
 // #region Lista de Itens
