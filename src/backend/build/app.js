@@ -84,11 +84,11 @@ app.use('/alteracoes', alteracaoRoutes);
 // GET http://localhost:5000/api/alteracoes/historicoDiaEspecifico -> dateCalendario -> recebe uma data no formato "YYYY/MM/DD" exibe alteracoes no dia
 // GET http://localhost:5000/api/alteracoes/relatorioDeConsumo -> dataInicioRaw, dataFimRaw -> retorna as retiradas de um período de tempo específico.
 
-
-//caso n encontre rota
-app.use((req, res) => res.status(404).json({ error: 'Rota não encontrada' }));
-
 //inicio do server
 app.listen(PORT, () => {
   console.log(`Servidor rodando em :${PORT}`);
 });
+//caso n encontre rota
+app.use((req, res) => res.status(404).json({ error: 'Rota não encontrada' }));
+
+
