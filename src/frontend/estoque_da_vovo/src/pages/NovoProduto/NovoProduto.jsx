@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import FormProduto from '../../components/FormProduto/FormProduto.jsx';
 import TitleContent from '../../components/TitleContent/TitleContent.jsx';
 import useAxios from '../../hooks/useAxios.js';
@@ -10,12 +11,21 @@ export default function NovoProduto() {
     const { idLote } = useParams(); // Obtém o id do lote da URL
     const [responseData, error, loading, axiosFetch] = useAxios(); // Hook de requisição
     const [responseDoacao, errorDoacao, loadingDoacao, axiosFetchDoacao] = useAxios(); // Hook separado para doação
+    const [errorMessage, setErrorMessage] = useState(null);
 
     console.log("id:", idLote);
 
     // Função de submissão do formulário
     const handleFormSubmit = async (data) => {
         console.log("data recebida:", data);
+
+        // Validação da quantidade
+        if (!data.quantidade || data.quantidade <= 0) {
+            setErrorMessage("A quantidade deve ser maior que 0 para prosseguir.");
+            return;
+        }else{
+            setErrorMessage(null);
+        }
 
         try {
             if (data.doador && data.doador.trim() !== "") {
@@ -71,6 +81,12 @@ export default function NovoProduto() {
                 )}
                 {!loadingDoacao && !errorDoacao && responseDoacao.message && (
                     <Alert variant={"success"}>Doação registrada com sucesso</Alert>
+                )}
+
+                {errorMessage && (
+                    <Alert variant="danger" className="mt-3">
+                        {errorMessage}
+                    </Alert>
                 )}
 
                 {loading || loadingDoacao ? (
