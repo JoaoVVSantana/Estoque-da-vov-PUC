@@ -23,7 +23,7 @@ export default function Historico() {
             await axiosFetch({
                 axiosInstance: axiosInstanceEstoque, // Usando axiosInstanceEstoque
                 method: 'GET',
-                url: 'http://localhost:5000/api/alteracoes/historico',
+                url: '/alteracoes/historico',
             });
         } catch (err) {
             setAlertMessage("Erro ao carregar o histórico completo.");
@@ -38,7 +38,7 @@ export default function Historico() {
             await axiosFetch({
                 axiosInstance: axiosInstanceEstoque, // Usando axiosInstanceEstoque
                 method: 'GET',
-                url: 'http://localhost:5000/api/alteracoes/historicoMesAtual',
+                url: '/alteracoes/historicoMesAtual',
             });
         } catch (err) {
             setAlertMessage("Erro ao carregar o histórico do mês atual.");

@@ -1,7 +1,9 @@
 import axios from 'axios';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export const axiosInstanceEstoque = axios.create({
-  baseURL: 'http://localhost:5000/api/',
+  baseURL: process.env.REACT_APP_API_URL,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json'

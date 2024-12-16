@@ -93,5 +93,5 @@ app.use((req, res) => res.status(404).json({ error: 'Rota não encontrada' }));
 
 //inicio do server
 app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
+  console.log(`Servidor rodando em :${PORT}`);
 });
