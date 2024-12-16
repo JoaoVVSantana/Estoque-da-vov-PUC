@@ -28,7 +28,7 @@ import doacaoRoutes from '../node/routes/doacaoRoutes.js';
 import alteracaoRoutes from '../node/routes/alteracaoRoutes.js';
 import estoqueRoutes from '../node/routes/estoqueRoutes.js';
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 8080;
 const app = express();
 app.use(express.json());
 app.use(corsConfig);

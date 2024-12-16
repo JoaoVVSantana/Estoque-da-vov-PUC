@@ -17,7 +17,7 @@
     "build": "npm run build:backend && npm run build:frontend",
     "start:frontend": "npm run preview --prefix frontend",
     "start:backend": "npm run start --prefix backend",
-    "start": "npm run start --prefix backend && npm run preview --prefix frontend"
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
   },
   "keywords": [],
   "author": "",
