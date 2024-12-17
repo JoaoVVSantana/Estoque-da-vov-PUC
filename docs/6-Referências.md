@@ -1,17 +1,29 @@
 # Referências
 
-_Para realizado este trabalho deve ter sido realizada uma revisão bibliográfica. Devem ser incluídas aqui as referências utilizadas._
+WALTER, John. API caching techniques for better performance. 2024. Disponível em: https://pieces.app/blog/api-caching-techniques-for-better-performance. Acesso em: 13 nov. 2024. 
 
-_Verifique no link abaixo como devem ser as referências no padrão ABNT:_
+DNC, Escola. Como construir uma API com Node.js e Express.js. Medium, 2024. Disponível em:https://medium.com/@escoladnc/como-construir-uma-api-com-node-js-e-express-js-7193128cc605. Acesso em: 08 nov. 2024. 
 
-http://portal.pucminas.br/imagedb/documento/DOC_DSC_NOME_ARQUI20160217102425.pdf
+MOZILLA. JavaScript basics. 2024. Disponível em: https://developer.mozilla.org/pt-BR/docs/Learn/Getting_started_with_the_web/JavaScript_basics. Acesso em: 08 nov. 2024. 
 
-**[1.1]** - _ELMASRI, Ramez; NAVATHE, Sham. **Sistemas de banco de dados**. 7. ed. São Paulo: Pearson, c2019. E-book. ISBN 9788543025001._
+MOZILLA. Introdução às APIs da Web do lado do cliente. 2024. Disponível em: https://developer.mozilla.org/pt-BR/docs/Learn/JavaScript/Client-side_web_APIs/Introduction. Acesso em:  10 nov. 2024. 
 
-**[1.2]** - _COPPIN, Ben. **Inteligência artificial**. Rio de Janeiro, RJ: LTC, c2010. E-book. ISBN 978-85-216-2936-8._
+DEV TO. OLEOBARRETO. Autenticação: stateful x stateless. 2024. Disponível em: https://dev.to/oleobarreto/autenticacao-stateful-x-stateless-e8i. Acesso em: 21 nov. 2024. 
 
-**[1.3]** - _CORMEN, Thomas H. et al. **Algoritmos: teoria e prática**. Rio de Janeiro, RJ: Elsevier, Campus, c2012. xvi, 926 p. ISBN 9788535236996._
+ 
 
-**[1.4]** - _SUTHERLAND, Jeffrey Victor. **Scrum: a arte de fazer o dobro do trabalho na metade do tempo**. 2. ed. rev. São Paulo, SP: Leya, 2016. 236, [4] p. ISBN 9788544104514._
+O'REILLY. Node.js Design Patterns. 2024. Disponível em: https://learning.oreilly.com/library/view/node-js-design-patterns/9781839214110/. Acesso em: 01 dez. 2024. 
 
-**[1.5]** - _RUSSELL, Stuart J.; NORVIG, Peter. **Inteligência artificial**. Rio de Janeiro: Elsevier, c2013. xxi, 988 p. ISBN 9788535237016._
+REACT-BOOTSTRAP. Introduction. Disponível em: https://react-bootstrap.netlify.app/docs/getting-started/introduction. Acesso em: 10 dez. 2024. 
+
+REACT ROUTER. Home. Disponível em: https://reactrouter.com/home. Acesso em: 10 dez. 2024. 
+
+REACT. React reference. Disponível em: https://react.dev/reference/react. Acesso em: 12 dez. 2024. 
+
+APEXCHARTS. React Charts Documentation. Disponível em: https://apexcharts.com/docs/react-charts/. Acesso em: 12 dez. 2024. 
+
+AXIOS. Introdução à documentação do Axios. Disponível em: https://axios-http.com/ptbr/docs/intro. Acesso em: 13 dez. 2024. 
+
+EXPRESS. Routing Guide. Disponível em: https://expressjs.com/en/guide/routing.html. Acesso em: 13 dez. 2024. 
+
+RIEF, Arne. How to Deploy a Full-Stack Web Application - React Frontend | Node.js Backend | MySQL Database. Disponível em: https://youtu.be/nrG0tKSYMHc?si=ApBT0pcvxZHnsSVL. Acesso em: 13 dez. 2024. 
