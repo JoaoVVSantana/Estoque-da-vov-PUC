@@ -21,7 +21,7 @@ O projeto tem como objetivo auxiliar a administração do lar de idosos Asilo No
 
 ## Instruções de utilização
 
-# https://estoque-da-vovo-puc.onrender.com/
+### https://estoque-da-vovo-site.onrender.com/
 
 A gerente vai utilizar credenciais para realizar login. Então, é possível selecionar as páginas de Dashboard, Estoque, Doações ou Histórico.
 Em "Dashboard" o usuário pode visualizar indicadores "KPI" do estoque.
