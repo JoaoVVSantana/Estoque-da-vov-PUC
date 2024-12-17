@@ -1,9 +1,7 @@
 # 5 Conclusão
 
-Escrevam uma breve conclusão sobre o trabalho, mostrando os resultados obtidos, **na visão do cliente/parceiro**.
+O desenvolvimento do sistema de estoque para o lar de idosos foi concluído com a entrega de um Produto Viável Mínimo (MVP). Utilizando React no front-end e Node.js no back-end, conseguimos implementar funcionalidades essenciais, como o cadastro de itens, consulta de estoque e geração de relatórios básicos. 
 
-**É essencial registrar aqui o feedback recebido do cliente, na forma de texto, imagens, links para áudio ou vídeo, etc.**
+Embora algumas funcionalidades previstas inicialmente, como notificações automáticas de baixa quantidade e histórico de movimentações detalhado, não tenham sido totalmente implementadas, o sistema entregue atende ao objetivo principal: gerenciar os itens de forma mais organizada e acessível, reduzindo erros manuais e facilitando o trabalho dos responsáveis. 
 
-Não é necessário ter uma solução implantada ou 100% funcional, mas deve-se ter uma solução do tipo **Minimum Viable Product** (MVP).
-
-Obs: MVP é um novo produto ou parte dele, a ser utilizado para validar o atendimento às necessidades do cliente antes do desenvolvimento do produto completo/final.
+### Resultado: https://estoque-da-vovo-site.onrender.com/
